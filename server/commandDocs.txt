@@ -1,0 +1,40 @@
+sudo apt-get install w3m
+
+required Perl Libraries
+DBI, Math::Round, Math::Trig, Time::HiRes, LWP::UserAgent
+
+================================================
+
+postgresql vs mysql
+
+MySQL doesn't have transactions. MySQL isn't object-relational like
+> Postgres. Postgres is more extensible. Postgres has more powerful
+> querying facilities. MySQL can be faster for simple stuff.
+
+Postgres Pros:
+* Transactions
+* Foreign keys ( via refint )
+* Triggers
+* Subselects
+* Views ( mostly )
+* User-defined datatypes
+* User-defined functions in a variety of languages: sql, c, pl/pgsql, pl/tcl
+* Sequences
+* Proper date handling
+
+Postgres Cons:
+* Somewhat slow for inserts and updates when compared to mysql ( due to
+  pgsql having to check for triggers and such )
+* Some SELECT queries may be slower than their counterparts in MySQL.
+
+MySQL Pros:
+* Extremely fast
+
+MySQL Cons:
+* See all of Postgres's Pros, s/^/Lack of /g
+* Improper date handling; one can insert '1999-02-32' into a DATE field.
+
+=================================================
+
+PostgreSQL version: 9.1 (happens to be on my laptop already)
+
