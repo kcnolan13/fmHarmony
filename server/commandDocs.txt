@@ -7,34 +7,35 @@ DBI, Math::Round, Math::Trig, Time::HiRes, LWP::UserAgent
 
 postgresql vs mysql
 
-MySQL doesn't have transactions. MySQL isn't object-relational like
-> Postgres. Postgres is more extensible. Postgres has more powerful
-> querying facilities. MySQL can be faster for simple stuff.
+Postgres
+	Pros
+		- user-defined datatypes
+		- proper date handling
+		- views/triggers/subselects
+		- transactions
+	Cons
+		- slower
 
-Postgres Pros:
-* Transactions
-* Foreign keys ( via refint )
-* Triggers
-* Subselects
-* Views ( mostly )
-* User-defined datatypes
-* User-defined functions in a variety of languages: sql, c, pl/pgsql, pl/tcl
-* Sequences
-* Proper date handling
+MySQL
+	Pros
+		- faster
+	Cons
+		- fewer features (none of above) 
 
-Postgres Cons:
-* Somewhat slow for inserts and updates when compared to mysql ( due to
-  pgsql having to check for triggers and such )
-* Some SELECT queries may be slower than their counterparts in MySQL.
+Our database needs to be able to handle a table with about 38,000 rows.
 
-MySQL Pros:
-* Extremely fast
-
-MySQL Cons:
-* See all of Postgres's Pros, s/^/Lack of /g
-* Improper date handling; one can insert '1999-02-32' into a DATE field.
+Postgres will be most suitable --> shoud be small enough database that the higher latency will not be a problem.
 
 =================================================
 
 PostgreSQL version: 9.1 (happens to be on my laptop already)
+
+Creating the fmStations database and stationsUs table
+	$sudo -u postgres createdb --encoding=UTF8 --owner=postgres fmStations
+	$psql --username=postgres --db=fmStations
+	fmStations=#CREATE TABLE stations(uniqueID TEXT, call TEXT, channel REAL, class TEXT, service TEXT, freq REAL, freqUnits TEXT, status TEXT, city TEXT, state TEXT, country TEXT, erp REAL, erpUnits TEXT, haat REAL, haatUnits TEXT, lat REAL, lon REAL);
+
+General postgresql Settings Modifications
+	- Local connections from the server should be trusted
+		/etc/postgresql/9.1/main/pg_hba.conf changed local peer to trust
 
