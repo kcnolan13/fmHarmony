@@ -1,5 +1,5 @@
 
-#=================================================================
+#=============================================================================================================================
 # APPLICATION NAME: updateDb.pl
 #
 #
@@ -14,7 +14,7 @@
 # REVISIONS: 
 # 
 #
-#================================================================
+#============================================================================================================================
 
 #load modules
 use DBI;
@@ -23,6 +23,7 @@ use Math::Trig;
 #use warnings;
 use Time::HiRes;
 use LWP::UserAgent;
+use POSIX qw(ceil floor);
 
 # ----- SUBROUTINES ----- #
 sub searchTerm
@@ -47,20 +48,20 @@ $URL = "http://transition.fcc.gov/fcc-bin/fmq?state=&call=&city=&arn=&serv=&vac=
 #$URL = "http://transition.fcc.gov/fcc-bin/fmq?state=ME&call=&city=&arn=&serv=&vac=&freq=0.0&fre2=107.9&facid=&asrn=&class=&dkt=&list=1&dist=&dlat2=&mlat2=&slat2=&NS=N&dlon2=&mlon2=&slon2=&EW=W&size=9";
 $saveFile = "fccData";
 
-print "\n\n========================\nPHASE I: DATA RETRIEVAL\n========================\n\n";
+print "\n\n======================================================\nPHASE I: DATA RETRIEVAL\n======================================================\n\n";
 
-=cut
+$startTime = time();
+
 #retrieve the latest data from the FCC
 $httpAgent = new LWP::UserAgent;
 $request = HTTP::Request->new('GET');
 
-$requestTime = time();
 print "commencing FCC data retrieval\n";
 
 $request->url($URL);
 $response = $httpAgent->request($request);
 
-print time()-$requestTime;
+print time()-$startTime;
 print " seconds spent retrieving FCC data\n";
 
 #save the data to a local HTML file
@@ -72,7 +73,7 @@ print "FCC data saved successfully as HTML\n";
 #use lynx to make the HTML more parsable
 `w3m -dump fccData.html > fccData.txt`;
 print "raw HTML converted to text\n";
-=cut
+
 
 #open up that text file for parsing
 open(IN,'<',$saveFile.".txt") or die ("unable to open $saveFile.txt for reading\n");
@@ -83,7 +84,7 @@ sleep(1);
 
 # ----- BEGIN PARSING THE FCC DATA ----- #
 
-print("\n========================\nPHASE II: fmStations DATABASE CONNECTION\n========================\n\n");
+print("\n======================================================\nPHASE II: fmStations DATABASE CONNECTION\n======================================================\n\n");
 
 $fmStations = DBI->connect("DBI:Pg:dbname=fmStations;host=localhost","postgres","",{'RaiseError'=>1}) or die "Failed to connect to the fmStations database";
 
@@ -91,14 +92,14 @@ print("Established a connection to the fmStations database\n");
 
 sleep(1);
 
-print("\n========================\nPHASE III: DATABASE UPDATES\n========================\n\n");
+print("\n======================================================\nPHASE III: DATABASE UPDATES\n======================================================\n\n");
 
 print("parsing FCC data in :\n\t\t\t3...\n");
-sleep(1);
+Time::HiRes::usleep(250000);
 print("\t\t\t\t2...\n");
-sleep(1);
+Time::HiRes::usleep(250000);
 print("\t\t\t\t\t1...\n\n");
-sleep(1);
+Time::HiRes::usleep(250000);
 
 #advance to the correct part of the input file
 $lineCounter = 0;
@@ -250,20 +251,21 @@ while (my $line = <IN>) {
 
 print("\n\nDATABASE UPDATED SUCCESSFULLY\n\n");
 
-sleep(5);
 
+print("\n======================================================\nPHASE IV: IDENTIFY AND REMOVE EXPIRED STATIONS\n======================================================\n\n");
 
-print("\n========================\nPHASE IV: IDENTIFY AND REMOVE EXPIRED STATIONS\n========================\n\n");
+sleep(2);
 
 #holds the uniqueIds for station database entries that are absent from the new FCC dataset
 @expiredStations;
+$expirationCount=0;
 
 print("Identifying Expired Stations in:\n\t\t\t3...\n");
-sleep(1);
+Time::HiRes::usleep(500000);
 print("\t\t\t\t2...\n");
-sleep(1);
+Time::HiRes::usleep(500000);
 print("\t\t\t\t\t1...\n\n");
-sleep(1);
+Time::HiRes::usleep(500000);
 
 print("Cross-Referencing Records...\n\nStations Absent From New FCC Data:\n");
 
@@ -273,7 +275,7 @@ for ($i=200; $i<=300; $i++)
 	$statement = $fmStations->prepare("SELECT uniqueid from stations where channel=$i;");
 	$statement->execute();
 
-	sleep(2);
+	Time::HiRes::usleep(25000);
 
 	#match each uniqueId from the database with its counterpart in the 2D @uniqueIds array
 	while(my $row = $statement->fetchrow_hashref()) {
@@ -284,9 +286,71 @@ for ($i=200; $i<=300; $i++)
 		if ($result==0)
 		{
 			push(@expiredStations,$theId);
+			print("\t\t$theId\n");
+			$expirationCount++;
 		}
 	}
 }
 
+print("\n\n$expirationCount EXPIRED RADIO STATIONS IDENTIFIED\n");
+
+print("removing expired stations from the database...\n");
+
+sleep(1);
+
+#delete groups of up to 25 stations per query
+$delsPerQuery = 25;
+$length = @expiredStations;
+
+#remove expired stations
+if ($length>0)
+{
+	$numDeletions = 0;
+
+	#delete groups of stations 25 at a time
+	for ($i=0; $i<ceil($length/$delsPerQuery); $i++)
+	{
+		#begin the SQL deletion statement
+		$statementStr = "DELETE from stations where";
+
+		#delete up to 25 stations
+		INNER: 
+		{
+			for ($j=0; $j<$delsPerQuery; $j++)
+			{
+				if ($j>0)
+				{
+					$statementStr = $statementStr." OR ";
+				}
+
+				$statementStr = $statementStr." uniqueid='".$expiredStations[$delsPerQuery*$i+$j]."'";
+
+				$numDeletions++;
+
+				#break out from the inner loop if expiredStations array length is reached
+				if ($delsPerQuery*$i+$j == $length-1)
+				{
+					last INNER;
+				}
+			}
+		}
+
+		$statementStr = $statementStr.";";
+
+		#perform the deletions for this group
+		print "\n$statementStr\n";
+
+		$statement = $fmStations->prepare($statementStr);
+		$statement->execute();
+	}
+
+	print "\n$numDeletions EXPIRED STATIONS REMOVED\n";
+}
+
+
 close($saveFile.".txt");
 $fmStations->disconnect();
+
+print "\n\nSynchronization Complete!\n\n";
+$mins = (time()-$startTime)/60;
+print "\nTime Elapsed: ".floor($mins)." minutes ".floor(($mins%1)*60)." seconds\n";
