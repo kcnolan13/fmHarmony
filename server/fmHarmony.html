@@ -23,8 +23,21 @@
 
 	}
 
+	#gui{
+		left: 10px;
+		top: 10px;
+		position: absolute;
+	}
+
+	#title{
+		color: rgb(250,250,250);
+		text-align: center;
+		background-color:rgb(40,40,40);
+		opacity: 0.7;
+	}
+
 	div.olControlAttribution {
-	    opacity: 0.50;
+	    opacity: 0;
 	    right:0.5em;
         bottom:-0.25em;
 	}
@@ -48,12 +61,19 @@
 	</head>
 	<body>
 
-	<div id="map">
+	<div id="map" style="width:100%; height:100%; z-index: 0">
+
+		<div id="gui" style="z-index:9999">
+			<div id="title">
+			fmHarmony
+			</div>
+		</div>
+
 	</div>
 
 	<div id="text">
-	<script src="dat.gui.js"></script>
-	<script src="fmHarmony.js"></script>
+			<script src="dat.gui.js"></script>
+			<script src="fmHarmony.js"></script>
 	</div>
 	    
 	</script>

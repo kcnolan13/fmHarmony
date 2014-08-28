@@ -1974,8 +1974,8 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
   GUI.CLASS_DRAG = 'drag';
 
   GUI.DEFAULT_WIDTH = 245;
-  GUI.TEXT_CLOSED = 'Hide Options';
-  GUI.TEXT_OPEN = 'Show Options';
+  GUI.TEXT_CLOSED = 'Collapse Menu';
+  GUI.TEXT_OPEN = 'Select Genre';
 
   dom.bind(window, 'keydown', function(e) {
 

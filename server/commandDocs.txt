@@ -3,6 +3,10 @@ sudo apt-get install w3m
 required Perl Libraries
 DBI, Math::Round, Math::Trig, Time::HiRes, LWP::UserAgent
 
+	for those to install easily, should also have:
+		- libpqxx-dev
+		- libpqxx-3.1
+
 ================================================
 
 postgresql vs mysql
