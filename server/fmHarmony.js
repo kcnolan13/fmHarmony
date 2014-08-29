@@ -25,12 +25,14 @@
 */
 
 //---- CREATE THE GUI ----//
+
 var gui = new dat.GUI({ autoPlace: false, width: 125});
 var customContainer = document.getElementById('gui');
 customContainer.appendChild(gui.domElement);
 
 gui.closed = true;
 
+var myPoint;
 
 //---- ADD STUFF TO THE GUI ----//
 var guiOptions = {
@@ -76,7 +78,6 @@ gui.add(guiOptions,'Blues');
 
 
 //---- GLOBAL VARS ----//
-
 var fromProjection = new OpenLayers.Projection("EPSG:4326"); // transform from WGS 1984
 var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 
@@ -84,8 +85,11 @@ var user = {
     symbol: null,
     x: null,
     y: null,
-    positionKnown: false
+    positionKnown: false,
+    uniqueId: 1000*Math.random()
 }
+
+    requestKml();
 
 
 // ----- CUSTOM MAP CONTROLS ----- //
@@ -135,7 +139,7 @@ var map = new OpenLayers.Map({
 findMe.activate();
 
 //---- SET UP INITIAL MAP ----//
-var zoomTo = 5;
+var zoomTo = 3;
 //-69.064,44.210
 map.setCenter(new OpenLayers.LonLat(-100,40).transform(fromProjection,toProjection),zoomTo);
 
@@ -158,7 +162,9 @@ findMe.events.register("locationupdated",findMe,function(e) {
 
         console.log("locking onto position")
         user.positionKnown = true;
-        map.setCenter([user.x, user.y], 16);
+        map.setCenter([user.x, user.y], map.getZoom());
+        zoomGradual(15);
+        requestKml();
     }
 
     layerUser.destroyFeatures(user.symbol);
@@ -187,3 +193,52 @@ findMe.events.register("locationfailed",this,function() {
 
 
 //---- CUSTOM FUNCTIONS ----//
+function zoomGradual(level)
+{
+    var zoomCounter = 0;
+    var start = map.getZoom();
+    var iterations = Math.abs(level-start);
+
+    var intervalId = window.setInterval(function() {
+
+        map.setCenter([user.x,user.y],start+2*zoomCounter);
+
+        if (level > start)
+            {map.zoomIn(); map.zoomIn();}
+        else
+            {map.zoomOut(); map.zoomOut();}
+
+        zoomCounter++;
+        if (zoomCounter==Math.abs(level-start)) {
+            map.setCenter([user.x,user.y],level);
+            window.clearInterval(intervalId);
+        }
+
+    }, 1000);
+
+}
+
+function requestKml()
+{
+    var xmlhttp = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
+
+    myPoint = new OpenLayers.Geometry.Point(user.x, user.y).transform(toProjection, fromProjection);
+
+    var request = "httpHandler.php?lat="+myPoint.x+"&lon="+myPoint.y+"&uniqueId="+user.uniqueId;
+
+    console.log("about to make request: "+request);
+
+    xmlhttp.open( 'GET', request, true );
+
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    xmlhttp.onreadystatechange=function(){
+    if(xmlhttp.readyState==4){
+        if(xmlhttp.status==200){
+            console.log(xmlhttp.responseText);
+            }
+        }
+    }
+
+    xmlhttp.send(null);
+}

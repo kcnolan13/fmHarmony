@@ -1,5 +1,7 @@
 sudo apt-get install w3m
 
+apt-get install php5 libapache2-mod-php5
+
 required Perl Libraries
 DBI, Math::Round, Math::Trig, Time::HiRes, LWP::UserAgent
 
