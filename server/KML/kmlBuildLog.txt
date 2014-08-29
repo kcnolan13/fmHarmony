@@ -1,0 +1,83 @@
+
+
+=============================================
+new KML build: ./KML/481.17261403240263.kml
+=============================================
+client: 481.17261403240263
+Lat: 44.92313860000004
+LON: -68.6421465
+
+Established a connection to the fmStations database
+
+Generating Styles...
+
+Generating Placemarks...
+
+preparing query . . .
+	SELECT call, freq, city, state, erp, erpunits, haat, haatunits, lat, lon FROM stations WHERE earth_box(ll_to_earth(44.92313860000004, -68.6421465), 50*1.60934*1000) @> ll_to_earth(lat,lon) ORDER BY uniqueId
+
+milesAway = 38		call = NEW	freq = 100.9	city = BELFAST	state = ME	erp = 0.1
+milesAway = 52		call = NEW	freq = 102.3	city = DIXFIELD	state = ME	erp = 0.1
+milesAway = 46		call = W233BE	freq = 94.5	city = RICHMOND-CENTER	state = ME	erp = 0.17
+milesAway = 63		call = W234CG	freq = 94.7	city = BRUNSWICK	state = ME	erp = 0.25
+milesAway = 44		call = W248CB	freq = 97.5	city = AUGUSTA	state = ME	erp = 0.01
+milesAway = 63		call = W254BR	freq = 98.7	city = LINCOLN	state = ME	erp = 0.01
+milesAway = 54		call = W257BI	freq = 99.3	city = CAMDEN	state = ME	erp = 0.25
+milesAway = 28		call = W259BY	freq = 99.7	city = WATERVILLE	state = ME	erp = 0.019
+milesAway = 46		call = W265CO	freq = 100.9	city = VASSALBORO	state = ME	erp = 0.019
+milesAway = 48		call = WABK	freq = 104.3	city = GARDINER	state = ME	erp = 50
+milesAway = 65		call = WBCI	freq = 105.9	city = BATH	state = ME	erp = 50
+milesAway = 20		call = WBFB	freq = 97.1	city = BANGOR	state = ME	erp = 6.5
+milesAway = 46		call = WBFE	freq = 99.1	city = BAR-HARBOR	state = ME	erp = 45
+milesAway = 44		call = WBKA	freq = 107.7	city = BAR-HARBOR	state = ME	erp = 11.5
+milesAway = 57		call = WBQX	freq = 106.9	city = THOMASTON	state = ME	erp = 29.5
+milesAway = 56		call = WBQX	freq = 106.9	city = THOMASTON	state = ME	erp = 30
+milesAway = 76		call = WCLZ	freq = 98.9	city = NORTH-YARMOUTH	state = ME	erp = 48
+milesAway = 20		call = WCTB	freq = 93.5	city = FAIRFIELD	state = ME	erp = 10.5
+milesAway = 28		call = WEBB	freq = 98.5	city = WATERVILLE	state = ME	erp = 61
+milesAway = 32		call = WFMX	freq = 107.9	city = SKOWHEGAN	state = ME	erp = 32
+milesAway = 25		call = WFMX	freq = 107.9	city = SKOWHEGAN	state = ME	erp = 22
+milesAway = 66		call = WFYB	freq = 91.5	city = FRYEBURG	state = ME	erp = 0.43
+milesAway = 51		call = WHCF	freq = 88.5	city = BANGOR	state = ME	erp = 35
+milesAway = 63		call = WHMX	freq = 105.7	city = LINCOLN	state = ME	erp = 48
+milesAway = 12		call = WJCX	freq = 99.5	city = PITTSFIELD	state = ME	erp = 6
+milesAway = 65		call = WJJB-FM	freq = 96.3	city = GRAY	state = ME	erp = 40
+milesAway = 60		call = WKTJ-FM	freq = 99.3	city = FARMINGTON	state = ME	erp = 1.5
+milesAway = 10		call = WKVZ	freq = 102.1	city = DEXTER	state = ME	erp = 27
+milesAway = 56		call = WMCM	freq = 103.3	city = ROCKLAND	state = ME	erp = 16
+milesAway = 65		call = WMDR-FM	freq = 88.9	city = OAKLAND	state = ME	erp = 100
+milesAway = 50		call = WMEP	freq = 90.5	city = CAMDEN	state = ME	erp = 2
+milesAway = 33		call = WMEW	freq = 91.3	city = WATERVILLE	state = ME	erp = 3
+milesAway = 63		call = WMEY	freq = 88.1	city = BOWDOIN	state = ME	erp = 50
+milesAway = 29		call = WMHB	freq = 89.7	city = WATERVILLE	state = ME	erp = 0.11
+milesAway = 44		call = WMME-FM	freq = 92.3	city = AUGUSTA	state = ME	erp = 5
+milesAway = 47		call = WMPF-LP	freq = 91.1	city = RUMFORD	state = ME	erp = 0.1
+milesAway = 44		call = WNSX	freq = 97.7	city = WINTER-HARBOR	state = ME	erp = 50
+milesAway = 63		call = WOXO-FM	freq = 92.7	city = NORWAY	state = ME	erp = 2
+milesAway = 57		call = WOXO-FM	freq = 92.7	city = NORWAY	state = ME	erp = 5.2
+milesAway = 12		call = WQCB	freq = 106.5	city = BREWER	state = ME	erp = 100
+milesAway = 31		call = WQSK	freq = 97.5	city = MADISON	state = ME	erp = 6
+milesAway = 50		call = WQSS	freq = 102.5	city = CAMDEN	state = ME	erp = 7.9
+milesAway = 57		call = WRFR-LP	freq = 93.3	city = ROCKLAND	state = ME	erp = 0.1
+milesAway = 41		call = WRGY	freq = 90.5	city = RANGELEY	state = ME	erp = 0.05
+milesAway = 44		call = WRMO	freq = 93.7	city = MILBRIDGE	state = ME	erp = 27
+milesAway = 43		call = WTBM	freq = 100.7	city = MEXICO	state = ME	erp = 0.85
+milesAway = 27		call = WTNP-LP	freq = 100.7	city = WATERVILLE	state = ME	erp = 0.076
+milesAway = 52		call = WTOS-FM	freq = 105.1	city = SKOWHEGAN	state = ME	erp = 57
+milesAway = 63		call = WTQX	freq = 96.7	city = BOOTHBAY-HARBOR	state = ME	erp = 15.5
+milesAway = 46		call = WTUX	freq = 101.1	city = GOULDSBORO	state = ME	erp = 17
+milesAway = 51		call = WVOM-FM	freq = 103.9	city = HOWLAND	state = ME	erp = 90
+milesAway = 48		call = WVQM	freq = 101.3	city = AUGUSTA	state = ME	erp = 41
+milesAway = 63		call = WWLN	freq = 90.5	city = LINCOLN	state = ME	erp = 2.4
+milesAway = 42		call = WWTP	freq = 89.5	city = AUGUSTA	state = ME	erp = 0.48
+milesAway = 23		call = WWWA	freq = 95.3	city = WINSLOW	state = ME	erp = 27.5
+milesAway = 12		call = WXBP	freq = 90.3	city = CORINTH	state = ME	erp = 2
+milesAway = 23		call = WXNZ-LP	freq = 98.1	city = SKOWHEGAN	state = ME	erp = 0.0024
+milesAway = 18		call = WZLO	freq = 103.1	city = DOVER-FOXCROFT	state = ME	erp = 1.5
+
+Good Copy!
+
+Build Complete.
+-------------------------
+
+

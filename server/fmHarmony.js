@@ -89,8 +89,6 @@ var user = {
     uniqueId: 1000*Math.random()
 }
 
-    requestKml();
-
 
 // ----- CUSTOM MAP CONTROLS ----- //
 var findMe = new OpenLayers.Control.Geolocate({
@@ -208,7 +206,7 @@ function zoomGradual(level)
         else
             {map.zoomOut(); map.zoomOut();}
 
-        zoomCounter++;
+        zoomCounter+=2;
         if (zoomCounter==Math.abs(level-start)) {
             map.setCenter([user.x,user.y],level);
             window.clearInterval(intervalId);
@@ -224,9 +222,9 @@ function requestKml()
 
     myPoint = new OpenLayers.Geometry.Point(user.x, user.y).transform(toProjection, fromProjection);
 
-    var request = "httpHandler.php?lat="+myPoint.x+"&lon="+myPoint.y+"&uniqueId="+user.uniqueId;
+    var request = "httpHandler.php?lat="+myPoint.y+"&lon="+myPoint.x+"&uniqueId="+user.uniqueId;
 
-    console.log("about to make request: "+request);
+    console.log("\nKML Please!\t\t"+request+"\n");
 
     xmlhttp.open( 'GET', request, true );
 

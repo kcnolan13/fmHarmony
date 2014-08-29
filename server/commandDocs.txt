@@ -34,7 +34,11 @@ Postgres will be most suitable --> shoud be small enough database that the highe
 
 =================================================
 
-PostgreSQL version: 9.1 (happens to be on my laptop already)
+PostgreSQL version: 9.3
+	installed from ubuntu software center
+
+sudo apt-get install postgresql-contrib-9.3
+
 
 Creating the fmStations database and stationsUs table
 	$sudo -u postgres createdb --encoding=UTF8 --owner=postgres fmStations
@@ -45,3 +49,6 @@ General postgresql Settings Modifications
 	- Local connections from the server should be trusted
 		/etc/postgresql/9.1/main/pg_hba.conf changed local peer to trust
 
+for Earth-distance calculations to work, must do :
+	CREATE EXTENSION cube;
+	CREATE EXTENSION earthdistance;
