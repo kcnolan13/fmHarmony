@@ -32,8 +32,6 @@ customContainer.appendChild(gui.domElement);
 
 gui.closed = true;
 
-var myPoint;
-
 //---- ADD STUFF TO THE GUI ----//
 var guiOptions = {
 
@@ -80,6 +78,7 @@ gui.add(guiOptions,'Blues');
 //---- GLOBAL VARS ----//
 var fromProjection = new OpenLayers.Projection("EPSG:4326"); // transform from WGS 1984
 var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+var host = "./KML/";
 
 var user = {
     symbol: null,
@@ -89,6 +88,7 @@ var user = {
     uniqueId: 1000*Math.random()
 }
 
+var kmlUrl = host+user.uniqueId+".kml?key="+Math.random();
 
 // ----- CUSTOM MAP CONTROLS ----- //
 var findMe = new OpenLayers.Control.Geolocate({
@@ -132,6 +132,24 @@ var map = new OpenLayers.Map({
     ]
 });
 
+var kmlLayer = null;/*new OpenLayers.Layer.Vector("Test", {
+                projection: fromProjection,
+                strategies: [new OpenLayers.Strategy.Fixed()],
+                protocol: new OpenLayers.Protocol.HTTP({
+                    //set the url to our own var
+                    url: kmlUrl,
+                    //format this layer as KML//
+                    format: new OpenLayers.Format.KML({
+                        //maxDepth is how deep it will follow network links
+                        maxDepth: 2,
+                        extractStyles: true,
+                        extractAttributes: true
+                    })
+                })
+            });
+
+map.addLayer(kmlLayer);*/
+
 //---- ACTIVATE CONTROLS ----//
 
 findMe.activate();
@@ -141,16 +159,19 @@ var zoomTo = 3;
 //-69.064,44.210
 map.setCenter(new OpenLayers.LonLat(-100,40).transform(fromProjection,toProjection),zoomTo);
 
+//---- DEFINE STYLES ----//
+var styleMap = new OpenLayers.StyleMap({
+    'pointRadius': 60,
+    'externalGraphic': './icons/pin.png'
+});
+
 //---- ADD LAYERS ----//
-var layerUser = new OpenLayers.Layer.Vector('vector');
+var layerUser = new OpenLayers.Layer.Vector("userVector", {styleMap: styleMap});
 map.addLayer(layerUser);
-
-
 
 //---- KEEP TRACK OF WHERE THE USER IS ----//
 findMe.events.register("locationupdated",findMe,function(e) {
 
-    //alert("I found you!");
     user.x = e.point.x;
     user.y = e.point.y;
 
@@ -161,27 +182,24 @@ findMe.events.register("locationupdated",findMe,function(e) {
         console.log("locking onto position")
         user.positionKnown = true;
         map.setCenter([user.x, user.y], map.getZoom());
-        zoomGradual(15);
+        zoomGradual(10);
         requestKml();
+    } else {
+        console.log("erasing previous user.symbol");
+        layerUser.destroyFeatures(user.symbol);
     }
 
-    layerUser.destroyFeatures(user.symbol);
+    user.symbol = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(e.point.x, e.point.y));
 
-    user.symbol = new OpenLayers.Feature.Vector(
-            OpenLayers.Geometry.Polygon.createRegularPolygon(
-                new OpenLayers.Geometry.Point(e.point.x, e.point.y),
-                e.position.coords.accuracy/2,
-                40,
-                0
-            ),
-            {},
-            {
-                fillColor: '#FF0000',
-                fillOpacity: 1,
-                strokeWidth: 0
-            }
-        );
-        layerUser.addFeatures(user.symbol);
+    /*user.symbol.attributes = user.symbol.attributes || {};
+    user.symbol.attributes.style = OpenLayers.Util.extend(OpenLayers.Feature.Vector.style['default'], {
+        'externalGraphic': './icons/arrow.png',
+        'graphicWidth': 48,
+        'graphicHeight': 48
+    })*/
+
+        console.log("adding new user.symbol");
+        layerUser.addFeatures([ user.symbol ]);
 
 });
 
@@ -206,8 +224,8 @@ function zoomGradual(level)
         else
             {map.zoomOut(); map.zoomOut();}
 
-        zoomCounter+=2;
-        if (zoomCounter==Math.abs(level-start)) {
+        zoomCounter++;
+        if (zoomCounter*2>=Math.abs(level-start)) {
             map.setCenter([user.x,user.y],level);
             window.clearInterval(intervalId);
         }
@@ -220,7 +238,7 @@ function requestKml()
 {
     var xmlhttp = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
 
-    myPoint = new OpenLayers.Geometry.Point(user.x, user.y).transform(toProjection, fromProjection);
+    var myPoint = new OpenLayers.Geometry.Point(user.x, user.y).transform(toProjection, fromProjection);
 
     var request = "httpHandler.php?lat="+myPoint.y+"&lon="+myPoint.x+"&uniqueId="+user.uniqueId;
 
@@ -237,6 +255,52 @@ function requestKml()
             }
         }
     }
-
     xmlhttp.send(null);
+
+    //load in the kml file after a reasonable amount of time
+    setTimeout(loadKml, 5000);
+}
+
+function loadKml()
+{
+    console.log("Get after it: "+kmlUrl);
+
+    kmlLayer = new OpenLayers.Layer.Vector("Stations", {
+                projection: fromProjection,
+                strategies: [new OpenLayers.Strategy.Fixed()],
+                protocol: new OpenLayers.Protocol.HTTP({
+                    //set the url to our own var
+                    url: kmlUrl,
+                    //format this layer as KML//
+                    format: new OpenLayers.Format.KML({
+                        //maxDepth is how deep it will follow network links
+                        maxDepth: 2,
+                        extractStyles: true,
+                        extractAttributes: true
+                    })
+                })
+            });
+
+    if ((map.getLayersByName("Stations"))[0]==null)
+    {
+        console.log("adding first KML layer");
+        map.addLayer(kmlLayer);
+    }
+    else {  
+            //refresh the current layer with the new KML data
+
+            console.log("refreshing existing KML layer");
+
+            //setting loaded to false unloads the layer//
+            kmlLayer.loaded = false;
+
+            //setting visibility to true forces a reload of the layer//
+            kmlLayer.setVisibility(true);
+
+            //the refresh will force it to get the new KML data//
+            kmlLayer.refresh({ force: true, params: { 'key': Math.random()} });
+    }
+
+    //ask for a kml refresh after a reasonable amount of time
+    setTimeout(requestKml, 8000);
 }

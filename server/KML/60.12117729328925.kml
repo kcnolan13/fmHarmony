@@ -2,7 +2,7 @@
 <kml xmlns="http://www.opengis.net/kml/2.2">
 	<Document>
 		<name>Radio Stations Within 50 Miles</name>
-							<Style id=station1
+							<Style id="station1">
 								<IconStyle>
 									<scale>2</scale>
 									<Icon>
@@ -11,7 +11,7 @@
 								</IconStyle>
 							</Style>
 
-							<Style id=station2
+							<Style id="station2">
 								<IconStyle>
 									<scale>2</scale>
 									<Icon>
@@ -20,7 +20,7 @@
 								</IconStyle>
 							</Style>
 
-							<Style id=station3
+							<Style id="station3">
 								<IconStyle>
 									<scale>2</scale>
 									<Icon>
@@ -29,7 +29,7 @@
 								</IconStyle>
 							</Style>
 
-							<Style id=station4
+							<Style id="station4">
 								<IconStyle>
 									<scale>2</scale>
 									<Icon>
@@ -38,7 +38,7 @@
 								</IconStyle>
 							</Style>
 
-							<Style id=station5
+							<Style id="station5">
 								<IconStyle>
 									<scale>2</scale>
 									<Icon>
@@ -53,8 +53,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  100.9&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>38</distFromUser>
 				<index>0</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -67,8 +65,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  102.3&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>52</distFromUser>
 				<index>1</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -81,8 +77,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  94.5&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>46</distFromUser>
 				<index>2</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -95,8 +89,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  94.7&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>63</distFromUser>
 				<index>3</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -109,8 +101,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  97.5&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>44</distFromUser>
 				<index>4</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -123,8 +113,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  98.7&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>63</distFromUser>
 				<index>5</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -137,8 +125,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  99.3&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>54</distFromUser>
 				<index>6</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -151,8 +137,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  99.7&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>28</distFromUser>
 				<index>7</index>
 				<styleUrl>#station2</styleUrl>
 				<Point>
@@ -165,8 +149,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  100.9&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>46</distFromUser>
 				<index>8</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -179,8 +161,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  104.3&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>48</distFromUser>
 				<index>9</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -193,8 +173,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  105.9&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>65</distFromUser>
 				<index>10</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -207,8 +185,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  97.1&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>20</distFromUser>
 				<index>11</index>
 				<styleUrl>#station3</styleUrl>
 				<Point>
@@ -221,8 +197,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  99.1&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>46</distFromUser>
 				<index>12</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -235,8 +209,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  107.7&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>44</distFromUser>
 				<index>13</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -249,8 +221,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  106.9&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>57</distFromUser>
 				<index>14</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -263,8 +233,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  106.9&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>56</distFromUser>
 				<index>15</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -277,8 +245,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  98.9&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>76</distFromUser>
 				<index>16</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -291,8 +257,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  93.5&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>20</distFromUser>
 				<index>17</index>
 				<styleUrl>#station3</styleUrl>
 				<Point>
@@ -305,8 +269,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  98.5&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>28</distFromUser>
 				<index>18</index>
 				<styleUrl>#station2</styleUrl>
 				<Point>
@@ -319,8 +281,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  107.9&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>32</distFromUser>
 				<index>19</index>
 				<styleUrl>#station2</styleUrl>
 				<Point>
@@ -333,8 +293,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  107.9&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>25</distFromUser>
 				<index>20</index>
 				<styleUrl>#station2</styleUrl>
 				<Point>
@@ -347,8 +305,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  91.5&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>66</distFromUser>
 				<index>21</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -361,8 +317,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  88.5&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>51</distFromUser>
 				<index>22</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -375,8 +329,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  105.7&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>63</distFromUser>
 				<index>23</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -389,8 +341,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  99.5&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>12</distFromUser>
 				<index>24</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
@@ -403,8 +353,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  96.3&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>65</distFromUser>
 				<index>25</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -417,8 +365,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  99.3&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>60</distFromUser>
 				<index>26</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -431,8 +377,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  102.1&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>10</distFromUser>
 				<index>27</index>
 				<styleUrl>#station5</styleUrl>
 				<Point>
@@ -445,8 +389,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  103.3&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>56</distFromUser>
 				<index>28</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -459,8 +401,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  88.9&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>65</distFromUser>
 				<index>29</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -473,8 +413,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  90.5&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>50</distFromUser>
 				<index>30</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -487,8 +425,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  91.3&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>33</distFromUser>
 				<index>31</index>
 				<styleUrl>#station2</styleUrl>
 				<Point>
@@ -501,8 +437,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  88.1&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>63</distFromUser>
 				<index>32</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -515,8 +449,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  89.7&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>29</distFromUser>
 				<index>33</index>
 				<styleUrl>#station2</styleUrl>
 				<Point>
@@ -529,8 +461,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  92.3&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>44</distFromUser>
 				<index>34</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -543,8 +473,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  91.1&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>47</distFromUser>
 				<index>35</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -557,8 +485,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  97.7&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>44</distFromUser>
 				<index>36</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -571,8 +497,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  92.7&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>63</distFromUser>
 				<index>37</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -585,8 +509,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  92.7&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>57</distFromUser>
 				<index>38</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -599,8 +521,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  106.5&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>12</distFromUser>
 				<index>39</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
@@ -613,8 +533,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  97.5&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>31</distFromUser>
 				<index>40</index>
 				<styleUrl>#station2</styleUrl>
 				<Point>
@@ -627,8 +545,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  102.5&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>50</distFromUser>
 				<index>41</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -641,8 +557,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  93.3&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>57</distFromUser>
 				<index>42</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -655,8 +569,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  90.5&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>41</distFromUser>
 				<index>43</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -669,8 +581,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  93.7&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>44</distFromUser>
 				<index>44</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -683,8 +593,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  100.7&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>43</distFromUser>
 				<index>45</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -697,8 +605,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  100.7&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>27</distFromUser>
 				<index>46</index>
 				<styleUrl>#station2</styleUrl>
 				<Point>
@@ -711,8 +617,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  105.1&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>52</distFromUser>
 				<index>47</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -725,8 +629,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  96.7&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>63</distFromUser>
 				<index>48</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -739,8 +641,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  101.1&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>46</distFromUser>
 				<index>49</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -753,8 +653,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  103.9&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>51</distFromUser>
 				<index>50</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -767,8 +665,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  101.3&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>48</distFromUser>
 				<index>51</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -781,8 +677,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  90.5&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>63</distFromUser>
 				<index>52</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -795,8 +689,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  89.5&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>42</distFromUser>
 				<index>53</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
@@ -809,8 +701,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  95.3&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>23</distFromUser>
 				<index>54</index>
 				<styleUrl>#station2</styleUrl>
 				<Point>
@@ -823,8 +713,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  90.3&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>12</distFromUser>
 				<index>55</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
@@ -837,8 +725,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  98.1&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>23</distFromUser>
 				<index>56</index>
 				<styleUrl>#station2</styleUrl>
 				<Point>
@@ -851,8 +737,6 @@
 				<description>&lt;font face=Arial size=2 &gt; 
 				Tune To:  103.1&lt;br&gt;
 				</description>
-				<radius>-999</radius>
-				<distFromUser>18</distFromUser>
 				<index>57</index>
 				<styleUrl>#station3</styleUrl>
 				<Point>
