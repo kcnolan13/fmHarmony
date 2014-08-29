@@ -79,6 +79,9 @@ gui.add(guiOptions,'Blues');
 var fromProjection = new OpenLayers.Projection("EPSG:4326"); // transform from WGS 1984
 var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 var host = "./KML/";
+var popup = null;
+var popupFeature = null;
+var kmlRefreshInterval = 30000;
 
 var user = {
     symbol: null,
@@ -132,32 +135,15 @@ var map = new OpenLayers.Map({
     ]
 });
 
-var kmlLayer = null;/*new OpenLayers.Layer.Vector("Test", {
-                projection: fromProjection,
-                strategies: [new OpenLayers.Strategy.Fixed()],
-                protocol: new OpenLayers.Protocol.HTTP({
-                    //set the url to our own var
-                    url: kmlUrl,
-                    //format this layer as KML//
-                    format: new OpenLayers.Format.KML({
-                        //maxDepth is how deep it will follow network links
-                        maxDepth: 2,
-                        extractStyles: true,
-                        extractAttributes: true
-                    })
-                })
-            });
-
-map.addLayer(kmlLayer);*/
-
 //---- ACTIVATE CONTROLS ----//
-
 findMe.activate();
+
 
 //---- SET UP INITIAL MAP ----//
 var zoomTo = 3;
 //-69.064,44.210
 map.setCenter(new OpenLayers.LonLat(-100,40).transform(fromProjection,toProjection),zoomTo);
+
 
 //---- DEFINE STYLES ----//
 var styleMap = new OpenLayers.StyleMap({
@@ -165,9 +151,16 @@ var styleMap = new OpenLayers.StyleMap({
     'externalGraphic': './icons/pin.png'
 });
 
+
 //---- ADD LAYERS ----//
+var kmlLayer = null;
+
 var layerUser = new OpenLayers.Layer.Vector("userVector", {styleMap: styleMap});
 map.addLayer(layerUser);
+
+
+//---- CONFIGURE FEATURE SELECTION ----//
+var selectControl = null;
 
 //---- KEEP TRACK OF WHERE THE USER IS ----//
 findMe.events.register("locationupdated",findMe,function(e) {
@@ -285,6 +278,26 @@ function loadKml()
     {
         console.log("adding first KML layer");
         map.addLayer(kmlLayer);
+
+        //create select control
+        selectControl = new OpenLayers.Control.SelectFeature(
+            [kmlLayer, layerUser], {
+                multiple: false, 
+                hover: false
+            }
+        );
+
+        //activate select control
+        map.addControl(selectControl);
+        selectControl.activate();
+
+        //allow kmlLayer select feature event handling
+        kmlLayer.events.on({
+                    "featureselected": function(e) {
+                        //alert("test");
+                        onFeatureSelect(e.feature);
+                    }
+                });
     }
     else {  
             //refresh the current layer with the new KML data
@@ -302,5 +315,52 @@ function loadKml()
     }
 
     //ask for a kml refresh after a reasonable amount of time
-    setTimeout(requestKml, 8000);
+    setTimeout(requestKml, kmlRefreshInterval);
+}
+
+//what to do when you select a KML vector layer feature
+function onFeatureSelect(feature)
+{
+  generatePopup(feature, false);
+}
+
+
+//generate a popup for this feature
+function generatePopup(feature, keepInView)
+{
+    popupFeature = feature;
+    if (popup != null)
+    {
+        map.removePopup(popup);
+        popup.destroy();
+        delete popup;
+        popup=null;
+    }
+
+  popup = new OpenLayers.Popup(
+  "chicken",
+  new OpenLayers.LonLat(feature.geometry.x,feature.geometry.y),
+  null,
+  '<b>'+feature.attributes.name+'</b><p>'+feature.attributes.description+'</p>',
+  null,
+  true
+  );
+  popup.autoSize = true;
+  popup.panMapIfOutOfView = keepInView;
+  popup.addCloseBox(function() {map.removePopup(popup); popup.destroy(); delete popup; popup=null;});
+
+    if (feature.style.externalGraphic=="./icons/station1.png")
+        popup.backgroundColor = "rgb(153,204,255)";
+    else if (feature.style.externalGraphic=="./icons/station2.png")
+        popup.backgroundColor = "rgb(204,255,204)";
+    else if (feature.style.externalGraphic=="./icons/station3.png")
+        popup.backgroundColor = "rgb(255,255,204)";
+    else if (feature.style.externalGraphic=="./icons/station4.png")
+        popup.backgroundColor = "rgb(255,178,102)";
+    else if (feature.style.externalGraphic=="./icons/station5.png")
+        popup.backgroundColor = "rgb(255,51,51)";
+
+  popup.opacity = 0.9;
+  map.addPopup(popup);
+  return popup;
 }
