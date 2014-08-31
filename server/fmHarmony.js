@@ -36,44 +36,72 @@ gui.closed = true;
 var guiOptions = {
 
     Jazz: function() { 
-        alert("you want to listen to Jazz!");
+        findBestStation("jazz");
     },
 
     Country: function() {
-        alert("You're pretty good at drinkin' bear");
+        findBestStation("country");
     },
 
     Classical: function() {
-        alert("you want to listen to Classical.... boooo");
+        findBestStation("classical");
+    },
+
+    Club: function() {
+        findBestStation("club");
     },
 
     Rock: function() {
-        alert("Rock and Roll, Baby")
+        findBestStation("rock");
     },
 
-    HipHop: function() {
-        alert("Hippity Hoppity");
+    'Hip-Hop': function() {
+        findBestStation("hip-hop");
     },
 
     'R&B': function() {
-        alert("hey lil' mama lemme whisper in ya ear");
+        findBestStation("r&b");
     },
 
-    Blues: function() {
-        alert("Slappa da bass");
-    }
+    Oldies: function() {
+        findBestStation("oldies");
+    },
+
+    Christian: function() {
+        findBestStation("christian");
+    },
+
+    Alternative: function() {
+        findBestStation("alternative");
+    },
+
+    Pop: function() {
+        findBestStation("pop");
+    },
+
+    Talk: function() {
+        findBestStation("talk");
+    },
+
+    Foreign: function() {
+        findBestStation("foreign");
+    },
 
 };
 
-gui.add(guiOptions,'Jazz');
-gui.add(guiOptions,'Country');
+gui.add(guiOptions,'Alternative');
+gui.add(guiOptions,'Christian');
 gui.add(guiOptions,'Classical');
+gui.add(guiOptions,'Club');
+gui.add(guiOptions,'Country');
+gui.add(guiOptions,'Foreign');
+gui.add(guiOptions,'Hip-Hop');
+gui.add(guiOptions,'Jazz');
+gui.add(guiOptions,'Oldies');
+gui.add(guiOptions,'Pop');
 gui.add(guiOptions,'Rock');
-gui.add(guiOptions,'HipHop');
 gui.add(guiOptions,"R&B");
-gui.add(guiOptions,'Blues');
-
-
+gui.add(guiOptions,'Talk');
 
 //---- GLOBAL VARS ----//
 var fromProjection = new OpenLayers.Projection("EPSG:4326"); // transform from WGS 1984
@@ -82,13 +110,17 @@ var host = "./KML/";
 var popup = null;
 var popupFeature = null;
 var kmlRefreshInterval = 30000;
+var kmlRefreshTimer = null;
+
+var stationFeatures = [];
 
 var user = {
     symbol: null,
     x: null,
     y: null,
     positionKnown: false,
-    uniqueId: 1000*Math.random()
+    uniqueId: 1000*Math.random(),
+    pressedMove: false
 }
 
 var kmlUrl = host+user.uniqueId+".kml?key="+Math.random();
@@ -165,8 +197,17 @@ var selectControl = null;
 //---- KEEP TRACK OF WHERE THE USER IS ----//
 findMe.events.register("locationupdated",findMe,function(e) {
 
-    user.x = e.point.x;
-    user.y = e.point.y;
+    //take position updates until you forcibly move around
+    if (user.pressedMove==false)
+    {
+        user.x = e.point.x;
+        user.y = e.point.y;
+        
+        if (user.symbol!=null)
+            layerUser.destroyFeatures(user.symbol);
+
+        user.symbol = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(e.point.x, e.point.y));
+    }
 
     console.log("gotcha");
 
@@ -177,12 +218,11 @@ findMe.events.register("locationupdated",findMe,function(e) {
         map.setCenter([user.x, user.y], map.getZoom());
         zoomGradual(10);
         requestKml();
+
     } else {
         console.log("erasing previous user.symbol");
         layerUser.destroyFeatures(user.symbol);
     }
-
-    user.symbol = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(e.point.x, e.point.y));
 
     /*user.symbol.attributes = user.symbol.attributes || {};
     user.symbol.attributes.style = OpenLayers.Util.extend(OpenLayers.Feature.Vector.style['default'], {
@@ -202,6 +242,7 @@ findMe.events.register("locationfailed",this,function() {
 
 
 //---- CUSTOM FUNCTIONS ----//
+
 function zoomGradual(level)
 {
     var zoomCounter = 0;
@@ -258,7 +299,12 @@ function loadKml()
 {
     console.log("Get after it: "+kmlUrl);
 
-    kmlLayer = new OpenLayers.Layer.Vector("Stations", {
+    //give up knowledge of all station features as new ones come in
+    stationFeatures = [];
+
+    if ((map.getLayersByName("Stations"))[0]==null)
+    {
+            kmlLayer = new OpenLayers.Layer.Vector("Stations", {
                 projection: fromProjection,
                 strategies: [new OpenLayers.Strategy.Fixed()],
                 protocol: new OpenLayers.Protocol.HTTP({
@@ -274,8 +320,6 @@ function loadKml()
                 })
             });
 
-    if ((map.getLayersByName("Stations"))[0]==null)
-    {
         console.log("adding first KML layer");
         map.addLayer(kmlLayer);
 
@@ -298,9 +342,17 @@ function loadKml()
                         onFeatureSelect(e.feature);
                     }
                 });
+
+        //processing to occur directly after a feature is inserted into the KML vector layer
+        kmlLayer.onFeatureInsert = function(feature)
+        {
+            //keep track of each feature as it comes in
+            stationFeatures.push(feature);
+        }
     }
     else {  
             //refresh the current layer with the new KML data
+            kmlLayer.url = kmlUrl;
 
             console.log("refreshing existing KML layer");
 
@@ -315,7 +367,7 @@ function loadKml()
     }
 
     //ask for a kml refresh after a reasonable amount of time
-    setTimeout(requestKml, kmlRefreshInterval);
+    kmlRefreshTimer = setTimeout(requestKml, kmlRefreshInterval);
 }
 
 //what to do when you select a KML vector layer feature
@@ -350,17 +402,103 @@ function generatePopup(feature, keepInView)
   popup.addCloseBox(function() {map.removePopup(popup); popup.destroy(); delete popup; popup=null;});
 
     if (feature.style.externalGraphic=="./icons/station1.png")
-        popup.backgroundColor = "rgb(153,204,255)";
+        popup.backgroundColor = "rgb(153,255,153)";
     else if (feature.style.externalGraphic=="./icons/station2.png")
-        popup.backgroundColor = "rgb(204,255,204)";
+        popup.backgroundColor = "rgb(204,255,103)";
     else if (feature.style.externalGraphic=="./icons/station3.png")
-        popup.backgroundColor = "rgb(255,255,204)";
+        popup.backgroundColor = "rgb(255,204,153)";
     else if (feature.style.externalGraphic=="./icons/station4.png")
-        popup.backgroundColor = "rgb(255,178,102)";
+        popup.backgroundColor = "rgb(255,153,153)";
     else if (feature.style.externalGraphic=="./icons/station5.png")
         popup.backgroundColor = "rgb(255,51,51)";
 
   popup.opacity = 0.9;
   map.addPopup(popup);
   return popup;
+}
+
+function findBestStation(genre)
+{
+    //bail out if we don't know about any stations yet
+    if (stationFeatures.length < 1)
+    {
+        console.log("stations? I don't even know what a station is.");
+        return;
+    }
+
+    var matches = [];
+    //traverse all known stations and look for matching genre
+    for (var i=0; i<stationFeatures.length; i++)
+    {
+        if (stationFeatures[i].attributes.description.indexOf(genre) > 0)
+            matches.push(stationFeatures[i]);
+    }
+
+    if (matches.length < 1)
+    {
+        console.log("No "+genre+" stations in your area");
+        return;
+    } 
+    else
+    {
+        //traverse all matches and identify the best one
+        var distance = null;
+        var distance2 = null;
+        var closestStation = null;
+        var nextClosestStation = null;
+        var theStation = null;
+
+        for (var i=0; i<matches.length; i++)
+        {
+            var testDist = Math.sqrt(Math.pow((user.x - matches[i].geometry.x),2)+ Math.pow((user.y - matches[i].geometry.y),2));
+            if ((testDist < distance)||(distance==null))
+            {
+                closestStation = matches[i];
+                distance = testDist;
+            } else if ((testDist < distance2)||(distance2==null))
+            {
+                nextClosestStation = matches[i];
+                distance2 = testDist;
+            }
+        }
+
+        if (closestStation!=null)
+        {
+            if (popup != null)
+            {
+                //console.log("there is a popup about!");
+                //if the active popup is already for this station, pick the next closest match (if there is one)
+                if ((closestStation == popupFeature)&&(nextClosestStation!=null))
+                {
+                    theStation = nextClosestStation;
+                    //console.log("using next closest station!");
+                } else theStation = closestStation;
+            } else theStation = closestStation;
+
+            //generate popup and pan to the appropriate station
+            generatePopup(theStation,false);
+            map.panTo(new OpenLayers.LonLat(theStation.geometry.x,theStation.geometry.y));
+
+        } else {
+            console.log("ERROR: distance algorithm");
+        }
+
+    }
+}
+
+function moveUser()
+{
+    user.pressedMove = true;
+    clearTimeout(kmlRefreshTimer);
+    layerUser.destroyFeatures(user.symbol);
+
+    user.positionKnown = true;
+
+    user.x = map.getCenter().lon;
+    user.y = map.getCenter().lat;
+
+    user.symbol = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(user.x, user.y));
+    layerUser.addFeatures(user.symbol);
+
+    requestKml();
 }

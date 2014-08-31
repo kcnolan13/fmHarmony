@@ -36,8 +36,8 @@ $stationRadius = 50;
 $styleTabs = "\t\t\t\t\t\t\t";
 $stationScale = 1;
 $stationIcon = "./icons/station";
-@stationData = ("call", "freq", "city", "state", "erp", "erpunits", "haat", "haatunits", "lat", "lon");
-@stationDataNickNames = ("CallSign", "Tune To", "City of Origin", "State", "Effective Radiated Power", "erpUnits", "Height Above Average Terrain", "haatUnits", "Latitude", "Longitude");
+@stationData = ("call", "freq", "genre", "city", "state", "erp", "erpunits", "haat", "haatunits", "lat", "lon");
+@stationDataNickNames = ("CallSign", "Tune To", "Genre", "City of Origin", "State", "Effective Radiated Power", "erpUnits", "Height Above Average Terrain", "haatUnits", "Latitude", "Longitude");
 
 $fontSize = 2;
 $fontFamily = "Arial";
@@ -122,11 +122,12 @@ $userLon = $ARGV[2];
                         #log fetched station details for those supposedly in range
                         
                         print OUT ".";
-                        print TEMP "\t\t\t".'<Placemark>'."\n\t\t\t\t".'<name>'."&lt;font face=$fontFamily size=$fontSize &gt; ".$row->{'call'}.": ".$row->{'freq'}.'</name>'."\n";
-                        print TEMP "\t\t\t\t".'<description>'."&lt;font face=$fontFamily size=$fontSize &gt; "."\n";
+                        print TEMP "\t\t\t".'<Placemark>'."\n\t\t\t\t".'<name>'."&lt;font face=$fontFamily size=$fontSize &gt; ".$row->{'call'}.'</name>'."\n";
+                        print TEMP "\t\t\t\t".'<description>'."&lt;font face=$fontFamily size=$fontSize&gt; "."\n";
 
                         #description data
-                        print TEMP "\t\t\t\tTune To:  ".nearest(.1,$row->{'freq'}).'&lt;br&gt;'."\n";
+                        print TEMP "\t\t\t\t".nearest(.1,$row->{'freq'}).'&lt;br&gt;'."\n";
+                        print TEMP "\t\t\t\t".$row->{'genre'}.'&lt;br&gt;'."\n";
 
                         print TEMP "\t\t\t\t".'</description>'."\n";
 

@@ -7,13 +7,13 @@
 #
 # AUTHORS: Kyle Nolan, Marcel Marki
 #
-# DATE: 2013.08.14
+# DATE: 2014.08.14
 #
 # CONTRIBUTING AUTHORS:
 #
 # REVISIONS: 
 # 
-#
+# 
 #============================================================================================================================
 
 #load modules
@@ -70,9 +70,12 @@ print SAVE $response->decoded_content;
 close(SAVE);
 print "FCC data saved successfully as HTML\n";
 
-#use lynx to make the HTML more parsable
-`w3m -dump fccData.html > fccData.txt`;
+#use w3m browser to make the HTML more parsable
+`w3m -dump $saveFile.html > $saveFile.txt`;
 print "raw HTML converted to text\n";
+
+#remove the original HTML --> we now have a nice text file to deal with instead
+`rm $saveFile.html`;
 
 
 #open up that text file for parsing
@@ -235,12 +238,12 @@ while (my $line = <IN>) {
 		if ($count > 0) {
 			#update the entry for this station
 			print("updating record for $uniqueId\n");
-			$statement = $fmStations->prepare("UPDATE stations SET call=\'$call\', channel=$channel, class=\'$class\', service=\'$service\', freq=$freq, frequnits=\'$freqUnits\', status=\'$status\', city=\'$city\', state=\'$state\', country=\'$country\', erp=$erp, erpunits=\'$erpUnits\', haat=$haat, haatunits=\'$haatUnits\', lat=$lat, lon=$lon WHERE uniqueid=\'$uniqueId\';");
+			$statement = $fmStations->prepare("UPDATE stations SET call=\'$call\', genre=\'\', channel=$channel, class=\'$class\', service=\'$service\', freq=$freq, frequnits=\'$freqUnits\', status=\'$status\', city=\'$city\', state=\'$state\', country=\'$country\', erp=$erp, erpunits=\'$erpUnits\', haat=$haat, haatunits=\'$haatUnits\', lat=$lat, lon=$lon WHERE uniqueid=\'$uniqueId\';");
             $statement->execute();
 		} else {
 			#print("NEW STATION: $uniqueId\n");
 			print("CREATING RECORD for $uniqueId\n");
-			$statement = $fmStations->prepare("INSERT into stations (uniqueid, call, channel, class, service, freq, frequnits, status, city, state, country, erp, erpunits, haat, haatunits, lat, lon) VALUES (\'$uniqueId\', \'$call\', $channel, \'$class\', \'$service\', $freq, \'$freqUnits\', \'$status\', \'$city\', \'$state\', \'$country\', $erp, \'$erpUnits\', $haat, \'$haatUnits\', $lat, $lon);");
+			$statement = $fmStations->prepare("INSERT into stations (uniqueid, call, genre, channel, class, service, freq, frequnits, status, city, state, country, erp, erpunits, haat, haatunits, lat, lon) VALUES (\'$uniqueId\', \'$call\', \'\', $channel, \'$class\', \'$service\', $freq, \'$freqUnits\', \'$status\', \'$city\', \'$state\', \'$country\', $erp, \'$erpUnits\', $haat, \'$haatUnits\', $lat, $lon);");
 			$statement->execute();
 		}
 

@@ -1,0 +1,808 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+	<Document>
+		<name>Radio Stations Within 50 Miles</name>
+							<Style id="station1">
+								<IconStyle>
+									<scale>1</scale>
+									<Icon>
+										<href>./icons/station1.png</href>
+									</Icon>
+								</IconStyle>
+							</Style>
+
+							<Style id="station2">
+								<IconStyle>
+									<scale>1</scale>
+									<Icon>
+										<href>./icons/station2.png</href>
+									</Icon>
+								</IconStyle>
+							</Style>
+
+							<Style id="station3">
+								<IconStyle>
+									<scale>1</scale>
+									<Icon>
+										<href>./icons/station3.png</href>
+									</Icon>
+								</IconStyle>
+							</Style>
+
+							<Style id="station4">
+								<IconStyle>
+									<scale>1</scale>
+									<Icon>
+										<href>./icons/station4.png</href>
+									</Icon>
+								</IconStyle>
+							</Style>
+
+							<Style id="station5">
+								<IconStyle>
+									<scale>1</scale>
+									<Icon>
+										<href>./icons/station5.png</href>
+									</Icon>
+								</IconStyle>
+							</Style>
+
+		<Folder id="stationPlacemarks">
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; NEW</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				100.9&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>0</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.9915, 44.4262, 0.2</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; NEW</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				102.3&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>1</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.5399, 44.5372, -23.2</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; W233BE</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				94.5&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>2</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.235, 44.3281, -5</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; W234CG</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				94.7&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>3</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.0758, 44.1083, 0</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; W248CB</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				97.5&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>4</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.3164, 44.3353, 136</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; W254BR</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				98.7&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>5</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-67.4917, 45.3447, 0</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; W257BI</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				99.3&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>6</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.9186, 44.1703, 25.4</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; W259BY</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				99.7&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>7</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.3892, 44.5644, 77.7</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; W265CO</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				100.9&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>8</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.2246, 44.3318, 74.3</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WABK</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				104.3&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>9</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.1692, 44.31, 113</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WBCI</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				105.9&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>10</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.0756, 44.0692, 152</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WBFB</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				97.1&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>11</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.9203, 44.7033, 375</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WBFE</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				99.1&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>12</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-67.9772, 44.4447, 121</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WBKA</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				107.7&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>13</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-67.9056, 44.5536, 149</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WBQX</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				106.9&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>14</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.8422, 44.1083, 193</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WBQX</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				106.9&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>15</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.8592, 44.1269, 193</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WCLZ</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				98.9&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>16</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.005, 43.9278, 122</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WCTB</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				93.5&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>17</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.3078, 44.745, 152</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WEBB</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				98.5&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>18</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.3892, 44.5644, 93</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WFMX</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				107.9&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>19</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.2586, 44.5544, 129</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WFMX</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				107.9&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>20</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.3747, 44.6169, 118</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WFYB</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				91.5&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>21</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.1781, 44.0475, 387</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WHCF</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				88.5&lt;br&gt;
+				christian&lt;br&gt;
+				</description>
+				<index>22</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-67.6422, 45.1294, 494</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WHMX</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				105.7&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>23</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-67.4933, 45.3439, 142</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WJCX</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				99.5&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>24</index>
+				<styleUrl>#station1</styleUrl>
+				<Point>
+					<coordinates>-68.8317, 44.8031, 100</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WJJB-FM</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				96.3&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>25</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.5789, 44.2508, 430</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WKTJ-FM</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				99.3&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>26</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.8033, 44.6561, 122</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WKVZ</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				102.1&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>27</index>
+				<styleUrl>#station0</styleUrl>
+				<Point>
+					<coordinates>-68.7497, 45.0444, 205</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WMCM</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				103.3&lt;br&gt;
+				country&lt;br&gt;
+				</description>
+				<index>28</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.8617, 44.1264, 235</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WMDR-FM</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				88.9&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>29</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.5764, 44.2494, 391</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WMEP</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				90.5&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>30</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.8483, 44.2111, 371</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WMEW</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				91.3&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>31</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.3486, 44.4897, 91</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WMEY</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				88.1&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>32</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.0758, 44.1083, 39.2</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WMHB</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				89.7&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>33</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.3364, 44.5658, 32</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WMME-FM</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				92.3&lt;br&gt;
+				pop&lt;br&gt;
+				</description>
+				<index>34</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.3164, 44.3353, 91</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WMPF-LP</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				91.1&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>35</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.4433, 44.5456, -128.4</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WNSX</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				97.7&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>36</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-67.9056, 44.5536, 149</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WOXO-FM</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				92.7&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>37</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.445, 44.2067, 110</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WOXO-FM</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				92.7&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>38</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.3819, 44.2964, 224</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WQCB</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				106.5&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>39</index>
+				<styleUrl>#station1</styleUrl>
+				<Point>
+					<coordinates>-68.8092, 45.0572, 329</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WQSK</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				97.5&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>40</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.0306, 44.7922, 100</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WQSS</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				102.5&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>41</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.8483, 44.2111, 366</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WRFR-LP</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				93.3&lt;br&gt;
+				country&lt;br&gt;
+				</description>
+				<index>42</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.8881, 44.1103, 11.5</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WRGY</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				90.5&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>43</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.4903, 44.935, 645</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WRMO</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				93.7&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>44</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-67.8283, 44.6425, 204</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WTBM</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				100.7&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>45</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.3669, 44.5822, 388</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WTNP-LP</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				100.7&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>46</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.3622, 44.5825, 34.4</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WTOS-FM</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				105.1&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>47</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.6861, 45.0317, 747</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WTQX</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				96.7&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>48</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.4286, 44.0253, 127</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WTUX</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				101.1&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>49</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-67.9772, 44.4447, 121.1</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WVOM-FM</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				103.9&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>50</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-67.6422, 45.1294, 460</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WVQM</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				101.3&lt;br&gt;
+				talk&lt;br&gt;
+				</description>
+				<index>51</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.1692, 44.31, 113</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WWLN</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				90.5&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>52</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-67.4917, 45.3447, 147</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WWTP</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				89.5&lt;br&gt;
+				christian&lt;br&gt;
+				</description>
+				<index>53</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.3416, 44.3518, 108.7</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WWWA</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				95.3&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>54</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.2725, 44.7133, 205</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WXBP</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				90.3&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>55</index>
+				<styleUrl>#station1</styleUrl>
+				<Point>
+					<coordinates>-68.8092, 45.0572, 275</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WXNZ-LP</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				98.1&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>56</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.2726, 44.7138, 201.6</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WZLO</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				103.1&lt;br&gt;
+				&lt;br&gt;
+				</description>
+				<index>57</index>
+				<styleUrl>#station2</styleUrl>
+				<Point>
+					<coordinates>-68.9167, 45.0937, 204</coordinates>
+				</Point>
+			</Placemark>
+
+		</Folder>
+
+	</Document>
+</kml>
