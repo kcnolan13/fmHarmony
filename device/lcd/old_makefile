@@ -4,11 +4,15 @@ CFLAGS=-g -Os -Wall -mmcu=atmega1284p
 OBJ2HEX=avr-objcopy
 #UISP=/usr/local/bin/uisp
 TARGET=main
+OBJS = main.o display.o
+DEPS = display.h
 #ADFLAGS=-p m88 -c avrispmkII -P usb 
 ADFLAGS=-p m1284p -c avrispmkII -P usb -F
 
 .PHONY: fuses prog erase # .PHONY means that these are not a target
 
+${TARGET}:${OBJS}
+	
 
 prog : $(TARGET).hex $(TARGET).eeprom  #this programs the chip, depends on Target.hex and Target.eeprom
 	avrdude $(ADFLAGS) -V -U flash:w:$(TARGET).hex:i

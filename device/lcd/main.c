@@ -4,16 +4,10 @@
 #include <avr/sfr_defs.h>
 #include <stdio.h>
 #include <string.h>
+
 #include "display.h"
 
-//Map LED pins to AVR GPIO ports
-#define RS	    PA0
-#define RW	    PA1
-#define E 	    PA2
-#define DB4 	PA3
-#define DB5 	PA4
-#define DB6 	PA5
-#define DB7 	PA6
+
 
 
 int main (int argc, char *argv[])
