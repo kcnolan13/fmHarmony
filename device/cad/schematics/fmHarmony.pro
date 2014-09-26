@@ -1,6 +1,6 @@
-update=Mon 15 Sep 2014 12:16:24 PM EDT
+update=Thu 25 Sep 2014 08:45:29 PM EDT
 version=1
-last_client=kicad
+last_client=eeschema
 [cvpcb]
 version=1
 NetIExt=net
@@ -29,13 +29,8 @@ ModuleOutlineThickness=0.150000000000
 version=1
 [eeschema]
 version=1
-PageLayoutDescrFile=
-SubpartIdSeparator=0
-SubpartFirstId=65
 LibDir=
 NetFmtName=
-SpiceForceRefPrefix=0
-SpiceUseNetNumbers=0
 RptD_X=0
 RptD_Y=100
 RptLab=1

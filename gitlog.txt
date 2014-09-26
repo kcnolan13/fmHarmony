@@ -1,0 +1,91 @@
+commit d7292435e6878990db80d5e043a227bfd9449469
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Mon Sep 15 12:21:14 2014 -0400
+
+    kicad software used to create project hardware schematic
+
+commit 44d48f87eda24fc4831a4965411a535261d8489e
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Sun Sep 14 23:24:01 2014 -0400
+
+    new makefile added to compile separate LCD .c and .h files concurrently with main program
+
+commit 65e0dcd74c712746e9ac0095fdf17d4dcd94eca4
+Author: Marcel Marki <marcelmarki1@gmail.com>
+Date:   Sun Sep 14 19:08:47 2014 -0400
+
+    directory structure for the device folder altered. basic LCD and GPS module code added to revision control system.
+
+commit 0844c805d0f2024da24f9d8ca558242a1c6e04fa
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Sat Aug 30 21:15:47 2014 -0400
+
+    syncGenres.pl now effectively pulls genres from the web and updates the fmStations database. the user can now move around the map and view radio stations within 50 miles of their position
+
+commit 2ea9f48838c8f91b693964e83eeee55acb55ad2e
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Fri Aug 29 19:26:10 2014 -0400
+
+    a cron-scheduled perl script removes old kml files and clears space in the kml build log when it gets too large
+
+commit 135bc94c5bcc4d3f45361f48b59f7646557b2d99
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Fri Aug 29 17:36:43 2014 -0400
+
+    first build with functioning KML file creation and handling. stations are imported as colored icons based on calculated earth-distance from the user
+
+commit 91be90a69c40e9716bc376cb0dc078b5de3674aa
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Fri Aug 29 13:02:28 2014 -0400
+
+    basic KML building infrastructure implemented
+
+commit 34e40d55c3cb3980a6f98b89a64b281fe848e5bb
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Fri Aug 29 00:12:12 2014 -0400
+
+    HTTP Request framework established to trigger KML builds for each client. KML (Perl) build script next on the docket.
+
+commit 51df162365fe2fcd2a31c35b16289ab102ce4730
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Thu Aug 28 15:47:44 2014 -0400
+
+    Front-end User Interface prototyped using OpenLayers. Also, compliments to Google for their free dat.gui JavaScript GUI API
+
+commit ee1159e5a253f232eb7caaef7f26d1bbb619b337
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Sun Aug 17 23:26:45 2014 -0400
+
+    syncDb.pl now dynamically synchronizes the fmStations database with the latest nation-wide FCC radio station data. row inserts, updates, and deletions are all constructed and performed to keep fmStations properly synchronized with the FCC dataset.
+
+commit e29ec1f46b2b3cd53b3179af83b08a55ceaa2240
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Sun Aug 17 14:19:42 2014 -0400
+
+    fmstations database created. perl script renamed to syncDb.pl --> it will not just update existing stations within the database, but will also remove rows for any stations that are not in the new FCC national dataset. syncDb.pl effectively parses the FCC data and updates the fmstations database accordingly, weeding out any stations in the dataset with non-US country codes or missing ERP/HAAT ratings. At this time, an algorithm has been written and tested to identify expired stations. The next update will feature the dynamic removal of those stations as well, all from within this syncDb.pl script
+
+commit 5d7ee192757d9c68df6cb7f87912876342132cc4
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Sat Aug 16 19:43:08 2014 -0400
+
+    Created Perl algorithm to download and parse the latest nation-wide FM radio listings from the FCC. Added a text file to document important project commands.
+
+commit f012cc4459e89b54582691c8df71328a2804af96
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Fri Aug 8 13:25:29 2014 -0400
+
+    basic project directory structure established. web-based code written to display a web map with legend on desktop, laptop, and mobile platforms
+
+commit c6c4f7a0a10f99ad0702fd86fd2e390b3d8bd093
+Author: kcnolan13 <kcnolan13@gmail.com>
+Date:   Fri Aug 8 12:35:06 2014 -0400
+
+    Update README.md
+    
+    first commit from web.
+
+commit e56b57f795751a52557b634e635d3a910ba12cca
+Author: kcnolan13 <kcnolan13@gmail.com>
+Date:   Fri Aug 8 12:32:28 2014 -0400
+
+    Initial commit

@@ -28,6 +28,7 @@ use POSIX qw(ceil floor);
 
 use Math::Trig ':pi';
 
+
 #---- GLOBAL VARS ----#
 $fNameTemp = "./KML/".$ARGV[0]."_temp.kml";
 $fName = "./KML/".$ARGV[0].".kml";
@@ -55,10 +56,11 @@ sub earthDistance {
 	return ($distance);
 }
 
-
 #open build log for appending and temp KML file for writing (this will be used later to overwrite any preexisting KML files for this client)
 open (OUT, ">>", "./KML/kmlBuildLog.txt") or die("ERROR: unable to append to KML build log file\n");
+#print("opening $fNameTemp\n");
 open (TEMP, ">", $fNameTemp) or die("ERROR: unable to create $fNameTemp\n");
+#print("output files opened\n");
 
 #let the client know we will work on a KML for them
 print "192.168.0.3 Says:\n\tI see you want a KML file. I'll get right to it!\n\n";
