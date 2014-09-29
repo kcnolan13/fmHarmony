@@ -1975,7 +1975,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
   GUI.DEFAULT_WIDTH = 245;
   GUI.TEXT_CLOSED = 'Collapse Menu';
-  GUI.TEXT_OPEN = 'Select Genre';
+  GUI.TEXT_OPEN = 'Menu';
 
   dom.bind(window, 'keydown', function(e) {
 

@@ -33,7 +33,7 @@ use Math::Trig ':pi';
 $fNameTemp = "./KML/".$ARGV[0]."_temp.kml";
 $fName = "./KML/".$ARGV[0].".kml";
 #find stations within this many miles of the user
-$stationRadius = 50;
+$stationRadius = $ARGV[3];
 $styleTabs = "\t\t\t\t\t\t\t";
 $stationScale = 1;
 $stationIcon = "./icons/station";
@@ -124,12 +124,14 @@ $userLon = $ARGV[2];
                         #log fetched station details for those supposedly in range
                         
                         print OUT ".";
-                        print TEMP "\t\t\t".'<Placemark>'."\n\t\t\t\t".'<name>'."&lt;font face=$fontFamily size=$fontSize &gt; ".$row->{'call'}.'</name>'."\n";
+                        print TEMP "\t\t\t".'<Placemark>'."\n\t\t\t\t".'<name>'."&lt;font face=$fontFamily size=$fontSize &gt; ".$row->{'call'}.' - '.nearest(.1,$row->{'freq'}).'</name>'."\n";
                         print TEMP "\t\t\t\t".'<description>'."&lt;font face=$fontFamily size=$fontSize&gt; "."\n";
 
                         #description data
-                        print TEMP "\t\t\t\t".nearest(.1,$row->{'freq'}).'&lt;br&gt;'."\n";
-                        print TEMP "\t\t\t\t".$row->{'genre'}.'&lt;br&gt;'."\n";
+                        #print TEMP "\t\t\t\t".nearest(.1,$row->{'freq'}).'&lt;br&gt;'."\n";
+                        print TEMP "\t\t\t\t".$row->{'genre'}.'&lt;br&gt;&lt;br&gt;'."\n";
+                        print TEMP "\t\t\t\t".'ERP: '.nearest(.1,$row->{'erp'}).' (kW)&lt;br&gt;'."\n";
+                        print TEMP "\t\t\t\t".'HAAT: '.nearest(.1,$row->{'haat'}).' (m)&lt;br&gt;'."\n";
 
                         print TEMP "\t\t\t\t".'</description>'."\n";
 

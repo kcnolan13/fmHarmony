@@ -26,7 +26,7 @@
 
 //---- CREATE THE GUI ----//
 
-var gui = new dat.GUI({ autoPlace: false, width: 125});
+var gui = new dat.GUI({ autoPlace: false, width: 150});
 var customContainer = document.getElementById('gui');
 customContainer.appendChild(gui.domElement);
 
@@ -87,21 +87,40 @@ var guiOptions = {
         findBestStation("foreign");
     },
 
+    Sync: function() {
+        if (kmlRequestTimer != null)
+        {
+            clearInterval(kmlRequestTimer);
+            kmlRequestTimer = null;
+        }
+        requestKml();
+        
+        document.getElementById('processing').style.opacity = processingOpacity;
+    },
+
+    Radius: 50,
+
 };
 
-gui.add(guiOptions,'Alternative');
-gui.add(guiOptions,'Christian');
-gui.add(guiOptions,'Classical');
-gui.add(guiOptions,'Club');
-gui.add(guiOptions,'Country');
-gui.add(guiOptions,'Foreign');
-gui.add(guiOptions,'Hip-Hop');
-gui.add(guiOptions,'Jazz');
-gui.add(guiOptions,'Oldies');
-gui.add(guiOptions,'Pop');
-gui.add(guiOptions,'Rock');
-gui.add(guiOptions,"R&B");
-gui.add(guiOptions,'Talk');
+var folderGenres = gui.addFolder('Select Genre');
+var folderSettings = gui.addFolder('Settings');
+
+folderGenres.add(guiOptions,'Alternative');
+folderGenres.add(guiOptions,'Christian');
+folderGenres.add(guiOptions,'Classical');
+folderGenres.add(guiOptions,'Club');
+folderGenres.add(guiOptions,'Country');
+folderGenres.add(guiOptions,'Foreign');
+folderGenres.add(guiOptions,'Hip-Hop');
+folderGenres.add(guiOptions,'Jazz');
+folderGenres.add(guiOptions,'Oldies');
+folderGenres.add(guiOptions,'Pop');
+folderGenres.add(guiOptions,'Rock');
+folderGenres.add(guiOptions,"R&B");
+folderGenres.add(guiOptions,'Talk');
+
+folderSettings.add(guiOptions, 'Radius',5, 150);
+folderSettings.add(guiOptions, 'Sync');
 
 //---- GLOBAL VARS ----//
 var fromProjection = new OpenLayers.Projection("EPSG:4326"); // transform from WGS 1984
@@ -111,6 +130,9 @@ var popup = null;
 var popupFeature = null;
 var kmlRefreshInterval = 30000;
 var kmlRefreshTimer = null;
+var kmlRequestTimer = null;
+var processingOpacity = 0.6;
+var stationsWindow = null;
 
 var stationFeatures = [];
 
@@ -217,7 +239,13 @@ findMe.events.register("locationupdated",findMe,function(e) {
         user.positionKnown = true;
         map.setCenter([user.x, user.y], map.getZoom());
         zoomGradual(10);
+        if (kmlRequestTimer != null)
+        {
+            clearInterval(kmlRequestTimer);
+            kmlRequestTimer = null;
+        }
         requestKml();
+        
 
     } else {
         console.log("erasing previous user.symbol");
@@ -274,7 +302,7 @@ function requestKml()
 
     var myPoint = new OpenLayers.Geometry.Point(user.x, user.y).transform(toProjection, fromProjection);
 
-    var request = "httpHandler.php?lat="+myPoint.y+"&lon="+myPoint.x+"&uniqueId="+user.uniqueId;
+    var request = "httpHandler.php?lat="+myPoint.y+"&lon="+myPoint.x+"&rad="+guiOptions.Radius+"&uniqueId="+user.uniqueId;
 
     console.log("\nKML Please!\t\t"+request+"\n");
 
@@ -292,7 +320,12 @@ function requestKml()
     xmlhttp.send(null);
 
     //load in the kml file after a reasonable amount of time
-    setTimeout(loadKml, 5000);
+    if (kmlRefreshTimer != null)
+        {
+            clearInterval(kmlRefreshTimer);
+            kmlRefreshTimer = null;
+        }
+    kmlRefreshTimer = setTimeout(loadKml, 5000);
 }
 
 function loadKml()
@@ -367,7 +400,14 @@ function loadKml()
     }
 
     //ask for a kml refresh after a reasonable amount of time
-    kmlRefreshTimer = setTimeout(requestKml, kmlRefreshInterval);
+    if (kmlRequestTimer != null)
+        {
+            clearInterval(kmlRequestTimer);
+            kmlRequestTimer = null;
+        }
+
+    kmlRequestTimer = setTimeout(requestKml, kmlRefreshInterval);
+    document.getElementById('processing').style.opacity = 0;
 }
 
 //what to do when you select a KML vector layer feature
@@ -500,5 +540,46 @@ function moveUser()
     user.symbol = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(user.x, user.y));
     layerUser.addFeatures(user.symbol);
 
+    if (kmlRequestTimer != null)
+        {
+            clearInterval(kmlRequestTimer);
+            kmlRequestTimer = null;
+        }
+
     requestKml();
+    document.getElementById('processing').style.opacity = processingOpacity;
+}
+
+function logStations()
+{
+    if (stationsWindow != null)
+    {
+        stationsWindow.close();
+        stationsWindow = null;
+    }
+
+    stationsWindow = window.open('','Stations Log',"width=400, height = 40");
+    //stationsWindow.document.write('Stations within '+guiOptions.radius+' miles of '+user.x+', '+user.y+':\n\n');
+    for (var i=0; i<stationFeatures.length; i++)
+    {
+        var feature = stationFeatures[i];
+        var lat, lon, erp, haat, callsign, freq;
+
+        var descr = feature.attributes.description;
+        var title = feature.attributes.name;
+
+        erp = descr.substring(descr.indexOf("ERP: ")+5, descr.indexOf("(kW)"));
+        haat = descr.substring(descr.indexOf("HAAT: ")+6, descr.indexOf("(m)"));
+        callsign = title.substring(title.indexOf(">")+1, title.indexOf(" - "));
+        freq = title.substring(title.indexOf(" - ")+3);
+
+        var point = new OpenLayers.LonLat(feature.geometry.x, feature.geometry.y);
+        point.transform(toProjection, fromProjection);
+        lat = point.lat;
+        lon = point.lon;
+
+        stationsWindow.document.write("call: "+callsign+" freq: "+freq+" lat: "+lat.toFixed(5)+" lon: "+lon.toFixed(5)+" erp: "+erp+" haat: "+haat+"<br>");
+
+    }
+    stationsWindow.focus();
 }
