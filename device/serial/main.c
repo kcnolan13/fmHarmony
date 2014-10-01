@@ -13,27 +13,44 @@
 #include "display.h"
 
 void InitUSART(void);
-int USARTgetchar(FILE *);
-int USARTputchar(char c, FILE *);
+//int USARTgetchar(FILE *);
+//int USARTputchar(char c, FILE *);
 
 volatile int count = 0;
-volatile char c[16] = {0};
+ char c[16] = {0};
 volatile char empty  = 'A';
 
+#define RX_BUFFER_SIZE  128
+char rxBuffer[RX_BUFFER_SIZE];
+uint8_t rxReadPos = 0;
+uint8_t rxWritePos = 0;
+
+char getChar(void);
+char peekChar(void);
+
 //Open Filestream
-static FILE my_stream = FDEV_SETUP_STREAM (USARTputchar, USARTgetchar, _FDEV_SETUP_RW);
+//static FILE my_stream = FDEV_SETUP_STREAM (USARTputchar, USARTgetchar, _FDEV_SETUP_RW);
 
 ISR(USART1_RX_vect){
     //Read value out of the UART buffer
-    //PORTB ^= _BV(PB0);
-    empty = UDR1;
-    //sprintf(&empty,"%d",count);
+    
+    rxBuffer[rxWritePos] = UDR1;
+
+    rxWritePos++;
+     
+    if(rxWritePos >= RX_BUFFER_SIZE)
+    {
+        rxWritePos = 0;
+    }
+
+    /*empty = UDR1;
     char_write(empty);
-    count ++;
+    count ++;*/
 }
 
 int main (int argc, char *argv[])
 {
+    char holder = 'A';
     DDRB = 0xFF;
 
     cli();
@@ -48,9 +65,11 @@ int main (int argc, char *argv[])
     lcd_cursor();
     
     //_delay_ms(10000);
+
     
     while(1){
-
+        holder = getChar();
+        if (holder != '\0') char_write(holder);
     }
     return 0; //should never get here.
 }
@@ -58,7 +77,7 @@ int main (int argc, char *argv[])
 // Initialize USART
 void InitUSART(void)
 {
-    // Set the Baud Rate.
+    // Set the Baud Rate to 9600 for 1 MHz system clock
     UBRR1H = 0;
     UBRR1L = 12;
     
@@ -70,15 +89,46 @@ void InitUSART(void)
     
     // Set the Frame Format to 8
     // Set the Parity to No Parity
-    // Set the Stop Bits to 1
-    UCSR1C |= (1 << UCSZ11) | (1 << UCSZ10);
+    // Set the Stop Bits to 2
+    UCSR1C |= (1 << UCSZ11) | (1 << UCSZ10) | (1 << USBS1);
 
-    stdin = &my_stream;
-    stdout= &my_stream;
+    //stdin = &my_stream;
+    //stdout= &my_stream;
+}
+
+char peekChar(void)
+{
+    char ret = '\0';
+     
+    if(rxReadPos != rxWritePos)
+    {
+        ret = rxBuffer[rxReadPos];
+    }
+     
+    return ret;
+}
+
+char getChar(void)
+{
+    char ret = '\0';
+     
+    if(rxReadPos != rxWritePos)
+    {
+        ret = rxBuffer[rxReadPos];
+         
+        rxReadPos++;
+         
+        if(rxReadPos >= RX_BUFFER_SIZE)
+        {
+            rxReadPos = 0;
+        }
+    }
+     
+    return ret;
 }
 
 // Function to recieve character from buffer.
-int USARTgetchar(FILE * fd)
+/*int USARTgetchar(FILE * fd)
 {
     // Wait for incoming data
     while ( !(UCSR1A & (1<<RXC1)) );
@@ -94,4 +144,4 @@ int USARTputchar(char c, FILE *stream)
     //Put data into buffer. Sends the data automatically.
     UDR1 = c;
     return 0;
-}
+}*/
