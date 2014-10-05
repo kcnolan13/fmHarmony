@@ -37,7 +37,7 @@ $Descr USLetter 11000 8500
 encoding utf-8
 Sheet 1 1
 Title ""
-Date "1 oct 2014"
+Date "5 oct 2014"
 Rev ""
 Comp ""
 Comment1 ""
@@ -259,12 +259,12 @@ $EndComp
 $Comp
 L CP1 C3
 U 1 1 5424AA5D
-P 5250 1600
-F 0 "C3" H 5300 1700 50  0000 L CNN
-F 1 "1u" H 5300 1500 50  0000 L CNN
-F 2 "~" H 5250 1600 60  0000 C CNN
-F 3 "~" H 5250 1600 60  0000 C CNN
-	1    5250 1600
+P 6450 1600
+F 0 "C3" H 6500 1700 50  0000 L CNN
+F 1 "1u" H 6500 1500 50  0000 L CNN
+F 2 "~" H 6450 1600 60  0000 C CNN
+F 3 "~" H 6450 1600 60  0000 C CNN
+	1    6450 1600
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -571,13 +571,9 @@ Wire Wire Line
 Connection ~ 3350 1900
 Wire Wire Line
 	4400 1350 4600 1350
-Wire Wire Line
-	5250 1900 5250 1800
 Connection ~ 4000 1900
 Wire Wire Line
 	5100 1350 6200 1350
-Wire Wire Line
-	5250 1350 5250 1400
 Connection ~ 5250 1350
 Wire Wire Line
 	5600 1900 5600 2000
@@ -737,4 +733,29 @@ Text Notes 6050 950  0    60   ~ 0
 Car
 Text Notes 6700 950  0    60   ~ 0
 Update
+$Comp
+L GND #PWR?
+U 1 1 54316390
+P 6450 2000
+F 0 "#PWR?" H 6450 2000 30  0001 C CNN
+F 1 "GND" H 6450 1930 30  0001 C CNN
+F 2 "" H 6450 2000 60  0000 C CNN
+F 3 "" H 6450 2000 60  0000 C CNN
+	1    6450 2000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6450 1800 6450 2000
+Wire Wire Line
+	5700 2600 6250 2600
+Wire Wire Line
+	6250 2700 5700 2700
+Wire Wire Line
+	6250 2800 5700 2800
+Wire Wire Line
+	6250 2900 5700 2900
+Wire Wire Line
+	6250 3000 5700 3000
+Text Notes 5650 2850 1    60   ~ 0
+JP3\n
 $EndSCHEMATC
