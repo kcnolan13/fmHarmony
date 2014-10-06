@@ -1,8 +1,8 @@
 // M. Marki K. Nolan
 // Program for sending log file serially to fmHarmony device
 // arduino-serial library courtesy of Tod E. Kurt
-// The open_port() and send_string() functions of this program were
-// largely inspired by Tod E. Kurt's arduino-serial.c program.
+// The open_port and send_string functions of this program were
+// largely inspired by Tod E. Kurt's arduino-serial.c program
 
 #include <stdio.h>    // Standard input/output definitions
 #include <stdlib.h>
@@ -20,18 +20,11 @@ int parse_line(char* in_line);
 char *strtok_single(char * in_str, char const * delims);
 char * line_prep(char* in_line);
 void strip_newline( char *str, int size );
-int send_float(char* in_string);
-int send_byte (uint8_t in_byte);
 
 int fd = -1;
 char serialport[BUF_MAX];
 char *optarg =  "/dev/serial/by-id/usb-Dean_Camera_LUFA_USB-RS232_Adapter_A48303630363513112E1-if00";
 int baudrate = 9600;
-
-union float2bytes { 
-    float f; 
-    char b[sizeof(float)];
-};
 
 int main (int argc, char *argv[])
 {
@@ -65,7 +58,6 @@ int main (int argc, char *argv[])
     open_port();
 
     send_string("@");
-    send_float("102.1");
     send_string("testing");
     send_string("#");
 
@@ -111,49 +103,6 @@ int send_string(char* in_string){
     return 0;
 }
 
-int send_float(char* in_string){
-    int rc = -1;
-    int i = 0;
-    union float2bytes f2b;
-
-    if( fd == -1 ){ 
-        printf("serial port not opened");
-        return -1;
-    }
-
-    printf("float value :%f\n" ,atof(in_string));
-    f2b.f = atof(in_string);
-
-    for (i = 0; i < sizeof(float); i++ ) {
-        printf("%c\n", f2b.b[i]);
-        
-        //functionalize!
-        rc = send_byte((uint8_t)f2b.b[i]); //If this doesn't work, try a loop of 1 char stringwrites.
-        if(rc==-1){
-            printf("error writing");
-            return -2;
-        }
-    }
-
-    return 0;
-}
-
-int send_byte (uint8_t in_byte){
-    int rc = -1;
-
-    if( fd == -1 ){ 
-        printf("serial port not opened");
-        return -1;
-    }
-    rc = serialport_writebyte(fd, in_byte);
-    if(rc==-1){
-        printf("error writing");
-        return -2;
-    }
-
-    return 0;
-}
-
 int parse_line(char * in_line){
     int i = 0;
     int initial_length = strlen(in_line);
@@ -170,11 +119,10 @@ int parse_line(char * in_line){
         while(token)
         {
             if (initial_length >= 200){
-                //grid population
                 i++;
                 token = strtok_single(NULL, " ");
                 //if (i < 100) printf( "%d, %s\n", i, token);
-                if (i < 100)  printf("%s ",token);
+                if (i < 100) printf("%s ",token);
             }
             else{
                 i++;
@@ -220,7 +168,7 @@ char * line_prep(char* in_line){
 void strip_newline( char *str, int size )
 {
     int i;
-    // remove the newline character
+    // remove the null terminator
     for (  i = 0; i < size; i++ )
     {
         if ( str[i] == '\n' )

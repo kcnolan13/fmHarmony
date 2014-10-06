@@ -37,6 +37,11 @@ int read_ready = 0;
 int eeprom_index = 0;
 int read_index = 0;
 
+union float2bytes { 
+    float f; 
+    char b[sizeof(float)];
+};
+
 ISR(USART1_RX_vect){
     //Read value out of the UART buffer
     
@@ -64,8 +69,11 @@ ISR(USART1_RX_vect){
 
 int main (int argc, char *argv[])
 {
+    int i = 0;
     char holder = 'B';
     char readbyte = 'B';
+    char * prueba = "\0";
+    
     DDRB = 0xFF;
 
     cli();
@@ -94,12 +102,24 @@ int main (int argc, char *argv[])
         }
 
         if (read_ready){
-            readbyte = eeprom_read_byte((char*)read_index);
+            //readbyte = eeprom_read_byte((char*)read_index);
+            c[read_index]= eeprom_read_byte((char*)read_index);
             read_index ++;
-            char_write(readbyte);
+            //char_write(readbyte);
             read_ready = 0;
+
+            if(read_index == 6) {
+                union float2bytes f2b;
+                for (i = 0; i < 5; i++){
+                    f2b.b[i] = c[i+1];
+                }
+                if (f2b.f == 102.1) string_write("float success");
+                //sprintf(prueba, "%f", f2b.f);
+                //string_write(prueba);
+            }                
         }
         
+
     }
     return 0; //should never get here.
 }
