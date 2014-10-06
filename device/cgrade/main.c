@@ -9,36 +9,45 @@
 #include <avr/pgmspace.h>
 #include <stdlib.h>
 #include <inttypes.h>
+#include <avr/eeprom.h>
 
 #include "display.h"
 
+//Serial Variables
+#define RX_BUFFER_SIZE  128
+#define BLOCKSIZE 28
+#define START_OFFSET 0
+
 void InitUSART(void);
+char getChar(void);
+char peekChar(void);
 
 volatile int count = 0;
 char c[16] = {0};
 volatile char empty  = 'A';
 
-#define RX_BUFFER_SIZE  128
+//Serial Variables
 char rxBuffer[RX_BUFFER_SIZE];
 uint8_t rxReadPos = 0;
 uint8_t rxWritePos = 0;
 
-char getChar(void);
-char peekChar(void);
-
+//State Variables
 volatile int update_progress = 0;
+int read_ready = 0;
+int eeprom_index = 0;
+int read_index = 0;
 
 ISR(USART1_RX_vect){
     //Read value out of the UART buffer
     
     rxBuffer[rxWritePos] = UDR1;
 
-    if(rxBuffer[rxWritePos] == 'A'){
+    if(rxBuffer[rxWritePos] == '@'){
         update_progress = 1;
         //string_write("1");
     } 
-    else if(rxBuffer[rxWritePos] == 'Z'){
-        update_progress = 0;
+    else if(rxBuffer[rxWritePos] == '#'){
+        //update_progress = 0;
         //string_write("0");
     }
     else{
@@ -51,13 +60,12 @@ ISR(USART1_RX_vect){
     {
         rxWritePos = 0;
     }
-
-     update_progress = 1;
 }
 
 int main (int argc, char *argv[])
 {
     char holder = 'B';
+    char readbyte = 'B';
     DDRB = 0xFF;
 
     cli();
@@ -75,8 +83,23 @@ int main (int argc, char *argv[])
         if (update_progress == 1){
             //string_write("y");
             holder = getChar();
-            if (holder != '\0') char_write(holder);
+            if (holder != '\0'){
+            	if(holder == '#') update_progress = 0;
+            	else{
+	            	eeprom_write_byte(eeprom_index,holder);
+	            	eeprom_index ++;
+	            	read_ready = 1;
+	            }
+            } 
         }
+
+        if (read_ready){
+            readbyte = eeprom_read_byte((char*)read_index);
+            read_index ++;
+            char_write(readbyte);
+            read_ready = 0;
+        }
+        
     }
     return 0; //should never get here.
 }
