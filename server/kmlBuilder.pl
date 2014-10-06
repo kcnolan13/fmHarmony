@@ -190,7 +190,7 @@ if (!$result) {
 print OUT "\nBuild Complete.\n\n________________________________________________________________________________________________________________________________________________\n";
 
 #relay back to the client that everything has been taken care of
-print "192.168.0.3 Says:\n\tYou, sir, have been served. ($fName)\n";
+print "puddlesquid.com Says:\n\tYou, sir, have been served. ($fName)\n";
 
 #finish up
 close(OUT);

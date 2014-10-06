@@ -98,6 +98,21 @@ var guiOptions = {
         document.getElementById('processing').style.opacity = processingOpacity;
     },
 
+    Grid: function() {
+        if (gridLayer!=null)
+        {
+            //console.log('destroying grid');
+            destroyGridLayer();
+        } else {
+            //console.log('creating grid');
+            createGridLayer();
+        }
+    },
+
+    Log: function() {
+        logStations();
+    },
+
     Radius: 50,
 
 };
@@ -121,6 +136,8 @@ folderGenres.add(guiOptions,'Talk');
 
 folderSettings.add(guiOptions, 'Radius',5, 150);
 folderSettings.add(guiOptions, 'Sync');
+folderSettings.add(guiOptions, 'Grid');
+folderSettings.add(guiOptions, 'Log');
 
 //---- GLOBAL VARS ----//
 var fromProjection = new OpenLayers.Projection("EPSG:4326"); // transform from WGS 1984
@@ -133,6 +150,10 @@ var kmlRefreshTimer = null;
 var kmlRequestTimer = null;
 var processingOpacity = 0.6;
 var stationsWindow = null;
+var gridSideLength = 10;
+var gridOrigin = new OpenLayers.LonLat(-71.121,47.487);
+var gridWidth = -66.924 - -1*71.121;
+var gridHeight = -43.033 - -1*47.487;
 
 var stationFeatures = [];
 
@@ -183,7 +204,7 @@ var map = new OpenLayers.Map({
         findMe,
         //new OpenLayers.Control.PanZoomBar(),
         mapScale,
-        //new OpenLayers.Control.LayerSwitcher(),
+        new OpenLayers.Control.LayerSwitcher(),
         new OpenLayers.Control.KeyboardDefaults(),
         new OpenLayers.Control.Attribution()
     ]
@@ -205,12 +226,32 @@ var styleMap = new OpenLayers.StyleMap({
     'externalGraphic': './icons/pin.png'
 });
 
+var styleMapText = new OpenLayers.StyleMap({
+    'pointRadius': 0,
+        label : "${labelText}",
+        fontColor: "blue",                    
+        fontSize: "12px",
+        fontFamily: "Courier New, monospace",
+        fontWeight: "bold",
+        labelAlign: "cc",
+        labelXOffset: "0",
+        labelYOffset: "0",
+        labelOutlineColor: "white",
+        labelOutlineWidth: 3
+});
+
+var styleMapGrid = new OpenLayers.StyleMap({
+    'pointRadius': 40
+});
 
 //---- ADD LAYERS ----//
 var kmlLayer = null;
 
 var layerUser = new OpenLayers.Layer.Vector("userVector", {styleMap: styleMap});
 map.addLayer(layerUser);
+
+var gridLayer = null;
+var textLayer = null;
 
 
 //---- CONFIGURE FEATURE SELECTION ----//
@@ -560,26 +601,130 @@ function logStations()
 
     stationsWindow = window.open('','Stations Log',"width=400, height = 40");
     //stationsWindow.document.write('Stations within '+guiOptions.radius+' miles of '+user.x+', '+user.y+':\n\n');
-    for (var i=0; i<stationFeatures.length; i++)
+
+    //holds a list of stations for each map grid cell
+    var stationCells = [];
+
+    stationsWindow.document.write(stationFeatures.length+"<br>");
+
+    //cell rows vertically
+    for (var v=0; v<gridSideLength; v++)
     {
-        var feature = stationFeatures[i];
-        var lat, lon, erp, haat, callsign, freq;
+        //individual horizontal cells
+        for (var h=0; h<gridSideLength; h++)
+        {
+            //make a list of all the features in this cell
+            var featuresInCell = [];
+            for (var s=0; s<stationFeatures.length; s++)
+            {
+                //determine if this station resides within the cell
+                var point = new OpenLayers.LonLat(stationFeatures[s].geometry.x, stationFeatures[s].geometry.y);
 
-        var descr = feature.attributes.description;
-        var title = feature.attributes.name;
+                point.transform(toProjection, fromProjection);
 
-        erp = descr.substring(descr.indexOf("ERP: ")+5, descr.indexOf("(kW)"));
-        haat = descr.substring(descr.indexOf("HAAT: ")+6, descr.indexOf("(m)"));
-        callsign = title.substring(title.indexOf(">")+1, title.indexOf(" - "));
-        freq = title.substring(title.indexOf(" - ")+3);
+                var cellOrigin = new OpenLayers.LonLat(gridOrigin.lon+gridWidth/gridSideLength*(h), gridOrigin.lat-gridHeight/gridSideLength*(v));
 
-        var point = new OpenLayers.LonLat(feature.geometry.x, feature.geometry.y);
-        point.transform(toProjection, fromProjection);
-        lat = point.lat;
-        lon = point.lon;
+                if ((point.lon >= cellOrigin.lon)&&(point.lon <= cellOrigin.lon+gridWidth/gridSideLength)&&(point.lat <= cellOrigin.lat)&&(point.lat >= cellOrigin.lat-gridHeight/gridSideLength))
+                {
+                    //the station does reside within this cell
+                    featuresInCell.push(stationFeatures[s]);
+                }
+            }
+            //add all the features in this cell back to stationCells
+            stationCells.push(featuresInCell);
 
-        stationsWindow.document.write("call: "+callsign+" freq: "+freq+" lat: "+lat.toFixed(5)+" lon: "+lon.toFixed(5)+" erp: "+erp+" haat: "+haat+"<br>");
+            //write to the grid the number of stations in this cell
+            if (gridLayer != null)
+            {
+                var point = new OpenLayers.Geometry.Point(gridOrigin.lon+gridWidth/gridSideLength*(h+0.15), gridOrigin.lat-gridHeight/gridSideLength*(v+0.15));
+                point.transform(fromProjection,toProjection);
+                //textLayer.addFeatures([new OpenLayers.Feature.Vector(point, {labelText: featuresInCell.length, fontColor: "red"})])
+            }
+
+        }
+    }
+
+    //write out the number of stations in each cell, space delimited
+    for (var i=0; i<stationCells.length; i++)
+    {
+        stationsWindow.document.write(stationCells[i].length+" ");
+    }
+
+    stationsWindow.document.write("<br>");
+
+    //write out this group of stations to the log
+    for (var i=0; i<stationCells.length; i++)
+    {
+        for (var j=0; j<stationCells[i].length; j++)
+        {
+            var feature = stationCells[i][j];
+            var lat, lon, erp, haat, callsign, freq;
+
+            var descr = feature.attributes.description;
+            var title = feature.attributes.name;
+
+            erp = descr.substring(descr.indexOf("ERP: ")+5, descr.indexOf("(kW)"));
+            haat = descr.substring(descr.indexOf("HAAT: ")+6, descr.indexOf("(m)"));
+            callsign = title.substring(title.indexOf(">")+1, title.indexOf(" - "));
+            freq = title.substring(title.indexOf(" - ")+3);
+
+            var point = new OpenLayers.LonLat(feature.geometry.x, feature.geometry.y);
+            point.transform(toProjection, fromProjection);
+            lat = point.lat;
+            lon = point.lon;
+
+            stationsWindow.document.write(callsign+" "+freq+" "+lat.toFixed(5)+" "+lon.toFixed(5)+" "+erp+" "+haat+"<br>");
+        }
 
     }
     stationsWindow.focus();
+
+
+}
+
+function createGridLayer() {
+
+    gridLayer = new OpenLayers.Layer.Vector("gridVector", {styleMap: styleMapGrid});
+    map.addLayer(gridLayer);
+    textLayer = new OpenLayers.Layer.Vector("textVector", {styleMap: styleMapText});
+    map.addLayer(textLayer);
+
+    //draw the grid to the gridLayer
+        //draw the vertical lines
+        for (var i=0; i<=gridSideLength; i++)
+        {
+            var start_point = new OpenLayers.Geometry.Point(gridOrigin.lon+gridWidth/gridSideLength*i, gridOrigin.lat);
+            var end_point = new OpenLayers.Geometry.Point(gridOrigin.lon+gridWidth/gridSideLength*i, gridOrigin.lat-gridHeight);
+            start_point.transform(fromProjection,toProjection);
+            end_point.transform(fromProjection,toProjection);
+            //gridLayer.addFeatures([start_point, end_point]);
+            gridLayer.addFeatures([new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString([start_point, end_point]))]);
+        }
+        //draw the horizontal lines
+        for (var i=0; i<=gridSideLength; i++)
+        {
+            var start_point = new OpenLayers.Geometry.Point(gridOrigin.lon, gridOrigin.lat-gridHeight/gridSideLength*i);
+            var end_point = new OpenLayers.Geometry.Point(gridOrigin.lon+gridWidth, gridOrigin.lat-gridHeight/gridSideLength*i);
+            start_point.transform(fromProjection,toProjection);
+            end_point.transform(fromProjection,toProjection);
+            //gridLayer.addFeatures([start_point, end_point]);
+            gridLayer.addFeatures([new OpenLayers.Feature.Vector(new OpenLayers.Geometry.LineString([start_point, end_point]))]);
+        }
+        //draw the cell numbers
+        for (var i=0; i<gridSideLength; i++)
+        {
+            for (var j=0; j<gridSideLength; j++)
+            {
+                var point = new OpenLayers.Geometry.Point(gridOrigin.lon+gridWidth/gridSideLength*(j+0.5), gridOrigin.lat-gridHeight/gridSideLength*(i+0.5));
+                point.transform(fromProjection,toProjection);
+                textLayer.addFeatures([new OpenLayers.Feature.Vector(point, {labelText: j+10*i+1})])
+            }
+        }
+}
+
+function destroyGridLayer() {
+    map.removeLayer(gridLayer);
+    map.removeLayer(textLayer);
+    gridLayer = null;
+    textLayer = null;
 }
