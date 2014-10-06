@@ -40,12 +40,12 @@ endif
 CFLAGS += $(INCLUDES) -O -Wall -std=gnu99
 
 
-all: arduino-serial 
+all: log_send
 
-arduino-serial: arduino-serial.o arduino-serial-lib.o
-	$(CC) $(CFLAGS) -o arduino-serial$(EXE_SUFFIX) arduino-serial.o arduino-serial-lib.o $(LIBS)
+log_send: log_send.o arduino-serial-lib.o
+	$(CC) $(CFLAGS) -o log_send$(EXE_SUFFIX) log_send.o arduino-serial-lib.o $(LIBS)
 
-arduino-serial-server: arduino-serial-lib.o
+log_send-server: arduino-serial-lib.o
 	$(CC) $(CFLAGS) $(CFLAGS_MONGOOSE) -o arduino-serial-server$(EXE_SUFFIX) arduino-serial-server.c  arduino-serial-lib.o mongoose/mongoose.c $(LIBS)
 
 .c.o:
@@ -53,7 +53,7 @@ arduino-serial-server: arduino-serial-lib.o
 
 
 clean:
-	rm -f $(OBJ) arduino-serial arduino-serial.exe *.o *.a
-	rm -f $(OBJ) arduino-serial-server arduino-serial-server.exe *.o *.a
+	rm -f $(OBJ) log_send log_send.exe *.o *.a
+	rm -f $(OBJ) log_send-server log_send-server.exe *.o *.a
 	rm -f mongoose/mongoose.o
 
