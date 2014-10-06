@@ -57,7 +57,10 @@ sub earthDistance {
 }
 
 #open build log for appending and temp KML file for writing (this will be used later to overwrite any preexisting KML files for this client)
-open (OUT, ">>", "./KML/kmlBuildLog.txt") or die("ERROR: unable to append to KML build log file\n");
+unless(open (OUT, ">>", "./KML/kmlBuildLog.txt"))
+{
+    open(OUT, ">>", "./KML/kmlBuildLog".int(rand(1000000)).".txt");
+}
 #print("opening $fNameTemp\n");
 open (TEMP, ">", $fNameTemp) or die("ERROR: unable to create $fNameTemp\n");
 #print("output files opened\n");
