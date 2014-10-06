@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
-//Map LCD pins to AVR GPIO ports
+//Map LED pins to AVR GPIO ports
 #define RS	    PA0
 #define RW	    PA1
 #define E 	    PA2

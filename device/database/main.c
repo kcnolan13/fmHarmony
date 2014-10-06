@@ -9,8 +9,6 @@
 #include "display.h"
 
 
-
-
 int main (int argc, char *argv[])
 {
 	//Intitialize LCD. Set Blinking cursor.

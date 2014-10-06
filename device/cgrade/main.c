@@ -13,29 +13,37 @@
 #include "display.h"
 
 void InitUSART(void);
-//int USARTgetchar(FILE *);
-//int USARTputchar(char c, FILE *);
 
 volatile int count = 0;
- char c[16] = {0};
+char c[16] = {0};
 volatile char empty  = 'A';
 
 #define RX_BUFFER_SIZE  128
 char rxBuffer[RX_BUFFER_SIZE];
 uint8_t rxReadPos = 0;
 uint8_t rxWritePos = 0;
-char holder = 'A';
 
 char getChar(void);
 char peekChar(void);
 
-//Open Filestream
-//static FILE my_stream = FDEV_SETUP_STREAM (USARTputchar, USARTgetchar, _FDEV_SETUP_RW);
+volatile int update_progress = 0;
 
 ISR(USART1_RX_vect){
     //Read value out of the UART buffer
     
     rxBuffer[rxWritePos] = UDR1;
+
+    if(rxBuffer[rxWritePos] == 'A'){
+        update_progress = 1;
+        //string_write("1");
+    } 
+    else if(rxBuffer[rxWritePos] == 'Z'){
+        update_progress = 0;
+        //string_write("0");
+    }
+    else{
+        //string_write("x");
+    }
 
     rxWritePos++;
      
@@ -43,11 +51,13 @@ ISR(USART1_RX_vect){
     {
         rxWritePos = 0;
     }
-    
+
+     update_progress = 1;
 }
 
 int main (int argc, char *argv[])
 {
+    char holder = 'B';
     DDRB = 0xFF;
 
     cli();
@@ -61,12 +71,12 @@ int main (int argc, char *argv[])
     //Intitialize LCD. Set Blinking cursor.
     lcd_cursor();
     
-    //_delay_ms(10000);
-
-    
     while(1){
-        holder = getChar();
-        if (holder != '\0') char_write(holder);
+        if (update_progress == 1){
+            //string_write("y");
+            holder = getChar();
+            if (holder != '\0') char_write(holder);
+        }
     }
     return 0; //should never get here.
 }
@@ -120,25 +130,28 @@ char getChar(void)
             rxReadPos = 0;
         }
     }
-     
+    
     return ret;
 }
 
-// Function to recieve character from buffer.
-/*int USARTgetchar(FILE * fd)
-{
-    // Wait for incoming data
-    while ( !(UCSR1A & (1<<RXC1)) );
-    // Return the received data from buffer
-    return UDR1;
-}
 
-// Function to transmit character.
-int USARTputchar(char c, FILE *stream)
+/*int main (int argc, char *argv[])
 {
-    // Wait for an empty transmit buffer
-    while ( !( UCSR1A & (1<<UDRE1)) );
-    //Put data into buffer. Sends the data automatically.
-    UDR1 = c;
-    return 0;
+    //Intitialize LCD. Set Blinking cursor.
+    int readbyte;
+
+    lcd_cursor();
+    eeprom_write_byte(0,7);
+    readbyte = eeprom_read_byte((int*)0);
+
+    char readchar = (char)readbyte;
+    
+    //Write ECE to screen
+    //string_write(readchar);
+    char_write(readchar);
+
+    while(1){
+
+    }
+    return 0; //should never get here.
 }*/
