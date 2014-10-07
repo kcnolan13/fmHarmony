@@ -124,8 +124,8 @@ int send_float(char* in_string){
     printf("float value :%f\n" ,atof(in_string));
     f2b.f = atof(in_string);
 
-    for (i = 0; i < sizeof(float); i++ ) {
-        printf("%c\n", f2b.b[i]);
+    for (i = 0; i < 4; i++ ) {
+        printf("byte %d = %c, ", i, f2b.b[i]);
         
         //functionalize!
         rc = send_byte((uint8_t)f2b.b[i]); //If this doesn't work, try a loop of 1 char stringwrites.
@@ -182,11 +182,19 @@ int parse_line(char * in_line){
             //Station line
             printf("callsign:%s ", token);
             send_string(token);
+            if (strlen(token) < 8)
+            {
+                int k=0;
+                for (k=0; k< 8-strlen(token); k++)
+                {
+                    send_string("+");
+                }
+            }
             while(token){
                 i++;
                 token = strtok_single(NULL, " ");
                 if (i < 6) send_float(token); 
-                if (i < 6) printf("float:%s ",token); 
+                //if (i < 6) printf("float:%s ",token); 
                 usleep(50000);
             }       
         }  

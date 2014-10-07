@@ -252,6 +252,11 @@ void char_write(char mychar)
         {
             set_ddram_address(0x40);
             line_num = 2;
+            chars_written = 0;
+        }
+        else if (line_num==2)
+        {
+            lcd_init();
         }
     }
 
