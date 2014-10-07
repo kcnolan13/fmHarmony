@@ -16,7 +16,7 @@
 //Serial Variables
 #define RX_BUFFER_SIZE  128
 #define STATION_BLOCKSIZE 28
-#define FIRST_STATION_OFFSET 101// 1 + 100
+#define FIRST_STATION_OFFSET 104// 4 + 100
 #define NUM_GRID_CELLS 100
 
 void InitUSART(void);
@@ -34,6 +34,10 @@ void print_eeprom_contents();
 void print_eeprom_station_contents();
 void print_station(int index);
 void print_callsign(int station_index);
+void prepare_device(void);
+void database_load(void);
+void database_free(void);
+void print_all_known_stations();
 
 typedef struct station {
     char callsign[8];
@@ -49,20 +53,19 @@ int num_stations = 0;
 int stations_in_cell[NUM_GRID_CELLS] = {0};
 int cell_offsets[NUM_GRID_CELLS] = {0};
 
-volatile char empty  = 'A';
-
 //Serial Variables
-char rxBuffer[RX_BUFFER_SIZE];
-uint8_t rxReadPos = 0;
-uint8_t rxWritePos = 0;
+volatile char rxBuffer[RX_BUFFER_SIZE];
+volatile uint8_t rxReadPos = 0;
+volatile uint8_t rxWritePos = 0;
 volatile char serial_history[3] = {'\0'};
 char serialStartChar = '$';
 char serialEndChar = '^';
 
 //State Variables
-volatile int update_progress = 0;
-int read_ready = 0;
+volatile int update_trigger = 0;
 volatile int eeprom_index = 0;
+int updating = 0;
+int read_ready = 0;
 int read_index = 0;
 
 union float2bytes { 
@@ -70,28 +73,30 @@ union float2bytes {
     char b[sizeof(float)];
 };
 
+
+//serial receive interrupt behavior
 ISR(USART1_RX_vect){
     
-
-    //shift serial history back one
+    //remember the last 3 bytes received (to handle start + end sequences)
     serial_history[2] = serial_history[1];
     serial_history[1] = serial_history[0];
-    //Read value out of the UART buffer
+
+    //Read most recent value out of the UART buffer
     serial_history[0] = UDR1;
 
-    if (update_progress==1)
+    //if a serial update is in progress, write to the receive buffer
+    if (update_trigger==1)
     {
         rxBuffer[rxWritePos] = serial_history[0];
         rxWritePos++;
     }   
 
+    //trigger a serial database update if the start sequence has occurred
     if(serialStart()){
-        update_progress = 1;
-        //lcd_cursor();
-        //eeprom_index = 0;
-        //string_write("1");
+        update_trigger = 1;
     } 
 
+    //make the receive buffer loop
     if(rxWritePos >= RX_BUFFER_SIZE)
     {
         rxWritePos = 0;
@@ -99,107 +104,79 @@ ISR(USART1_RX_vect){
 
 }
 
+//main program
 int main (int argc, char *argv[])
 {
-    int i = 0;
-    char holder = 'B';
-    char readbyte = 'B';
-    //char * prueba = "\0";
-    //uint8_t ByteofData;
+    char holder;//, readbyte;
     
-    DDRB = 0xFF;
+    //set up GPIO, initialize interrupts, serial comm, and LCD
+    prepare_device();
 
-    cli();
-
-    //Init usart
-    InitUSART();
-
-    //Enable Global Interrupts. Sets SREG Interrupt bit.
-    sei();
-
-    //Intitialize LCD. Set Blinking cursor.
-    lcd_init();
-
+    //load in the FM stations database from EEPROM
+    string_write("importing ...");
+    database_load();
     _delay_ms(1000);
+    string_write("done!");
     
-    //figure out how many stations there are by reading first eeprom byte
-    num_stations = my_eeprom_read_int(0);
-
-    //allocate memory for all the station structures
-    all_stations = (Station *)malloc(num_stations*sizeof(Station));
-    //populate the array containing the number of stations in each grid cell (next NUM_GRID_CELLS bytes in EEPROM)
-    int total = 0;
-    for (i=0; i<NUM_GRID_CELLS; i++)
-    {
-        stations_in_cell[i] = my_eeprom_read_int(i+1); //atoi(&(char)eeprom_read_byte((int *)i+1));
-        cell_offsets[i] = FIRST_STATION_OFFSET+total*STATION_BLOCKSIZE;
-        total += stations_in_cell[i];
-    }
-
-    /*for (i=0; i<NUM_GRID_CELLS; i++)
-    {
-        string_write_int(cell_offsets[i],3);
-        _delay_ms(50);
-    }*/
-
-    //load in the stations one by one into the all_stations array of Station structs
-    for (i=0; i<num_stations; i++)
-    {
-        int start = FIRST_STATION_OFFSET+i*STATION_BLOCKSIZE;
-
-        my_eeprom_read_string(all_stations[i].callsign,start,8); start += 8;
-        all_stations[i].freq = my_eeprom_read_float(start); start += 4;
-        all_stations[i].lat = my_eeprom_read_float(start); start += 4;
-        all_stations[i].lon = my_eeprom_read_float(start); start += 4;
-        all_stations[i].erp = my_eeprom_read_float(start); start += 4;
-        all_stations[i].haat = my_eeprom_read_float(start); start += 4;
-    }
-
-
-    string_write_int(num_stations,3);
-    string_write(" stations...");
-    string_write("\n");
-
-    _delay_ms(500);
-
-    for (i=0; i<num_stations; i++)
-    {
-        lcd_init();
-        print_station(i);
-        _delay_ms(2000);   
-    }
-
-    //print_eeprom_contents();
-    //print_eeprom_station_contents();
-
-
+    //primary program loop
     while(1){
 
-        if (update_progress == 1){
+        //perform serial updates
+        if (update_trigger == 1) {
 
+            //handle the update trigger
+            if (updating == 0)
+            {
+                lcd_init();
+                string_write("transferring ...");
+                updating = 1;
+
+                //free the old database from program memory
+                database_free();
+            }
+
+            //read serial data from receive buffer when available
             if(rxReadPos != rxWritePos) {
                 holder = getChar();
-            	if(serialEnd()) update_progress = 0;
-            	else{
+
+                //handle serial transfer end sequence
+            	if(serialEnd()) {
+
+                    update_trigger = 0;
+                    updating = 0;
+
+                    //import the new database
+                    lcd_init();
+                    string_write("importing ...");
+                    database_load();
+                    _delay_ms(2000);
+                    string_write("done!");
+
+                } else {
+                    //this is not part of the end sequence --> write it to EEPROM!
 	            	eeprom_write_byte((uint8_t *)eeprom_index,holder);
 	            	eeprom_index ++;
 	            	read_ready = 1;
 	            }
             } 
+        } else {
+
+            //behave normally
+            print_all_known_stations();
+
         }
 
         if (read_ready) {
-            readbyte = (char)eeprom_read_byte((const uint8_t *)read_index);
+            eeprom_read_byte((const uint8_t *)read_index);//readbyte = (char)eeprom_read_byte((const uint8_t *)read_index);
             read_index ++;
-            if (read_index < 232)
+            //if (read_index < 232)
             {
-                char_write(readbyte);
+                //char_write(readbyte);
             }
             read_ready = 0;             
         }
         
-
-    }
+    } //primary program loop
 
     return 0; //should never get here.
 }
@@ -272,13 +249,13 @@ int serialEnd(void)
 
 int my_eeprom_read_int(int address)
 {
-    char temp_num = ((char)eeprom_read_byte((int *)address));
+    char temp_num = ((char)eeprom_read_byte((uint8_t *)address));
     return (atoi(&temp_num));
 }
 
 char my_eeprom_read_char(int address)
 {
-    return (char)eeprom_read_byte((int *)address);
+    return (char)eeprom_read_byte((uint8_t *)address);
 }
 
 float my_eeprom_read_float(int address)
@@ -358,13 +335,24 @@ void print_eeprom_station_contents()
 
 void print_station(int index)
 {
-    int i;
-    string_write("call: "); print_callsign(index); _delay_ms(1000); string_write("\n"); 
-    string_write("freq: "); string_write_float(all_stations[index].freq,1); _delay_ms(1000); string_write("\n");
-    string_write("lat: "); string_write_float(all_stations[index].lat,4); _delay_ms(1000); string_write("\n");
-    string_write("lon: "); string_write_float(all_stations[index].lon,4); _delay_ms(1000); string_write("\n");
-    string_write("erp: "); string_write_float(all_stations[index].erp,1); _delay_ms(1000); string_write("\n");
-    string_write("haat: "); string_write_float(all_stations[index].haat,0); _delay_ms(1000); string_write("\n");
+    string_write_int(index+1,3); string_write(": "); print_callsign(index); _delay_ms(250); string_write("\n"); 
+    if (update_trigger)
+        return;
+    string_write("freq: "); string_write_float(all_stations[index].freq,1); _delay_ms(250); string_write("\n");
+    if (update_trigger)
+        return;
+    string_write("lat: "); string_write_float(all_stations[index].lat,4); _delay_ms(250); string_write("\n");
+    if (update_trigger)
+        return;
+    string_write("lon: "); string_write_float(all_stations[index].lon,4); _delay_ms(250); string_write("\n");
+    if (update_trigger)
+        return;
+    string_write("erp: "); string_write_float(all_stations[index].erp,1); _delay_ms(250); string_write("\n");
+    if (update_trigger)
+        return;
+    string_write("haat: "); string_write_float(all_stations[index].haat,0); _delay_ms(250); string_write("\n");
+    if (update_trigger)
+        return;
 }
 
 void print_callsign(int station_index)
@@ -373,5 +361,99 @@ void print_callsign(int station_index)
     for (i=0; i<8; i++) 
     {
         char_write(all_stations[station_index].callsign[i]);
+    }
+}
+
+void prepare_device(void)
+{
+    DDRB = 0xFF;
+    cli();
+    //Init usart
+    InitUSART();
+    //Enable Global Interrupts. Sets SREG Interrupt bit.
+    sei();
+    //Intitialize LCD. Set Blinking cursor.
+    lcd_init();
+    _delay_ms(1000);
+}
+
+void database_load(void)
+{
+    int i;
+    //figure out how many stations there are by reading the first number written to EEPROM
+    num_stations = (int)my_eeprom_read_float(0);
+
+    //allocate memory for all the station structures
+    all_stations = (Station *)malloc(num_stations*sizeof(Station));
+
+    //populate the array containing the number of stations in each grid cell (next NUM_GRID_CELLS bytes in EEPROM)
+    int total = 0;
+    for (i=0; i < NUM_GRID_CELLS; i ++)
+    {
+        stations_in_cell[i] = my_eeprom_read_int(i+4);
+        cell_offsets[i] = FIRST_STATION_OFFSET+total*STATION_BLOCKSIZE;
+        total += stations_in_cell[i];
+    }
+
+    /*for (i=0; i<NUM_GRID_CELLS; i++)
+    {
+        string_write_int(cell_offsets[i],3);
+        _delay_ms(50);
+    }*/
+
+    //load in the stations one by one into the all_stations array of Station structs
+    for (i=0; i<num_stations; i++)
+    {
+        int start = FIRST_STATION_OFFSET+i*STATION_BLOCKSIZE;
+
+        my_eeprom_read_string(all_stations[i].callsign,start,8); start += 8;
+        all_stations[i].freq = my_eeprom_read_float(start); start += 4;
+        all_stations[i].lat = my_eeprom_read_float(start); start += 4;
+        all_stations[i].lon = my_eeprom_read_float(start); start += 4;
+        all_stations[i].erp = my_eeprom_read_float(start); start += 4;
+        all_stations[i].haat = my_eeprom_read_float(start); start += 4;
+    }
+}
+
+void database_free(void)
+{
+    num_stations = 0;
+
+    free(all_stations);
+    all_stations = NULL;
+
+    int i;
+    for (i=0; i<NUM_GRID_CELLS; i++)
+    {
+        stations_in_cell[i] = 0;
+        cell_offsets[i] = 0;
+    }
+
+}
+
+void print_all_known_stations()
+{
+    int i;
+    lcd_init();
+    string_write_int(num_stations,3);
+    string_write(" known\nstations . . .");
+
+    _delay_ms(2000);
+
+    if (update_trigger)
+        return;
+
+    for (i=0; i<num_stations; i++)
+    {
+        if (update_trigger)
+            return;
+
+        lcd_init();
+        print_station(i);
+
+        if (update_trigger)
+            return;
+
+        _delay_ms(200);   
     }
 }

@@ -1,3 +1,149 @@
+commit a1815bc220eae5fd569d07a4c01872da1495b402
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Tue Oct 7 05:45:39 2014 -0400
+
+    database can be loaded onto microcontrollers EEPROM via serial update. data is read into FM station struct array at boot. station inventory continuously printed to screen as proof of concept.
+
+commit db6eb469e1b75a3eeacd7fd69e9b232f58eef4dc
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Tue Oct 7 05:20:38 2014 -0400
+
+    everything written and read to device database except callsign. still in progress.
+
+commit 505e75fdb1e97be0a467375208c1cc679d50a530
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Tue Oct 7 01:02:59 2014 -0400
+
+    basic device db update code established.
+
+commit e835fe87dd21c9ff3cee762eea4e190260fe17b6
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Mon Oct 6 21:15:35 2014 -0400
+
+    reorganized directory structure
+
+commit 6bd5bee5046533ea022f8f6e281266daba3dc627
+Author: MMarki <marcelmarki1@gmail.com>
+Date:   Mon Oct 6 20:53:44 2014 -0400
+
+    parse function now sends data over serial. usleep() is used to keep the buffer from being overwhelmed.
+
+commit 567f1a0647d82bd1a2bdee603c7950a47656b5b7
+Author: MMarki <marcelmarki1@gmail.com>
+Date:   Mon Oct 6 18:07:20 2014 -0400
+
+    log_send.c can now send floats and single bytes in addition to strings. changes to main.c are temporary, and for testing purposes.
+
+commit de67d1a98202e0b4792358f1d6fa78617ba05095
+Author: MMarki <marcelmarki1@gmail.com>
+Date:   Mon Oct 6 15:38:10 2014 -0400
+
+    Created test program for the host PC. It can parse one of the station log files, and communicate serially using the arduino-serial library. Next step is to send the parsed data serially to the waiting MCU.
+
+commit 34f0f7c4a0a3598740f4bdfe1f713b537e49915c
+Author: MMarki <marcelmarki1@gmail.com>
+Date:   Mon Oct 6 03:16:59 2014 -0400
+
+    program main loop now writes data sent serially directly to eeprom. data written to eeprom is written to the LCD for testing purposes. Start and stop characters added to ease serial communication
+
+commit 39be4e6879ed4c34a04242e339613d344f018c04
+Author: Marcel Marki <marcelmarki1@gmail.com>
+Date:   Mon Oct 6 00:08:48 2014 -0400
+
+    Added directory for program for qualifier's week. Continued work on updatable database.
+
+commit 5e10bab85e093977bb67c261c7754187ca05515d
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Sun Oct 5 23:07:24 2014 -0400
+
+    fixed bug: KML log file permission inconsistencies no longer halt build process
+
+commit 8c240c80cde1414ec5a3f78145c33a59ea9a349b
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Sun Oct 5 22:52:11 2014 -0400
+
+    web app logging improved significantly. Maine is now griddable and stations are logged in sorted order by grid cell
+
+commit 898702138dae588d2e185a8181d173a3b46fc2e5
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Sun Oct 5 12:51:12 2014 -0400
+
+    improved PCB and schematic. PCB sent in for fabrication Mk1
+
+commit 5c2e66ce10823d2f7f0a46b55bef3b255c8755d4
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Thu Oct 2 22:36:16 2014 -0400
+
+    PCB updated.
+
+commit 2c034d8458f59b5faf42f01158e55862eef0ca1e
+Merge: f5c9f4e fcff2a7
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Wed Oct 1 14:58:29 2014 -0400
+
+    Merge branch 'master' of https://github.com/kcnolan13/fmHarmony
+
+commit f5c9f4ec6086375fc81082e0c53a384715383524
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Wed Oct 1 14:58:10 2014 -0400
+
+    PCB Updated to include jumper for separate car/update power sources
+
+commit fcff2a73516a13a9b6bbe463ff529f590d18dd50
+Author: Marcel Marki <marcelmarki1@gmail.com>
+Date:   Wed Oct 1 14:29:34 2014 -0400
+
+    Revised Serial Communication RX Code to work for a more appropriate string length.
+
+commit 8f872c289c8e868b17ea7a36301c3e46a1834873
+Merge: 5a1f8b9 4edff18
+Author: Marcel Marki <marcelmarki1@gmail.com>
+Date:   Tue Sep 30 21:28:48 2014 -0400
+
+    Merge branch 'master' of https://github.com/kcnolan13/fmHarmony
+
+commit 5a1f8b9596bb5971290342c7edf1e45f9a31577c
+Author: Marcel Marki <marcelmarki1@gmail.com>
+Date:   Tue Sep 30 21:27:21 2014 -0400
+
+    Submitting Flawed Serial Communication for testing on another OS.
+
+commit 4edff183de31726072c03fbf02528c04853bf2ca
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Tue Sep 30 13:38:14 2014 -0400
+
+    PCB improved.
+
+commit 1681635ece4b94f23d9fc98fc7c97d715804d92f
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Sun Sep 28 23:20:18 2014 -0400
+
+    Station Log added to web app, with text-file-based physical device updates in mind. PCB and Schematic updated
+
+commit 9ca5cb58da6a5789cbc62a4f6c71d0a3f6480079
+Author: MMarki <marcelmarki1@gmail.com>
+Date:   Sat Sep 27 17:19:50 2014 -0400
+
+    Added new database subdirectory. Main shows the usage of the avr/eeprom.h library functions to read from and write to EEPROM.
+
+commit 4b0d87ee00001a78f6944c7f2a6edae821b0f90f
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Fri Sep 26 12:45:12 2014 -0400
+
+    updated project schematic. commenced fmHarmony PCB design. improved KML build log.
+
+commit a753e2ef6965c2a66e70f878a7dcd5855358ce31
+Author: MMarki <marcelmarki1@gmail.com>
+Date:   Sat Sep 20 15:10:47 2014 -0400
+
+    Parsing functions have been finished, and added to device/gps as a file called parse.c. NMEA strings can be intelligently fused together one character at a time, and NMEA strings can be parsed on the comma character, even if fields are missing.
+
+commit 3f89ec073c9ab62292caf79bfad15b285d537663
+Author: MMarki <marcelmarki1@gmail.com>
+Date:   Sat Sep 20 10:50:25 2014 -0400
+
+    Updated the GPS subdirectory. Prototype functions for fusing and merging NMEA strings have been added to a file called test.c
+
 commit d7292435e6878990db80d5e043a227bfd9449469
 Author: Kyle Nolan <kcnolan13@gmail.com>
 Date:   Mon Sep 15 12:21:14 2014 -0400
