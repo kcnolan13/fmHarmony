@@ -1,97 +1,59 @@
-PRG            = dat_lcd
-OBJ            = main.o display.o
-PROGRAMMER     = avrispmkII
-PORT           = usb
-MCU_TARGET     = atmega1284p
-AVRDUDE_TARGET = m1284p
-OPTIMIZE       = -Os
-DEFS           =
-LIBS           = -lm
+# try to do some autodetecting
+UNAME := $(shell uname -s)
 
-HZ          = 1000000
+ifeq "$(UNAME)" "Darwin"
+	OS=macosx
+endif
+ifeq "$(OS)" "Windows_NT"
+	OS=windows
+endif
+ifeq "$(UNAME)" "Linux"
+	OS=linux
+endif
 
-# You should not have to change anything below here.
 
-CC             = avr-gcc
+#################  Mac OS X  ##################################################
+ifeq "$(OS)" "macosx"
 
-# Override is only needed by avr-lib build system.
+EXE_SUFFIX=
 
-override CFLAGS        = -g -DF_CPU=$(HZ) -Wall $(OPTIMIZE) -mmcu=$(MCU_TARGET) $(DEFS)
-override LDFLAGS       = -Wl,-Map,$(PRG).map
+ARCHS=   -arch i386 -arch x86_64
+CFLAGS+= $(ARCHS)
+CFLAGS += -mmacosx-version-min=10.6
+CFLAGS_MONGOOSE=  -I./mongoose -pthread -g 
+LIBS+=	 $(ARCHS)
 
-OBJCOPY        = avr-objcopy
-OBJDUMP        = avr-objdump
+endif
 
-all: $(PRG).elf lst text #eeprom
+#################  Windows  ##################################################
+ifeq "$(OS)" "windows"
 
-$(PRG).elf: $(OBJ)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+EXE_SUFFIX=.exe
+
+CFLAGS_MONGOOSE = -I./mongoose -mthreads
+
+endif
+
+
+#################  Common  ##################################################
+
+CFLAGS += $(INCLUDES) -O -Wall -std=gnu99
+
+
+all: log_send
+
+log_send: log_send.o arduino-serial-lib.o
+	$(CC) $(CFLAGS) -o log_send$(EXE_SUFFIX) log_send.o arduino-serial-lib.o $(LIBS)
+
+log_send-server: arduino-serial-lib.o
+	$(CC) $(CFLAGS) $(CFLAGS_MONGOOSE) -o arduino-serial-server$(EXE_SUFFIX) arduino-serial-server.c  arduino-serial-lib.o mongoose/mongoose.c $(LIBS)
+
+.c.o:
+	$(CC) $(CFLAGS) -c $*.c -o $*.o
+
 
 clean:
-	rm -rf *.o $(PRG).elf *.eps *.png *.pdf *.bak *.hex *.bin *.srec
-	rm -rf *.lst *.map $(EXTRA_CLEAN_FILES)
+	rm -f $(OBJ) log_send log_send.exe *.o *.a
+	rm -f $(OBJ) log_send-server log_send-server.exe *.o *.a
+	rm -f mongoose/mongoose.o
 
-lst:  $(PRG).lst
-
-%.lst: %.elf
-	$(OBJDUMP) -h -S $< > $@
-
-# Rules for building the .text rom images
-
-text: hex bin srec
-
-hex:  $(PRG).hex
-bin:  $(PRG).bin
-srec: $(PRG).srec
-
-%.hex: %.elf
-	$(OBJCOPY) -j .text -j .data -O ihex $< $@
-
-%.srec: %.elf
-	$(OBJCOPY) -j .text -j .data -O srec $< $@
-
-%.bin: %.elf
-	$(OBJCOPY) -j .text -j .data -O binary $< $@
-
-# Rules for building the .eeprom rom images
-
-eeprom: ehex ebin esrec
-
-
-ehex:  $(PRG)_eeprom.hex
-#ebin:  $(PRG)_eeprom.bin
-esrec: $(PRG)_eeprom.srec
-
-%_eeprom.hex: %.elf
-	$(OBJCOPY) -j .eeprom --change-section-lma .eeprom=0 -O ihex $< $@
-
-#%_eeprom.srec: %.elf
-#	$(OBJCOPY) -j .eeprom --change-section-lma .eeprom=0 -O srec $< $@
-
-%_eeprom.bin: %.elf
-	$(OBJCOPY) -j .eeprom --change-section-lma .eeprom=0 -O binary $< $@
-
-
-# command to program chip (invoked by running "make install")
-install:  $(PRG).hex
-	avrdude -p $(AVRDUDE_TARGET) -c $(PROGRAMMER) -P $(PORT) -v -F -U flash:w:$(PRG).hex 
-
-fuse:
-	avrdude -p $(AVRDUDE_TARGET) -c $(PROGRAMMER) -P $(PORT) -v -F -U lfuse:w:0xc6:m -U hfuse:w:0xd9:m 	
-
-ddd: gdbinit
-	ddd --debugger "avr-gdb -x $(GDBINITFILE)"
-
-gdbserver: gdbinit
-	simulavr --device $(MCU_TARGET) --gdbserver
-
-gdbinit: $(GDBINITFILE)
-
-$(GDBINITFILE): $(PRG).hex
-	@echo "file $(PRG).elf" > $(GDBINITFILE)
-
-	@echo "target remote localhost:1212" >> $(GDBINITFILE)
-	@echo "load"                         >> $(GDBINITFILE)
-	@echo "break main"                   >> $(GDBINITFILE)
-	@echo
-	@echo "Use 'avr-gdb -x $(GDBINITFILE)'"
