@@ -33,6 +33,7 @@ void string_write_float(float num, int dec_digits);
 void print_eeprom_contents();
 void print_eeprom_station_contents();
 void print_station(int index);
+void print_callsign(int station_index);
 
 typedef struct station {
     char callsign[8];
@@ -124,13 +125,6 @@ int main (int argc, char *argv[])
     //figure out how many stations there are by reading first eeprom byte
     num_stations = my_eeprom_read_int(0);
 
-    string_write("ns = ");
-    string_write_int(num_stations,3);
-    string_write("\n");
-
-    _delay_ms(500);
-
-
     //allocate memory for all the station structures
     all_stations = (Station *)malloc(num_stations*sizeof(Station));
     //populate the array containing the number of stations in each grid cell (next NUM_GRID_CELLS bytes in EEPROM)
@@ -149,9 +143,6 @@ int main (int argc, char *argv[])
     }*/
 
     //load in the stations one by one into the all_stations array of Station structs
-
-    lcd_init();
-
     for (i=0; i<num_stations; i++)
     {
         int start = FIRST_STATION_OFFSET+i*STATION_BLOCKSIZE;
@@ -164,14 +155,19 @@ int main (int argc, char *argv[])
         all_stations[i].haat = my_eeprom_read_float(start); start += 4;
     }
 
+
+    string_write_int(num_stations,3);
+    string_write(" stations...");
+    string_write("\n");
+
+    _delay_ms(500);
+
     for (i=0; i<num_stations; i++)
     {
-        print_station(i);
-        _delay_ms(1000);
         lcd_init();
+        print_station(i);
+        _delay_ms(2000);   
     }
-
-    //
 
     //print_eeprom_contents();
     //print_eeprom_station_contents();
@@ -180,29 +176,23 @@ int main (int argc, char *argv[])
     while(1){
 
         if (update_progress == 1){
-            //string_write("y");
+
             if(rxReadPos != rxWritePos) {
                 holder = getChar();
             	if(serialEnd()) update_progress = 0;
             	else{
 	            	eeprom_write_byte((uint8_t *)eeprom_index,holder);
-                    /*if (eeprom_index < 16)
-                        char_write(holder);*/
 	            	eeprom_index ++;
 	            	read_ready = 1;
 	            }
             } 
         }
 
-        if (read_ready){
+        if (read_ready) {
             readbyte = (char)eeprom_read_byte((const uint8_t *)read_index);
             read_index ++;
             if (read_index < 232)
             {
-                //if ((read_index-1)%32==0)
-                //    lcd_init();
-                if (readbyte=='\0')
-                    string_write("fuck");
                 char_write(readbyte);
             }
             read_ready = 0;             
@@ -210,6 +200,7 @@ int main (int argc, char *argv[])
         
 
     }
+
     return 0; //should never get here.
 }
 
@@ -367,10 +358,20 @@ void print_eeprom_station_contents()
 
 void print_station(int index)
 {
-    string_write(all_stations[index].callsign); string_write(" "); _delay_ms(500);
-    string_write_float(all_stations[index].freq,1); string_write(" "); _delay_ms(500);
-    string_write_float(all_stations[index].lat,4); string_write(" "); _delay_ms(500);
-    string_write_float(all_stations[index].lon,4); string_write(" "); _delay_ms(500);
-    string_write_float(all_stations[index].erp,1); string_write(" "); _delay_ms(500);
-    string_write_float(all_stations[index].haat,0); string_write(" "); _delay_ms(500);
+    int i;
+    string_write("call: "); print_callsign(index); _delay_ms(1000); string_write("\n"); 
+    string_write("freq: "); string_write_float(all_stations[index].freq,1); _delay_ms(1000); string_write("\n");
+    string_write("lat: "); string_write_float(all_stations[index].lat,4); _delay_ms(1000); string_write("\n");
+    string_write("lon: "); string_write_float(all_stations[index].lon,4); _delay_ms(1000); string_write("\n");
+    string_write("erp: "); string_write_float(all_stations[index].erp,1); _delay_ms(1000); string_write("\n");
+    string_write("haat: "); string_write_float(all_stations[index].haat,0); _delay_ms(1000); string_write("\n");
+}
+
+void print_callsign(int station_index)
+{
+    int i;
+    for (i=0; i<8; i++) 
+    {
+        char_write(all_stations[station_index].callsign[i]);
+    }
 }

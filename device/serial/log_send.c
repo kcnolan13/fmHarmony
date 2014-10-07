@@ -187,7 +187,7 @@ int parse_line(char * in_line){
                 int k=0;
                 for (k=0; k< 8-strlen(token); k++)
                 {
-                    send_string("+");
+                    send_string(" ");
                 }
             }
             while(token){
