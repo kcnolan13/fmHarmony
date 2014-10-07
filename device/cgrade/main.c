@@ -16,14 +16,21 @@
 //Serial Variables
 #define RX_BUFFER_SIZE  128
 #define BLOCKSIZE 28
-#define START_OFFSET 0
+#define START_OFFSET 102// 1 + 1 + 100
 
 void InitUSART(void);
 char getChar(void);
 char peekChar(void);
 
-volatile int count = 0;
-char c[16] = {0};
+struct station{
+    char callsign[8];
+    float freq;
+    float lat;
+    float lon;
+    float erp;
+    float haat;
+};
+
 volatile char empty  = 'A';
 
 //Serial Variables
@@ -73,6 +80,7 @@ int main (int argc, char *argv[])
     char holder = 'B';
     char readbyte = 'B';
     char * prueba = "\0";
+    uint8_t ByteofData;
     
     DDRB = 0xFF;
 
@@ -87,7 +95,28 @@ int main (int argc, char *argv[])
     //Intitialize LCD. Set Blinking cursor.
     lcd_cursor();
     
+    //string_write("Loading Database. Don't Update.");
+
+    struct station stat_test;
+
+
+    //ByteofData = eeprom_read_byte((uint8_t)0);
+
+
+    eeprom_read_block((void*)stat_test.callsign, (const void*)(0), 1);
+    char_write(stat_test.callsign[0]);
+
+    /*
+    char_write(stat_test.callsign[1]);
+    char_write(stat_test.callsign[2]);
+    char_write(stat_test.callsign[3]);
+    char_write(stat_test.callsign[4]);
+    char_write(stat_test.callsign[5]);
+    char_write(stat_test.callsign[6]);
+    char_write(stat_test.callsign[7]);*/
+
     while(1){
+
         if (update_progress == 1){
             //string_write("y");
             holder = getChar();
@@ -102,21 +131,10 @@ int main (int argc, char *argv[])
         }
 
         if (read_ready){
-            //readbyte = eeprom_read_byte((char*)read_index);
-            c[read_index]= eeprom_read_byte((char*)read_index);
+            readbyte = eeprom_read_byte((char*)read_index);
             read_index ++;
             //char_write(readbyte);
-            read_ready = 0;
-
-            if(read_index == 6) {
-                union float2bytes f2b;
-                for (i = 0; i < 5; i++){
-                    f2b.b[i] = c[i+1];
-                }
-                if (f2b.f == 102.1) string_write("float success");
-                //sprintf(prueba, "%f", f2b.f);
-                //string_write(prueba);
-            }                
+            read_ready = 0;             
         }
         
 
@@ -176,25 +194,3 @@ char getChar(void)
     
     return ret;
 }
-
-
-/*int main (int argc, char *argv[])
-{
-    //Intitialize LCD. Set Blinking cursor.
-    int readbyte;
-
-    lcd_cursor();
-    eeprom_write_byte(0,7);
-    readbyte = eeprom_read_byte((int*)0);
-
-    char readchar = (char)readbyte;
-    
-    //Write ECE to screen
-    //string_write(readchar);
-    char_write(readchar);
-
-    while(1){
-
-    }
-    return 0; //should never get here.
-}*/

@@ -48,6 +48,10 @@ int main (int argc, char *argv[])
         return -1;
     }
 
+    open_port();
+    send_string("@");
+    send_float("102.1");
+
     //Fetch each line into a string
     while (fgets(buf,1000, file_hndl)!=NULL){
         str_array[i] = buf;
@@ -55,6 +59,7 @@ int main (int argc, char *argv[])
 
         strip_newline( str_array[i], 210);
 
+        //Parse and send lines
         parse_line(line_prep(str_array[i]));
         i++;
     }
@@ -62,11 +67,6 @@ int main (int argc, char *argv[])
     //Close File
     fclose(file_hndl);
 
-    open_port();
-
-    send_string("@");
-    send_float("102.1");
-    send_string("testing");
     send_string("#");
 
     serialport_close(fd);
@@ -159,7 +159,6 @@ int parse_line(char * in_line){
     int initial_length = strlen(in_line);
     printf("initial_length = %d\n", initial_length);
     char * token = strtok_single(in_line, " ");
-    printf("%s ",token);
     /* walk through other tokens */
     //The first call you use a char array which has the elements you want parsed.
     //The second time you call it you pass it NULL as the first parameter to tell function 
@@ -167,23 +166,34 @@ int parse_line(char * in_line){
     //array receives the parsed string. If you don't put NULL you would lose your place 
     //and effectivly the last part of your string.
     if (initial_length > 2){
-        while(token)
-        {
-            if (initial_length >= 200){
-                //grid population
+        if (initial_length >= 200){
+            //grid population
+            send_byte((uint8_t)atoi(token));
+            printf("%s ", token);
+            while(token){
                 i++;
                 token = strtok_single(NULL, " ");
-                //if (i < 100) printf( "%d, %s\n", i, token);
+                if (i < 100) send_byte((uint8_t)atoi(token));
                 if (i < 100)  printf("%s ",token);
+                usleep(50000);
             }
-            else{
+        }
+        else{
+            //Station line
+            printf("string:%s ", token);
+            send_string(token);
+            while(token){
                 i++;
                 token = strtok_single(NULL, " ");
-                //if (i < 6) printf( "%d, %s\n", i, token);
-                if (i < 6) printf("%s ",token);
-            }
-            
+                if (i < 6) send_float(token); 
+                if (i < 6) printf("float:%s ",token); 
+                usleep(50000);
+            }       
         }  
+    }
+    else{
+        send_byte((uint8_t)atoi(token));
+        printf("byte:%s ",token);
     }
     printf("\n");
     return 0;
