@@ -5,7 +5,7 @@
 #define DISPLAY_H
 
 #include <avr/io.h>
-#include <avr/delay.h>
+#include <util/delay.h>
 #include <avr/sfr_defs.h>
 #include <stdio.h>
 #include <string.h>
@@ -20,7 +20,7 @@
 #define DB7 	PA6
 
 //Display On, Cursor On, Blink On.
-int lcd_cursor();
+int lcd_init();
 
 //Write Data to DB4 to DB7
 void letterwrite(int a, int b, int c, int d);
@@ -31,7 +31,7 @@ void datarw();
 //Write A String to the LCD
 void string_write(char *mystring);
 
-//Retrun Current Address
+//Return Current Address
 int get_current_address();
 
 //Read Data From Busy Flag
@@ -42,6 +42,9 @@ void char_write(char mychar);
 
 // Write Data to DDRAM
 void data_write(uint8_t val);
+
+// A function to set the ddram_address
+void set_ddram_address(int address);
 
 //Write Data to Pins DB4 to DB7
 void write_db74(int DB7_val, int DB6_val, int DB5_val, int DB4_val);

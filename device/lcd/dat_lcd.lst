@@ -3,55 +3,57 @@ dat_lcd.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000010  00800100  00000424  00000498  2**0
+  0 .data         0000002a  00800100  00000518  000005ac  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000424  00000000  00000000  00000074  2**1
+  1 .text         00000518  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .stab         00001b48  00000000  00000000  000004a8  2**2
+  2 .bss          00000002  0080012a  0080012a  000005d6  2**0
+                  ALLOC
+  3 .stab         00001d70  00000000  00000000  000005d8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  3 .stabstr      00000f13  00000000  00000000  00001ff0  2**0
+  4 .stabstr      0000105a  00000000  00000000  00002348  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .comment      00000011  00000000  00000000  00002f03  2**0
+  5 .comment      00000011  00000000  00000000  000033a2  2**0
                   CONTENTS, READONLY
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
    0:	0c 94 46 00 	jmp	0x8c	; 0x8c <__ctors_end>
-   4:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-   8:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-   c:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  10:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  14:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  18:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  1c:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  20:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  24:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  28:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  2c:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  30:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  34:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  38:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  3c:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  40:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  44:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  48:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  4c:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  50:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  54:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  58:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  5c:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  60:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  64:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  68:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  6c:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  70:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  74:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  78:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  7c:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  80:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  84:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
-  88:	0c 94 5d 00 	jmp	0xba	; 0xba <__bad_interrupt>
+   4:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+   8:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+   c:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  10:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  14:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  18:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  1c:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  20:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  24:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  28:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  2c:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  30:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  34:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  38:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  3c:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  40:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  44:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  48:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  4c:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  50:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  54:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  58:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  5c:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  60:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  64:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  68:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  6c:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  70:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  74:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  78:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  7c:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  80:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  84:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  88:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
 
 0000008c <__ctors_end>:
   8c:	11 24       	eor	r1, r1
@@ -65,797 +67,967 @@ Disassembly of section .text:
   98:	11 e0       	ldi	r17, 0x01	; 1
   9a:	a0 e0       	ldi	r26, 0x00	; 0
   9c:	b1 e0       	ldi	r27, 0x01	; 1
-  9e:	e4 e2       	ldi	r30, 0x24	; 36
-  a0:	f4 e0       	ldi	r31, 0x04	; 4
+  9e:	e8 e1       	ldi	r30, 0x18	; 24
+  a0:	f5 e0       	ldi	r31, 0x05	; 5
   a2:	00 e0       	ldi	r16, 0x00	; 0
   a4:	0b bf       	out	0x3b, r16	; 59
   a6:	02 c0       	rjmp	.+4      	; 0xac <__do_copy_data+0x14>
   a8:	07 90       	elpm	r0, Z+
   aa:	0d 92       	st	X+, r0
-  ac:	a0 31       	cpi	r26, 0x10	; 16
+  ac:	aa 32       	cpi	r26, 0x2A	; 42
   ae:	b1 07       	cpc	r27, r17
   b0:	d9 f7       	brne	.-10     	; 0xa8 <__do_copy_data+0x10>
-  b2:	0e 94 09 02 	call	0x412	; 0x412 <main>
-  b6:	0c 94 10 02 	jmp	0x420	; 0x420 <_exit>
 
-000000ba <__bad_interrupt>:
-  ba:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+000000b2 <__do_clear_bss>:
+  b2:	11 e0       	ldi	r17, 0x01	; 1
+  b4:	aa e2       	ldi	r26, 0x2A	; 42
+  b6:	b1 e0       	ldi	r27, 0x01	; 1
+  b8:	01 c0       	rjmp	.+2      	; 0xbc <.do_clear_bss_start>
 
-000000be <datarw>:
+000000ba <.do_clear_bss_loop>:
+  ba:	1d 92       	st	X+, r1
+
+000000bc <.do_clear_bss_start>:
+  bc:	ac 32       	cpi	r26, 0x2C	; 44
+  be:	b1 07       	cpc	r27, r17
+  c0:	e1 f7       	brne	.-8      	; 0xba <.do_clear_bss_loop>
+  c2:	0e 94 74 02 	call	0x4e8	; 0x4e8 <main>
+  c6:	0c 94 8a 02 	jmp	0x514	; 0x514 <_exit>
+
+000000ca <__bad_interrupt>:
+  ca:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+000000ce <datarw>:
 }
 
 void datarw(){
 	//Set Enable bit high, wait, set enable bit low
 	//writes out data on other bits.
     PORTA |= _BV(E);
-  be:	12 9a       	sbi	0x02, 2	; 2
+  ce:	12 9a       	sbi	0x02, 2	; 2
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  c0:	81 ee       	ldi	r24, 0xE1	; 225
-  c2:	94 e0       	ldi	r25, 0x04	; 4
-  c4:	01 97       	sbiw	r24, 0x01	; 1
-  c6:	f1 f7       	brne	.-4      	; 0xc4 <datarw+0x6>
-  c8:	00 c0       	rjmp	.+0      	; 0xca <datarw+0xc>
-  ca:	00 00       	nop
+  d0:	81 ee       	ldi	r24, 0xE1	; 225
+  d2:	94 e0       	ldi	r25, 0x04	; 4
+  d4:	01 97       	sbiw	r24, 0x01	; 1
+  d6:	f1 f7       	brne	.-4      	; 0xd4 <datarw+0x6>
+  d8:	00 c0       	rjmp	.+0      	; 0xda <datarw+0xc>
+  da:	00 00       	nop
 	_delay_ms(5);
 	PORTA &= ~_BV(E);
-  cc:	12 98       	cbi	0x02, 2	; 2
-  ce:	08 95       	ret
+  dc:	12 98       	cbi	0x02, 2	; 2
+  de:	08 95       	ret
 
-000000d0 <lcd_cursor>:
-#include "display.h"
+000000e0 <lcd_init>:
+int chars_written = 0;
+int line_num = 1;
 
-int lcd_cursor()
+int lcd_init()
 {
+    chars_written = 0;
+  e0:	10 92 2b 01 	sts	0x012B, r1
+  e4:	10 92 2a 01 	sts	0x012A, r1
+    line_num = 1;
+  e8:	81 e0       	ldi	r24, 0x01	; 1
+  ea:	90 e0       	ldi	r25, 0x00	; 0
+  ec:	90 93 01 01 	sts	0x0101, r25
+  f0:	80 93 00 01 	sts	0x0100, r24
 	//Power Port D as outputs.
 	DDRA |= 0xFF;
-  d0:	81 b1       	in	r24, 0x01	; 1
-  d2:	8f ef       	ldi	r24, 0xFF	; 255
-  d4:	81 b9       	out	0x01, r24	; 1
-  d6:	87 e8       	ldi	r24, 0x87	; 135
-  d8:	93 e1       	ldi	r25, 0x13	; 19
-  da:	01 97       	sbiw	r24, 0x01	; 1
-  dc:	f1 f7       	brne	.-4      	; 0xda <lcd_cursor+0xa>
-  de:	00 c0       	rjmp	.+0      	; 0xe0 <lcd_cursor+0x10>
-  e0:	00 00       	nop
+  f4:	81 b1       	in	r24, 0x01	; 1
+  f6:	8f ef       	ldi	r24, 0xFF	; 255
+  f8:	81 b9       	out	0x01, r24	; 1
+  fa:	87 e8       	ldi	r24, 0x87	; 135
+  fc:	93 e1       	ldi	r25, 0x13	; 19
+  fe:	01 97       	sbiw	r24, 0x01	; 1
+ 100:	f1 f7       	brne	.-4      	; 0xfe <lcd_init+0x1e>
+ 102:	00 c0       	rjmp	.+0      	; 0x104 <lcd_init+0x24>
+ 104:	00 00       	nop
 
 	//Wait more than 15ms after Vcc = 4.5V
 	_delay_ms(20);
 
 	//Function Set Command: 8-Bit interface
     PORTA &= ~_BV(E);
-  e2:	12 98       	cbi	0x02, 2	; 2
+ 106:	12 98       	cbi	0x02, 2	; 2
     PORTA &= ~_BV(RS);
-  e4:	10 98       	cbi	0x02, 0	; 2
+ 108:	10 98       	cbi	0x02, 0	; 2
     PORTA &= ~_BV(RW);
-  e6:	11 98       	cbi	0x02, 1	; 2
+ 10a:	11 98       	cbi	0x02, 1	; 2
     PORTA &= ~_BV(DB7);
-  e8:	16 98       	cbi	0x02, 6	; 2
+ 10c:	16 98       	cbi	0x02, 6	; 2
     PORTA &= ~_BV(DB6);
-  ea:	15 98       	cbi	0x02, 5	; 2
+ 10e:	15 98       	cbi	0x02, 5	; 2
     PORTA |= _BV(DB5);
-  ec:	14 9a       	sbi	0x02, 4	; 2
+ 110:	14 9a       	sbi	0x02, 4	; 2
     PORTA |= _BV(DB4);
-  ee:	13 9a       	sbi	0x02, 3	; 2
+ 112:	13 9a       	sbi	0x02, 3	; 2
     datarw();
-  f0:	0e 94 5f 00 	call	0xbe	; 0xbe <datarw>
-  f4:	81 ee       	ldi	r24, 0xE1	; 225
-  f6:	94 e0       	ldi	r25, 0x04	; 4
-  f8:	01 97       	sbiw	r24, 0x01	; 1
-  fa:	f1 f7       	brne	.-4      	; 0xf8 <lcd_cursor+0x28>
-  fc:	00 c0       	rjmp	.+0      	; 0xfe <lcd_cursor+0x2e>
-  fe:	00 00       	nop
+ 114:	0e 94 67 00 	call	0xce	; 0xce <datarw>
+ 118:	81 ee       	ldi	r24, 0xE1	; 225
+ 11a:	94 e0       	ldi	r25, 0x04	; 4
+ 11c:	01 97       	sbiw	r24, 0x01	; 1
+ 11e:	f1 f7       	brne	.-4      	; 0x11c <lcd_init+0x3c>
+ 120:	00 c0       	rjmp	.+0      	; 0x122 <lcd_init+0x42>
+ 122:	00 00       	nop
 
 	//Wait more than 4.1 ms
 	_delay_ms(5);
 
 	//Function Set Command: 8-Bit interface. Part 2
     datarw();
- 100:	0e 94 5f 00 	call	0xbe	; 0xbe <datarw>
- 104:	89 ef       	ldi	r24, 0xF9	; 249
- 106:	90 e0       	ldi	r25, 0x00	; 0
- 108:	01 97       	sbiw	r24, 0x01	; 1
- 10a:	f1 f7       	brne	.-4      	; 0x108 <lcd_cursor+0x38>
- 10c:	00 c0       	rjmp	.+0      	; 0x10e <lcd_cursor+0x3e>
- 10e:	00 00       	nop
+ 124:	0e 94 67 00 	call	0xce	; 0xce <datarw>
+ 128:	89 ef       	ldi	r24, 0xF9	; 249
+ 12a:	90 e0       	ldi	r25, 0x00	; 0
+ 12c:	01 97       	sbiw	r24, 0x01	; 1
+ 12e:	f1 f7       	brne	.-4      	; 0x12c <lcd_init+0x4c>
+ 130:	00 c0       	rjmp	.+0      	; 0x132 <lcd_init+0x52>
+ 132:	00 00       	nop
 	
 	//Wait more than 100 us.
 	_delay_ms(1);
 	
 	//Function Set Command 8-Bit interface. Part 3
 	datarw();
- 110:	0e 94 5f 00 	call	0xbe	; 0xbe <datarw>
- 114:	89 ef       	ldi	r24, 0xF9	; 249
- 116:	90 e0       	ldi	r25, 0x00	; 0
- 118:	01 97       	sbiw	r24, 0x01	; 1
- 11a:	f1 f7       	brne	.-4      	; 0x118 <lcd_cursor+0x48>
- 11c:	00 c0       	rjmp	.+0      	; 0x11e <lcd_cursor+0x4e>
- 11e:	00 00       	nop
+ 134:	0e 94 67 00 	call	0xce	; 0xce <datarw>
+ 138:	89 ef       	ldi	r24, 0xF9	; 249
+ 13a:	90 e0       	ldi	r25, 0x00	; 0
+ 13c:	01 97       	sbiw	r24, 0x01	; 1
+ 13e:	f1 f7       	brne	.-4      	; 0x13c <lcd_init+0x5c>
+ 140:	00 c0       	rjmp	.+0      	; 0x142 <lcd_init+0x62>
+ 142:	00 00       	nop
 	_delay_ms(1);
 
 	//Now that this command is written, BF (busy flag) can be checked.
 
 	//Function Set: Sets interface to 4-bit.
 	PORTA &= ~_BV(DB7);
- 120:	16 98       	cbi	0x02, 6	; 2
+ 144:	16 98       	cbi	0x02, 6	; 2
     PORTA &= ~_BV(DB6);
- 122:	15 98       	cbi	0x02, 5	; 2
+ 146:	15 98       	cbi	0x02, 5	; 2
     PORTA |= _BV(DB5);
- 124:	14 9a       	sbi	0x02, 4	; 2
+ 148:	14 9a       	sbi	0x02, 4	; 2
     PORTA &= ~_BV(DB4);
- 126:	13 98       	cbi	0x02, 3	; 2
+ 14a:	13 98       	cbi	0x02, 3	; 2
     datarw();
- 128:	0e 94 5f 00 	call	0xbe	; 0xbe <datarw>
- 12c:	89 ef       	ldi	r24, 0xF9	; 249
- 12e:	90 e0       	ldi	r25, 0x00	; 0
- 130:	01 97       	sbiw	r24, 0x01	; 1
- 132:	f1 f7       	brne	.-4      	; 0x130 <lcd_cursor+0x60>
- 134:	00 c0       	rjmp	.+0      	; 0x136 <lcd_cursor+0x66>
- 136:	00 00       	nop
+ 14c:	0e 94 67 00 	call	0xce	; 0xce <datarw>
+ 150:	89 ef       	ldi	r24, 0xF9	; 249
+ 152:	90 e0       	ldi	r25, 0x00	; 0
+ 154:	01 97       	sbiw	r24, 0x01	; 1
+ 156:	f1 f7       	brne	.-4      	; 0x154 <lcd_init+0x74>
+ 158:	00 c0       	rjmp	.+0      	; 0x15a <lcd_init+0x7a>
+ 15a:	00 00       	nop
     _delay_ms(1);
 
 	//Need to change how we send data at this point to accomodate 4-bit mode.
 
     //Function Set: Interface
     PORTA &= ~_BV(DB7);
- 138:	16 98       	cbi	0x02, 6	; 2
+ 15c:	16 98       	cbi	0x02, 6	; 2
     PORTA &= ~_BV(DB6);
- 13a:	15 98       	cbi	0x02, 5	; 2
+ 15e:	15 98       	cbi	0x02, 5	; 2
     PORTA |= _BV(DB5);
- 13c:	14 9a       	sbi	0x02, 4	; 2
+ 160:	14 9a       	sbi	0x02, 4	; 2
     PORTA &= ~_BV(DB4);
- 13e:	13 98       	cbi	0x02, 3	; 2
+ 162:	13 98       	cbi	0x02, 3	; 2
     datarw();
- 140:	0e 94 5f 00 	call	0xbe	; 0xbe <datarw>
- 144:	89 ef       	ldi	r24, 0xF9	; 249
- 146:	90 e0       	ldi	r25, 0x00	; 0
- 148:	01 97       	sbiw	r24, 0x01	; 1
- 14a:	f1 f7       	brne	.-4      	; 0x148 <lcd_cursor+0x78>
- 14c:	00 c0       	rjmp	.+0      	; 0x14e <lcd_cursor+0x7e>
- 14e:	00 00       	nop
+ 164:	0e 94 67 00 	call	0xce	; 0xce <datarw>
+ 168:	89 ef       	ldi	r24, 0xF9	; 249
+ 16a:	90 e0       	ldi	r25, 0x00	; 0
+ 16c:	01 97       	sbiw	r24, 0x01	; 1
+ 16e:	f1 f7       	brne	.-4      	; 0x16c <lcd_init+0x8c>
+ 170:	00 c0       	rjmp	.+0      	; 0x172 <lcd_init+0x92>
+ 172:	00 00       	nop
     _delay_ms(1);
 
 
     PORTA |= _BV(DB7); //diff
- 150:	16 9a       	sbi	0x02, 6	; 2
+ 174:	16 9a       	sbi	0x02, 6	; 2
     PORTA &= ~_BV(DB6);
- 152:	15 98       	cbi	0x02, 5	; 2
+ 176:	15 98       	cbi	0x02, 5	; 2
     PORTA &= ~_BV(DB5);
- 154:	14 98       	cbi	0x02, 4	; 2
+ 178:	14 98       	cbi	0x02, 4	; 2
     PORTA &= ~_BV(DB4);
- 156:	13 98       	cbi	0x02, 3	; 2
+ 17a:	13 98       	cbi	0x02, 3	; 2
     datarw();
- 158:	0e 94 5f 00 	call	0xbe	; 0xbe <datarw>
- 15c:	89 ef       	ldi	r24, 0xF9	; 249
- 15e:	90 e0       	ldi	r25, 0x00	; 0
- 160:	01 97       	sbiw	r24, 0x01	; 1
- 162:	f1 f7       	brne	.-4      	; 0x160 <lcd_cursor+0x90>
- 164:	00 c0       	rjmp	.+0      	; 0x166 <lcd_cursor+0x96>
- 166:	00 00       	nop
+ 17c:	0e 94 67 00 	call	0xce	; 0xce <datarw>
+ 180:	89 ef       	ldi	r24, 0xF9	; 249
+ 182:	90 e0       	ldi	r25, 0x00	; 0
+ 184:	01 97       	sbiw	r24, 0x01	; 1
+ 186:	f1 f7       	brne	.-4      	; 0x184 <lcd_init+0xa4>
+ 188:	00 c0       	rjmp	.+0      	; 0x18a <lcd_init+0xaa>
+ 18a:	00 00       	nop
     _delay_ms(1);
 
     //Display OFF
     PORTA &= ~_BV(DB7);
- 168:	16 98       	cbi	0x02, 6	; 2
+ 18c:	16 98       	cbi	0x02, 6	; 2
     PORTA &= ~_BV(DB6);
- 16a:	15 98       	cbi	0x02, 5	; 2
+ 18e:	15 98       	cbi	0x02, 5	; 2
     PORTA &= ~_BV(DB5);
- 16c:	14 98       	cbi	0x02, 4	; 2
+ 190:	14 98       	cbi	0x02, 4	; 2
     PORTA &= ~_BV(DB4);
- 16e:	13 98       	cbi	0x02, 3	; 2
+ 192:	13 98       	cbi	0x02, 3	; 2
     datarw();
- 170:	0e 94 5f 00 	call	0xbe	; 0xbe <datarw>
- 174:	89 ef       	ldi	r24, 0xF9	; 249
- 176:	90 e0       	ldi	r25, 0x00	; 0
- 178:	01 97       	sbiw	r24, 0x01	; 1
- 17a:	f1 f7       	brne	.-4      	; 0x178 <lcd_cursor+0xa8>
- 17c:	00 c0       	rjmp	.+0      	; 0x17e <lcd_cursor+0xae>
- 17e:	00 00       	nop
+ 194:	0e 94 67 00 	call	0xce	; 0xce <datarw>
+ 198:	89 ef       	ldi	r24, 0xF9	; 249
+ 19a:	90 e0       	ldi	r25, 0x00	; 0
+ 19c:	01 97       	sbiw	r24, 0x01	; 1
+ 19e:	f1 f7       	brne	.-4      	; 0x19c <lcd_init+0xbc>
+ 1a0:	00 c0       	rjmp	.+0      	; 0x1a2 <lcd_init+0xc2>
+ 1a2:	00 00       	nop
     _delay_ms(1);
 
     PORTA |= _BV(DB7);
- 180:	16 9a       	sbi	0x02, 6	; 2
+ 1a4:	16 9a       	sbi	0x02, 6	; 2
     PORTA |= _BV(DB6);//diff
- 182:	15 9a       	sbi	0x02, 5	; 2
+ 1a6:	15 9a       	sbi	0x02, 5	; 2
     PORTA |= _BV(DB5); //diff
- 184:	14 9a       	sbi	0x02, 4	; 2
+ 1a8:	14 9a       	sbi	0x02, 4	; 2
     PORTA &= ~_BV(DB4);
- 186:	13 98       	cbi	0x02, 3	; 2
+ 1aa:	13 98       	cbi	0x02, 3	; 2
     datarw();
- 188:	0e 94 5f 00 	call	0xbe	; 0xbe <datarw>
- 18c:	89 ef       	ldi	r24, 0xF9	; 249
- 18e:	90 e0       	ldi	r25, 0x00	; 0
- 190:	01 97       	sbiw	r24, 0x01	; 1
- 192:	f1 f7       	brne	.-4      	; 0x190 <lcd_cursor+0xc0>
- 194:	00 c0       	rjmp	.+0      	; 0x196 <lcd_cursor+0xc6>
- 196:	00 00       	nop
+ 1ac:	0e 94 67 00 	call	0xce	; 0xce <datarw>
+ 1b0:	89 ef       	ldi	r24, 0xF9	; 249
+ 1b2:	90 e0       	ldi	r25, 0x00	; 0
+ 1b4:	01 97       	sbiw	r24, 0x01	; 1
+ 1b6:	f1 f7       	brne	.-4      	; 0x1b4 <lcd_init+0xd4>
+ 1b8:	00 c0       	rjmp	.+0      	; 0x1ba <lcd_init+0xda>
+ 1ba:	00 00       	nop
     _delay_ms(1);
 
     //Clear Display
     PORTA &= ~_BV(DB7);
- 198:	16 98       	cbi	0x02, 6	; 2
+ 1bc:	16 98       	cbi	0x02, 6	; 2
     PORTA &= ~_BV(DB6);
- 19a:	15 98       	cbi	0x02, 5	; 2
+ 1be:	15 98       	cbi	0x02, 5	; 2
     PORTA &= ~_BV(DB5);
- 19c:	14 98       	cbi	0x02, 4	; 2
+ 1c0:	14 98       	cbi	0x02, 4	; 2
     PORTA &= ~_BV(DB4);
- 19e:	13 98       	cbi	0x02, 3	; 2
+ 1c2:	13 98       	cbi	0x02, 3	; 2
     datarw();
- 1a0:	0e 94 5f 00 	call	0xbe	; 0xbe <datarw>
- 1a4:	89 ef       	ldi	r24, 0xF9	; 249
- 1a6:	90 e0       	ldi	r25, 0x00	; 0
- 1a8:	01 97       	sbiw	r24, 0x01	; 1
- 1aa:	f1 f7       	brne	.-4      	; 0x1a8 <lcd_cursor+0xd8>
- 1ac:	00 c0       	rjmp	.+0      	; 0x1ae <lcd_cursor+0xde>
- 1ae:	00 00       	nop
+ 1c4:	0e 94 67 00 	call	0xce	; 0xce <datarw>
+ 1c8:	89 ef       	ldi	r24, 0xF9	; 249
+ 1ca:	90 e0       	ldi	r25, 0x00	; 0
+ 1cc:	01 97       	sbiw	r24, 0x01	; 1
+ 1ce:	f1 f7       	brne	.-4      	; 0x1cc <lcd_init+0xec>
+ 1d0:	00 c0       	rjmp	.+0      	; 0x1d2 <lcd_init+0xf2>
+ 1d2:	00 00       	nop
     _delay_ms(1);
     
     PORTA &= ~_BV(DB7);
- 1b0:	16 98       	cbi	0x02, 6	; 2
+ 1d4:	16 98       	cbi	0x02, 6	; 2
     PORTA &= ~_BV(DB6);
- 1b2:	15 98       	cbi	0x02, 5	; 2
+ 1d6:	15 98       	cbi	0x02, 5	; 2
     PORTA &= ~_BV(DB5);
- 1b4:	14 98       	cbi	0x02, 4	; 2
+ 1d8:	14 98       	cbi	0x02, 4	; 2
     PORTA |= _BV(DB4);
- 1b6:	13 9a       	sbi	0x02, 3	; 2
+ 1da:	13 9a       	sbi	0x02, 3	; 2
     datarw();
- 1b8:	0e 94 5f 00 	call	0xbe	; 0xbe <datarw>
- 1bc:	89 ef       	ldi	r24, 0xF9	; 249
- 1be:	90 e0       	ldi	r25, 0x00	; 0
- 1c0:	01 97       	sbiw	r24, 0x01	; 1
- 1c2:	f1 f7       	brne	.-4      	; 0x1c0 <lcd_cursor+0xf0>
- 1c4:	00 c0       	rjmp	.+0      	; 0x1c6 <lcd_cursor+0xf6>
- 1c6:	00 00       	nop
+ 1dc:	0e 94 67 00 	call	0xce	; 0xce <datarw>
+ 1e0:	89 ef       	ldi	r24, 0xF9	; 249
+ 1e2:	90 e0       	ldi	r25, 0x00	; 0
+ 1e4:	01 97       	sbiw	r24, 0x01	; 1
+ 1e6:	f1 f7       	brne	.-4      	; 0x1e4 <lcd_init+0x104>
+ 1e8:	00 c0       	rjmp	.+0      	; 0x1ea <lcd_init+0x10a>
+ 1ea:	00 00       	nop
     _delay_ms(1);
 	
     //Entry Mode Set
     PORTA &= ~_BV(DB7);
- 1c8:	16 98       	cbi	0x02, 6	; 2
+ 1ec:	16 98       	cbi	0x02, 6	; 2
     PORTA &= ~_BV(DB6);
- 1ca:	15 98       	cbi	0x02, 5	; 2
+ 1ee:	15 98       	cbi	0x02, 5	; 2
     PORTA &= ~_BV(DB5);
- 1cc:	14 98       	cbi	0x02, 4	; 2
+ 1f0:	14 98       	cbi	0x02, 4	; 2
     PORTA &= ~_BV(DB4);
- 1ce:	13 98       	cbi	0x02, 3	; 2
+ 1f2:	13 98       	cbi	0x02, 3	; 2
     datarw();
- 1d0:	0e 94 5f 00 	call	0xbe	; 0xbe <datarw>
- 1d4:	89 ef       	ldi	r24, 0xF9	; 249
- 1d6:	90 e0       	ldi	r25, 0x00	; 0
- 1d8:	01 97       	sbiw	r24, 0x01	; 1
- 1da:	f1 f7       	brne	.-4      	; 0x1d8 <lcd_cursor+0x108>
- 1dc:	00 c0       	rjmp	.+0      	; 0x1de <lcd_cursor+0x10e>
- 1de:	00 00       	nop
+ 1f4:	0e 94 67 00 	call	0xce	; 0xce <datarw>
+ 1f8:	89 ef       	ldi	r24, 0xF9	; 249
+ 1fa:	90 e0       	ldi	r25, 0x00	; 0
+ 1fc:	01 97       	sbiw	r24, 0x01	; 1
+ 1fe:	f1 f7       	brne	.-4      	; 0x1fc <lcd_init+0x11c>
+ 200:	00 c0       	rjmp	.+0      	; 0x202 <lcd_init+0x122>
+ 202:	00 00       	nop
     _delay_ms(1);
 
     PORTA &= ~_BV(DB7);
- 1e0:	16 98       	cbi	0x02, 6	; 2
+ 204:	16 98       	cbi	0x02, 6	; 2
     PORTA |= _BV(DB6);
- 1e2:	15 9a       	sbi	0x02, 5	; 2
+ 206:	15 9a       	sbi	0x02, 5	; 2
     PORTA |= _BV(DB5);
- 1e4:	14 9a       	sbi	0x02, 4	; 2
+ 208:	14 9a       	sbi	0x02, 4	; 2
     PORTA &= ~_BV(DB4);//diff
- 1e6:	13 98       	cbi	0x02, 3	; 2
+ 20a:	13 98       	cbi	0x02, 3	; 2
     datarw();
- 1e8:	0e 94 5f 00 	call	0xbe	; 0xbe <datarw>
- 1ec:	89 ef       	ldi	r24, 0xF9	; 249
- 1ee:	90 e0       	ldi	r25, 0x00	; 0
- 1f0:	01 97       	sbiw	r24, 0x01	; 1
- 1f2:	f1 f7       	brne	.-4      	; 0x1f0 <lcd_cursor+0x120>
- 1f4:	00 c0       	rjmp	.+0      	; 0x1f6 <lcd_cursor+0x126>
- 1f6:	00 00       	nop
+ 20c:	0e 94 67 00 	call	0xce	; 0xce <datarw>
+ 210:	89 ef       	ldi	r24, 0xF9	; 249
+ 212:	90 e0       	ldi	r25, 0x00	; 0
+ 214:	01 97       	sbiw	r24, 0x01	; 1
+ 216:	f1 f7       	brne	.-4      	; 0x214 <lcd_init+0x134>
+ 218:	00 c0       	rjmp	.+0      	; 0x21a <lcd_init+0x13a>
+ 21a:	00 00       	nop
     _delay_ms(1);
 
     //Display On. Cursor and Blink on.
     PORTA &= ~_BV(DB7);
- 1f8:	16 98       	cbi	0x02, 6	; 2
+ 21c:	16 98       	cbi	0x02, 6	; 2
     PORTA &= ~_BV(DB6);
- 1fa:	15 98       	cbi	0x02, 5	; 2
+ 21e:	15 98       	cbi	0x02, 5	; 2
     PORTA &= ~_BV(DB5);
- 1fc:	14 98       	cbi	0x02, 4	; 2
+ 220:	14 98       	cbi	0x02, 4	; 2
     PORTA &= ~_BV(DB4);
- 1fe:	13 98       	cbi	0x02, 3	; 2
+ 222:	13 98       	cbi	0x02, 3	; 2
     datarw();
- 200:	0e 94 5f 00 	call	0xbe	; 0xbe <datarw>
- 204:	89 ef       	ldi	r24, 0xF9	; 249
- 206:	90 e0       	ldi	r25, 0x00	; 0
- 208:	01 97       	sbiw	r24, 0x01	; 1
- 20a:	f1 f7       	brne	.-4      	; 0x208 <lcd_cursor+0x138>
- 20c:	00 c0       	rjmp	.+0      	; 0x20e <lcd_cursor+0x13e>
- 20e:	00 00       	nop
+ 224:	0e 94 67 00 	call	0xce	; 0xce <datarw>
+ 228:	89 ef       	ldi	r24, 0xF9	; 249
+ 22a:	90 e0       	ldi	r25, 0x00	; 0
+ 22c:	01 97       	sbiw	r24, 0x01	; 1
+ 22e:	f1 f7       	brne	.-4      	; 0x22c <lcd_init+0x14c>
+ 230:	00 c0       	rjmp	.+0      	; 0x232 <lcd_init+0x152>
+ 232:	00 00       	nop
     _delay_ms(1);
 
     PORTA |= _BV(DB7);
- 210:	16 9a       	sbi	0x02, 6	; 2
+ 234:	16 9a       	sbi	0x02, 6	; 2
     PORTA |= _BV(DB6);
- 212:	15 9a       	sbi	0x02, 5	; 2
+ 236:	15 9a       	sbi	0x02, 5	; 2
     PORTA |= _BV(DB5);
- 214:	14 9a       	sbi	0x02, 4	; 2
+ 238:	14 9a       	sbi	0x02, 4	; 2
     PORTA |= _BV(DB4);
- 216:	13 9a       	sbi	0x02, 3	; 2
+ 23a:	13 9a       	sbi	0x02, 3	; 2
     datarw();
- 218:	0e 94 5f 00 	call	0xbe	; 0xbe <datarw>
- 21c:	89 ef       	ldi	r24, 0xF9	; 249
- 21e:	90 e0       	ldi	r25, 0x00	; 0
- 220:	01 97       	sbiw	r24, 0x01	; 1
- 222:	f1 f7       	brne	.-4      	; 0x220 <lcd_cursor+0x150>
- 224:	00 c0       	rjmp	.+0      	; 0x226 <lcd_cursor+0x156>
- 226:	00 00       	nop
+ 23c:	0e 94 67 00 	call	0xce	; 0xce <datarw>
+ 240:	89 ef       	ldi	r24, 0xF9	; 249
+ 242:	90 e0       	ldi	r25, 0x00	; 0
+ 244:	01 97       	sbiw	r24, 0x01	; 1
+ 246:	f1 f7       	brne	.-4      	; 0x244 <lcd_init+0x164>
+ 248:	00 c0       	rjmp	.+0      	; 0x24a <lcd_init+0x16a>
+ 24a:	00 00       	nop
     _delay_ms(1);
 
 	return 0;
 }
- 228:	80 e0       	ldi	r24, 0x00	; 0
- 22a:	90 e0       	ldi	r25, 0x00	; 0
- 22c:	08 95       	ret
+ 24c:	80 e0       	ldi	r24, 0x00	; 0
+ 24e:	90 e0       	ldi	r25, 0x00	; 0
+ 250:	08 95       	ret
 
-0000022e <letterwrite>:
+00000252 <letterwrite>:
 
 void letterwrite(int a, int b, int c, int d){
 	
 	if(a==1) PORTA |= _BV(DB7);
- 22e:	01 97       	sbiw	r24, 0x01	; 1
- 230:	11 f4       	brne	.+4      	; 0x236 <letterwrite+0x8>
- 232:	16 9a       	sbi	0x02, 6	; 2
- 234:	01 c0       	rjmp	.+2      	; 0x238 <letterwrite+0xa>
+ 252:	01 97       	sbiw	r24, 0x01	; 1
+ 254:	11 f4       	brne	.+4      	; 0x25a <letterwrite+0x8>
+ 256:	16 9a       	sbi	0x02, 6	; 2
+ 258:	01 c0       	rjmp	.+2      	; 0x25c <letterwrite+0xa>
 	else   PORTA &= ~_BV(DB7);
- 236:	16 98       	cbi	0x02, 6	; 2
+ 25a:	16 98       	cbi	0x02, 6	; 2
 
 	if (b==1) PORTA |= _BV(DB6);
- 238:	61 30       	cpi	r22, 0x01	; 1
- 23a:	71 05       	cpc	r23, r1
- 23c:	11 f4       	brne	.+4      	; 0x242 <letterwrite+0x14>
- 23e:	15 9a       	sbi	0x02, 5	; 2
- 240:	01 c0       	rjmp	.+2      	; 0x244 <letterwrite+0x16>
+ 25c:	61 30       	cpi	r22, 0x01	; 1
+ 25e:	71 05       	cpc	r23, r1
+ 260:	11 f4       	brne	.+4      	; 0x266 <letterwrite+0x14>
+ 262:	15 9a       	sbi	0x02, 5	; 2
+ 264:	01 c0       	rjmp	.+2      	; 0x268 <letterwrite+0x16>
 	else PORTA &= ~_BV(DB6);
- 242:	15 98       	cbi	0x02, 5	; 2
+ 266:	15 98       	cbi	0x02, 5	; 2
     
     	if(c==1) PORTA |= _BV(DB5);
- 244:	41 30       	cpi	r20, 0x01	; 1
- 246:	51 05       	cpc	r21, r1
- 248:	11 f4       	brne	.+4      	; 0x24e <letterwrite+0x20>
- 24a:	14 9a       	sbi	0x02, 4	; 2
- 24c:	01 c0       	rjmp	.+2      	; 0x250 <letterwrite+0x22>
+ 268:	41 30       	cpi	r20, 0x01	; 1
+ 26a:	51 05       	cpc	r21, r1
+ 26c:	11 f4       	brne	.+4      	; 0x272 <letterwrite+0x20>
+ 26e:	14 9a       	sbi	0x02, 4	; 2
+ 270:	01 c0       	rjmp	.+2      	; 0x274 <letterwrite+0x22>
 	else PORTA &= ~_BV(DB5);
- 24e:	14 98       	cbi	0x02, 4	; 2
+ 272:	14 98       	cbi	0x02, 4	; 2
 	
 	if (d==1) PORTA |= _BV(DB4);
- 250:	21 30       	cpi	r18, 0x01	; 1
- 252:	31 05       	cpc	r19, r1
- 254:	11 f4       	brne	.+4      	; 0x25a <letterwrite+0x2c>
- 256:	13 9a       	sbi	0x02, 3	; 2
- 258:	01 c0       	rjmp	.+2      	; 0x25c <letterwrite+0x2e>
+ 274:	21 30       	cpi	r18, 0x01	; 1
+ 276:	31 05       	cpc	r19, r1
+ 278:	11 f4       	brne	.+4      	; 0x27e <letterwrite+0x2c>
+ 27a:	13 9a       	sbi	0x02, 3	; 2
+ 27c:	01 c0       	rjmp	.+2      	; 0x280 <letterwrite+0x2e>
     	else PORTA &= ~_BV(DB4);
- 25a:	13 98       	cbi	0x02, 3	; 2
+ 27e:	13 98       	cbi	0x02, 3	; 2
    	datarw();
- 25c:	0e 94 5f 00 	call	0xbe	; 0xbe <datarw>
- 260:	89 ef       	ldi	r24, 0xF9	; 249
- 262:	90 e0       	ldi	r25, 0x00	; 0
- 264:	01 97       	sbiw	r24, 0x01	; 1
- 266:	f1 f7       	brne	.-4      	; 0x264 <letterwrite+0x36>
- 268:	00 c0       	rjmp	.+0      	; 0x26a <letterwrite+0x3c>
- 26a:	00 00       	nop
- 26c:	08 95       	ret
+ 280:	0e 94 67 00 	call	0xce	; 0xce <datarw>
+ 284:	89 ef       	ldi	r24, 0xF9	; 249
+ 286:	90 e0       	ldi	r25, 0x00	; 0
+ 288:	01 97       	sbiw	r24, 0x01	; 1
+ 28a:	f1 f7       	brne	.-4      	; 0x288 <letterwrite+0x36>
+ 28c:	00 c0       	rjmp	.+0      	; 0x28e <letterwrite+0x3c>
+ 28e:	00 00       	nop
+ 290:	08 95       	ret
 
-0000026e <instruction_read>:
-    address = instruction_read()&0x7F;
-    return address;
+00000292 <instruction_read>:
+    write_db74((address>>3)&1,(address>>2)&1,(address>>1)&1,(address>>0)&1);
+    datarw();
 }
 
 int instruction_read() 
 {
- 26e:	1f 93       	push	r17
- 270:	cf 93       	push	r28
- 272:	df 93       	push	r29
+ 292:	1f 93       	push	r17
+ 294:	cf 93       	push	r28
+ 296:	df 93       	push	r29
     int busy = 0, address = 0;
     uint8_t value;
     // Set LCD pins DB4-7 to be inputs with pull-ups
     DDRA &=~ (_BV(DB7)|_BV(DB6)|_BV(DB5)|_BV(DB4));    //Set pins as inputs;
- 274:	81 b1       	in	r24, 0x01	; 1
- 276:	87 78       	andi	r24, 0x87	; 135
- 278:	81 b9       	out	0x01, r24	; 1
+ 298:	81 b1       	in	r24, 0x01	; 1
+ 29a:	87 78       	andi	r24, 0x87	; 135
+ 29c:	81 b9       	out	0x01, r24	; 1
 
     // PORTA LCD pins RS to 0 and RW to 1
     PORTA &=~ _BV(RS);
- 27a:	10 98       	cbi	0x02, 0	; 2
+ 29e:	10 98       	cbi	0x02, 0	; 2
     PORTA |= _BV(RW);
- 27c:	11 9a       	sbi	0x02, 1	; 2
+ 2a0:	11 9a       	sbi	0x02, 1	; 2
 
     // load first 4 bits of read data into DB4-7
     // set the clock high and wait
     PORTA |= _BV(E);
- 27e:	12 9a       	sbi	0x02, 2	; 2
- 280:	81 ee       	ldi	r24, 0xE1	; 225
- 282:	94 e0       	ldi	r25, 0x04	; 4
- 284:	01 97       	sbiw	r24, 0x01	; 1
- 286:	f1 f7       	brne	.-4      	; 0x284 <instruction_read+0x16>
- 288:	00 c0       	rjmp	.+0      	; 0x28a <instruction_read+0x1c>
- 28a:	00 00       	nop
+ 2a2:	12 9a       	sbi	0x02, 2	; 2
+ 2a4:	81 ee       	ldi	r24, 0xE1	; 225
+ 2a6:	94 e0       	ldi	r25, 0x04	; 4
+ 2a8:	01 97       	sbiw	r24, 0x01	; 1
+ 2aa:	f1 f7       	brne	.-4      	; 0x2a8 <instruction_read+0x16>
+ 2ac:	00 c0       	rjmp	.+0      	; 0x2ae <instruction_read+0x1c>
+ 2ae:	00 00       	nop
     _delay_ms(5);
 
     // first bit is busy flag, last 3 are most significant 3 (of 7) bits of address counter
     // read data from the gpio pins
     value = PORTA & _BV(DB7); //this or PIND
- 28c:	12 b1       	in	r17, 0x02	; 2
+ 2b0:	12 b1       	in	r17, 0x02	; 2
     if (value) busy = 1;
     value = PORTA & _BV(DB6);
- 28e:	82 b1       	in	r24, 0x02	; 2
+ 2b2:	82 b1       	in	r24, 0x02	; 2
     address |= value<<6;
     value = PORTA & _BV(DB5);
- 290:	c2 b1       	in	r28, 0x02	; 2
+ 2b4:	c2 b1       	in	r28, 0x02	; 2
     address |= value<<5;
     value = PORTA & _BV(DB4);
- 292:	a2 b1       	in	r26, 0x02	; 2
+ 2b6:	a2 b1       	in	r26, 0x02	; 2
     address |= value<<4;
     
     // set the clock back to low
     PORTA &=~ _BV(E);
- 294:	12 98       	cbi	0x02, 2	; 2
- 296:	e9 ef       	ldi	r30, 0xF9	; 249
- 298:	f0 e0       	ldi	r31, 0x00	; 0
- 29a:	31 97       	sbiw	r30, 0x01	; 1
- 29c:	f1 f7       	brne	.-4      	; 0x29a <instruction_read+0x2c>
- 29e:	00 c0       	rjmp	.+0      	; 0x2a0 <instruction_read+0x32>
- 2a0:	00 00       	nop
+ 2b8:	12 98       	cbi	0x02, 2	; 2
+ 2ba:	e9 ef       	ldi	r30, 0xF9	; 249
+ 2bc:	f0 e0       	ldi	r31, 0x00	; 0
+ 2be:	31 97       	sbiw	r30, 0x01	; 1
+ 2c0:	f1 f7       	brne	.-4      	; 0x2be <instruction_read+0x2c>
+ 2c2:	00 c0       	rjmp	.+0      	; 0x2c4 <instruction_read+0x32>
+ 2c4:	00 00       	nop
     _delay_ms(1);
 
     // load last 4 bits of read data into DB4-7
     // set the clock high and wait
     PORTA |= _BV(E);
- 2a2:	12 9a       	sbi	0x02, 2	; 2
- 2a4:	e1 ee       	ldi	r30, 0xE1	; 225
- 2a6:	f4 e0       	ldi	r31, 0x04	; 4
- 2a8:	31 97       	sbiw	r30, 0x01	; 1
- 2aa:	f1 f7       	brne	.-4      	; 0x2a8 <instruction_read+0x3a>
- 2ac:	00 c0       	rjmp	.+0      	; 0x2ae <instruction_read+0x40>
- 2ae:	00 00       	nop
+ 2c6:	12 9a       	sbi	0x02, 2	; 2
+ 2c8:	e1 ee       	ldi	r30, 0xE1	; 225
+ 2ca:	f4 e0       	ldi	r31, 0x04	; 4
+ 2cc:	31 97       	sbiw	r30, 0x01	; 1
+ 2ce:	f1 f7       	brne	.-4      	; 0x2cc <instruction_read+0x3a>
+ 2d0:	00 c0       	rjmp	.+0      	; 0x2d2 <instruction_read+0x40>
+ 2d2:	00 00       	nop
     _delay_ms(5);
 
     // read data from the GPIO pins
     value = PORTA & _BV(DB7); //this or PIND
- 2b0:	e2 b1       	in	r30, 0x02	; 2
+ 2d4:	e2 b1       	in	r30, 0x02	; 2
     address |= value<<3;
     value = PORTA & _BV(DB6);
- 2b2:	62 b1       	in	r22, 0x02	; 2
+ 2d6:	62 b1       	in	r22, 0x02	; 2
     address |= value<<2;
     value = PORTA & _BV(DB5);
- 2b4:	42 b1       	in	r20, 0x02	; 2
+ 2d8:	42 b1       	in	r20, 0x02	; 2
     address |= value<<1;
     value = PORTA & _BV(DB4);
- 2b6:	52 b1       	in	r21, 0x02	; 2
+ 2da:	52 b1       	in	r21, 0x02	; 2
 
     // first bit is busy flag, last 3 are most significant 3 (of 7) bits of address counter
     // read data from the gpio pins
     value = PORTA & _BV(DB7); //this or PIND
     if (value) busy = 1;
     value = PORTA & _BV(DB6);
- 2b8:	80 72       	andi	r24, 0x20	; 32
+ 2dc:	80 72       	andi	r24, 0x20	; 32
     address |= value<<6;
- 2ba:	90 e0       	ldi	r25, 0x00	; 0
- 2bc:	26 e0       	ldi	r18, 0x06	; 6
- 2be:	88 0f       	add	r24, r24
- 2c0:	99 1f       	adc	r25, r25
- 2c2:	2a 95       	dec	r18
- 2c4:	e1 f7       	brne	.-8      	; 0x2be <instruction_read+0x50>
+ 2de:	90 e0       	ldi	r25, 0x00	; 0
+ 2e0:	26 e0       	ldi	r18, 0x06	; 6
+ 2e2:	88 0f       	add	r24, r24
+ 2e4:	99 1f       	adc	r25, r25
+ 2e6:	2a 95       	dec	r18
+ 2e8:	e1 f7       	brne	.-8      	; 0x2e2 <instruction_read+0x50>
     value = PORTA & _BV(DB5);
- 2c6:	c0 71       	andi	r28, 0x10	; 16
+ 2ea:	c0 71       	andi	r28, 0x10	; 16
     address |= value<<5;
- 2c8:	d0 e0       	ldi	r29, 0x00	; 0
- 2ca:	35 e0       	ldi	r19, 0x05	; 5
- 2cc:	cc 0f       	add	r28, r28
- 2ce:	dd 1f       	adc	r29, r29
- 2d0:	3a 95       	dec	r19
- 2d2:	e1 f7       	brne	.-8      	; 0x2cc <instruction_read+0x5e>
- 2d4:	8c 2b       	or	r24, r28
- 2d6:	9d 2b       	or	r25, r29
+ 2ec:	d0 e0       	ldi	r29, 0x00	; 0
+ 2ee:	35 e0       	ldi	r19, 0x05	; 5
+ 2f0:	cc 0f       	add	r28, r28
+ 2f2:	dd 1f       	adc	r29, r29
+ 2f4:	3a 95       	dec	r19
+ 2f6:	e1 f7       	brne	.-8      	; 0x2f0 <instruction_read+0x5e>
+ 2f8:	8c 2b       	or	r24, r28
+ 2fa:	9d 2b       	or	r25, r29
     address |= value<<3;
     value = PORTA & _BV(DB6);
     address |= value<<2;
     value = PORTA & _BV(DB5);
     address |= value<<1;
     value = PORTA & _BV(DB4);
- 2d8:	58 70       	andi	r21, 0x08	; 8
+ 2fc:	58 70       	andi	r21, 0x08	; 8
     value = PORTA & _BV(DB6);
     address |= value<<6;
     value = PORTA & _BV(DB5);
     address |= value<<5;
     value = PORTA & _BV(DB4);
     address |= value<<4;
- 2da:	85 2b       	or	r24, r21
+ 2fe:	85 2b       	or	r24, r21
     if (value) busy = 1;
     value = PORTA & _BV(DB6);
     address |= value<<6;
     value = PORTA & _BV(DB5);
     address |= value<<5;
     value = PORTA & _BV(DB4);
- 2dc:	a8 70       	andi	r26, 0x08	; 8
+ 300:	a8 70       	andi	r26, 0x08	; 8
     address |= value<<4;
- 2de:	b0 e0       	ldi	r27, 0x00	; 0
- 2e0:	54 e0       	ldi	r21, 0x04	; 4
- 2e2:	aa 0f       	add	r26, r26
- 2e4:	bb 1f       	adc	r27, r27
- 2e6:	5a 95       	dec	r21
- 2e8:	e1 f7       	brne	.-8      	; 0x2e2 <instruction_read+0x74>
+ 302:	b0 e0       	ldi	r27, 0x00	; 0
+ 304:	54 e0       	ldi	r21, 0x04	; 4
+ 306:	aa 0f       	add	r26, r26
+ 308:	bb 1f       	adc	r27, r27
+ 30a:	5a 95       	dec	r21
+ 30c:	e1 f7       	brne	.-8      	; 0x306 <instruction_read+0x74>
     PORTA |= _BV(E);
     _delay_ms(5);
 
     // read data from the GPIO pins
     value = PORTA & _BV(DB7); //this or PIND
     address |= value<<3;
- 2ea:	8a 2b       	or	r24, r26
- 2ec:	9b 2b       	or	r25, r27
+ 30e:	8a 2b       	or	r24, r26
+ 310:	9b 2b       	or	r25, r27
     // set the clock high and wait
     PORTA |= _BV(E);
     _delay_ms(5);
 
     // read data from the GPIO pins
     value = PORTA & _BV(DB7); //this or PIND
- 2ee:	e0 74       	andi	r30, 0x40	; 64
+ 312:	e0 74       	andi	r30, 0x40	; 64
     address |= value<<3;
- 2f0:	f0 e0       	ldi	r31, 0x00	; 0
- 2f2:	73 e0       	ldi	r23, 0x03	; 3
- 2f4:	ee 0f       	add	r30, r30
- 2f6:	ff 1f       	adc	r31, r31
- 2f8:	7a 95       	dec	r23
- 2fa:	e1 f7       	brne	.-8      	; 0x2f4 <instruction_read+0x86>
+ 314:	f0 e0       	ldi	r31, 0x00	; 0
+ 316:	73 e0       	ldi	r23, 0x03	; 3
+ 318:	ee 0f       	add	r30, r30
+ 31a:	ff 1f       	adc	r31, r31
+ 31c:	7a 95       	dec	r23
+ 31e:	e1 f7       	brne	.-8      	; 0x318 <instruction_read+0x86>
     value = PORTA & _BV(DB6);
     address |= value<<2;
- 2fc:	8e 2b       	or	r24, r30
- 2fe:	9f 2b       	or	r25, r31
+ 320:	8e 2b       	or	r24, r30
+ 322:	9f 2b       	or	r25, r31
     _delay_ms(5);
 
     // read data from the GPIO pins
     value = PORTA & _BV(DB7); //this or PIND
     address |= value<<3;
     value = PORTA & _BV(DB6);
- 300:	60 72       	andi	r22, 0x20	; 32
+ 324:	60 72       	andi	r22, 0x20	; 32
     address |= value<<2;
- 302:	70 e0       	ldi	r23, 0x00	; 0
- 304:	66 0f       	add	r22, r22
- 306:	77 1f       	adc	r23, r23
- 308:	66 0f       	add	r22, r22
- 30a:	77 1f       	adc	r23, r23
+ 326:	70 e0       	ldi	r23, 0x00	; 0
+ 328:	66 0f       	add	r22, r22
+ 32a:	77 1f       	adc	r23, r23
+ 32c:	66 0f       	add	r22, r22
+ 32e:	77 1f       	adc	r23, r23
     value = PORTA & _BV(DB5);
     address |= value<<1;
- 30c:	86 2b       	or	r24, r22
- 30e:	97 2b       	or	r25, r23
+ 330:	86 2b       	or	r24, r22
+ 332:	97 2b       	or	r25, r23
     value = PORTA & _BV(DB4);
     address |= value<<0;
 
     // set the clock back to low
     PORTA &=~ _BV(E);
- 310:	12 98       	cbi	0x02, 2	; 2
+ 334:	12 98       	cbi	0x02, 2	; 2
 
     // Operation complete. Set DB4-7 pins back to outputs
     DDRA |= (_BV(DB7)|_BV(DB6)|_BV(DB5)|_BV(DB4)); 
- 312:	51 b1       	in	r21, 0x01	; 1
- 314:	58 67       	ori	r21, 0x78	; 120
- 316:	51 b9       	out	0x01, r21	; 1
+ 336:	51 b1       	in	r21, 0x01	; 1
+ 338:	58 67       	ori	r21, 0x78	; 120
+ 33a:	51 b9       	out	0x01, r21	; 1
 
     // Write LCD pins RS back to 0 and RW back to 0
     PORTA &=~ _BV(RS);
- 318:	10 98       	cbi	0x02, 0	; 2
+ 33c:	10 98       	cbi	0x02, 0	; 2
     PORTA &=~ _BV(RW);
- 31a:	11 98       	cbi	0x02, 1	; 2
+ 33e:	11 98       	cbi	0x02, 1	; 2
     // read data from the GPIO pins
     value = PORTA & _BV(DB7); //this or PIND
     address |= value<<3;
     value = PORTA & _BV(DB6);
     address |= value<<2;
     value = PORTA & _BV(DB5);
- 31c:	40 71       	andi	r20, 0x10	; 16
+ 340:	40 71       	andi	r20, 0x10	; 16
     address |= value<<1;
- 31e:	50 e0       	ldi	r21, 0x00	; 0
- 320:	44 0f       	add	r20, r20
- 322:	55 1f       	adc	r21, r21
+ 342:	50 e0       	ldi	r21, 0x00	; 0
+ 344:	44 0f       	add	r20, r20
+ 346:	55 1f       	adc	r21, r21
     value = PORTA & _BV(DB4);
     address |= value<<0;
- 324:	84 2b       	or	r24, r20
- 326:	95 2b       	or	r25, r21
+ 348:	84 2b       	or	r24, r20
+ 34a:	95 2b       	or	r25, r21
     _delay_ms(5);
 
     // first bit is busy flag, last 3 are most significant 3 (of 7) bits of address counter
     // read data from the gpio pins
     value = PORTA & _BV(DB7); //this or PIND
     if (value) busy = 1;
- 328:	16 fb       	bst	r17, 6
- 32a:	22 27       	eor	r18, r18
- 32c:	20 f9       	bld	r18, 0
- 32e:	30 e0       	ldi	r19, 0x00	; 0
+ 34c:	16 fb       	bst	r17, 6
+ 34e:	22 27       	eor	r18, r18
+ 350:	20 f9       	bld	r18, 0
+ 352:	30 e0       	ldi	r19, 0x00	; 0
     // Write LCD pins RS back to 0 and RW back to 0
     PORTA &=~ _BV(RS);
     PORTA &=~ _BV(RW);
 
     // Return the address and whether or not the device is busy
     return (address | busy<<7);
- 330:	36 95       	lsr	r19
- 332:	32 2f       	mov	r19, r18
- 334:	22 27       	eor	r18, r18
- 336:	37 95       	ror	r19
- 338:	27 95       	ror	r18
+ 354:	36 95       	lsr	r19
+ 356:	32 2f       	mov	r19, r18
+ 358:	22 27       	eor	r18, r18
+ 35a:	37 95       	ror	r19
+ 35c:	27 95       	ror	r18
 }
- 33a:	82 2b       	or	r24, r18
- 33c:	93 2b       	or	r25, r19
- 33e:	df 91       	pop	r29
- 340:	cf 91       	pop	r28
- 342:	1f 91       	pop	r17
- 344:	08 95       	ret
+ 35e:	82 2b       	or	r24, r18
+ 360:	93 2b       	or	r25, r19
+ 362:	df 91       	pop	r29
+ 364:	cf 91       	pop	r28
+ 366:	1f 91       	pop	r17
+ 368:	08 95       	ret
 
-00000346 <get_current_address>:
+0000036a <get_current_address>:
     }
 }
 
 int get_current_address() {
     int address;
     address = instruction_read()&0x7F;
- 346:	0e 94 37 01 	call	0x26e	; 0x26e <instruction_read>
-    return address;
+ 36a:	0e 94 49 01 	call	0x292	; 0x292 <instruction_read>
+ 36e:	8f 77       	andi	r24, 0x7F	; 127
+ 370:	99 27       	eor	r25, r25
+    return address+1;
 }
- 34a:	8f 77       	andi	r24, 0x7F	; 127
- 34c:	99 27       	eor	r25, r25
- 34e:	08 95       	ret
+ 372:	01 96       	adiw	r24, 0x01	; 1
+ 374:	08 95       	ret
 
-00000350 <write_db74>:
+00000376 <write_db74>:
     datarw();
 }
 
 void write_db74(int DB7_val, int DB6_val, int DB5_val, int DB4_val)
 {
     if (DB7_val == 0) PORTA &=~ _BV(DB7);
- 350:	89 2b       	or	r24, r25
- 352:	11 f4       	brne	.+4      	; 0x358 <write_db74+0x8>
- 354:	16 98       	cbi	0x02, 6	; 2
- 356:	01 c0       	rjmp	.+2      	; 0x35a <write_db74+0xa>
+ 376:	89 2b       	or	r24, r25
+ 378:	11 f4       	brne	.+4      	; 0x37e <write_db74+0x8>
+ 37a:	16 98       	cbi	0x02, 6	; 2
+ 37c:	01 c0       	rjmp	.+2      	; 0x380 <write_db74+0xa>
     else PORTA |= _BV(DB7);
- 358:	16 9a       	sbi	0x02, 6	; 2
+ 37e:	16 9a       	sbi	0x02, 6	; 2
     if (DB6_val == 0) PORTA &=~ _BV(DB6);
- 35a:	67 2b       	or	r22, r23
- 35c:	11 f4       	brne	.+4      	; 0x362 <write_db74+0x12>
- 35e:	15 98       	cbi	0x02, 5	; 2
- 360:	01 c0       	rjmp	.+2      	; 0x364 <write_db74+0x14>
+ 380:	67 2b       	or	r22, r23
+ 382:	11 f4       	brne	.+4      	; 0x388 <write_db74+0x12>
+ 384:	15 98       	cbi	0x02, 5	; 2
+ 386:	01 c0       	rjmp	.+2      	; 0x38a <write_db74+0x14>
     else PORTA |= _BV(DB6);
- 362:	15 9a       	sbi	0x02, 5	; 2
+ 388:	15 9a       	sbi	0x02, 5	; 2
     if (DB5_val == 0) PORTA &=~ _BV(DB5);
- 364:	45 2b       	or	r20, r21
- 366:	11 f4       	brne	.+4      	; 0x36c <write_db74+0x1c>
- 368:	14 98       	cbi	0x02, 4	; 2
- 36a:	01 c0       	rjmp	.+2      	; 0x36e <write_db74+0x1e>
+ 38a:	45 2b       	or	r20, r21
+ 38c:	11 f4       	brne	.+4      	; 0x392 <write_db74+0x1c>
+ 38e:	14 98       	cbi	0x02, 4	; 2
+ 390:	01 c0       	rjmp	.+2      	; 0x394 <write_db74+0x1e>
     else PORTA |= _BV(DB5);
- 36c:	14 9a       	sbi	0x02, 4	; 2
+ 392:	14 9a       	sbi	0x02, 4	; 2
     if (DB4_val == 0) PORTA &=~ _BV(DB4);
- 36e:	23 2b       	or	r18, r19
- 370:	11 f4       	brne	.+4      	; 0x376 <write_db74+0x26>
- 372:	13 98       	cbi	0x02, 3	; 2
- 374:	08 95       	ret
+ 394:	23 2b       	or	r18, r19
+ 396:	11 f4       	brne	.+4      	; 0x39c <write_db74+0x26>
+ 398:	13 98       	cbi	0x02, 3	; 2
+ 39a:	08 95       	ret
     else PORTA |= _BV(DB4);
- 376:	13 9a       	sbi	0x02, 3	; 2
- 378:	08 95       	ret
+ 39c:	13 9a       	sbi	0x02, 3	; 2
+ 39e:	08 95       	ret
 
-0000037a <data_write>:
-{
-    data_write((uint8_t)mychar);
+000003a0 <set_ddram_address>:
+    int address;
+    address = instruction_read()&0x7F;
+    return address+1;
+}
+
+void set_ddram_address(int address) {
+ 3a0:	cf 93       	push	r28
+ 3a2:	df 93       	push	r29
+ 3a4:	ec 01       	movw	r28, r24
+    PORTA &=~ _BV(RS);
+ 3a6:	10 98       	cbi	0x02, 0	; 2
+    PORTA &=~ _BV(RW);
+ 3a8:	11 98       	cbi	0x02, 1	; 2
+    write_db74(1,(address>>6)&1,(address>>5)&1,(address>>4)&1);
+ 3aa:	28 2f       	mov	r18, r24
+ 3ac:	22 95       	swap	r18
+ 3ae:	21 70       	andi	r18, 0x01	; 1
+ 3b0:	85 fb       	bst	r24, 5
+ 3b2:	44 27       	eor	r20, r20
+ 3b4:	40 f9       	bld	r20, 0
+ 3b6:	86 fb       	bst	r24, 6
+ 3b8:	66 27       	eor	r22, r22
+ 3ba:	60 f9       	bld	r22, 0
+ 3bc:	30 e0       	ldi	r19, 0x00	; 0
+ 3be:	50 e0       	ldi	r21, 0x00	; 0
+ 3c0:	70 e0       	ldi	r23, 0x00	; 0
+ 3c2:	81 e0       	ldi	r24, 0x01	; 1
+ 3c4:	90 e0       	ldi	r25, 0x00	; 0
+ 3c6:	0e 94 bb 01 	call	0x376	; 0x376 <write_db74>
+    datarw();
+ 3ca:	0e 94 67 00 	call	0xce	; 0xce <datarw>
+    write_db74((address>>3)&1,(address>>2)&1,(address>>1)&1,(address>>0)&1);
+ 3ce:	9e 01       	movw	r18, r28
+ 3d0:	21 70       	andi	r18, 0x01	; 1
+ 3d2:	33 27       	eor	r19, r19
+ 3d4:	4c 2f       	mov	r20, r28
+ 3d6:	46 95       	lsr	r20
+ 3d8:	41 70       	andi	r20, 0x01	; 1
+ 3da:	c2 fb       	bst	r28, 2
+ 3dc:	66 27       	eor	r22, r22
+ 3de:	60 f9       	bld	r22, 0
+ 3e0:	50 e0       	ldi	r21, 0x00	; 0
+ 3e2:	70 e0       	ldi	r23, 0x00	; 0
+ 3e4:	c3 fb       	bst	r28, 3
+ 3e6:	88 27       	eor	r24, r24
+ 3e8:	80 f9       	bld	r24, 0
+ 3ea:	90 e0       	ldi	r25, 0x00	; 0
+ 3ec:	0e 94 bb 01 	call	0x376	; 0x376 <write_db74>
+    datarw();
+}
+ 3f0:	df 91       	pop	r29
+ 3f2:	cf 91       	pop	r28
+    PORTA &=~ _BV(RS);
+    PORTA &=~ _BV(RW);
+    write_db74(1,(address>>6)&1,(address>>5)&1,(address>>4)&1);
+    datarw();
+    write_db74((address>>3)&1,(address>>2)&1,(address>>1)&1,(address>>0)&1);
+    datarw();
+ 3f4:	0c 94 67 00 	jmp	0xce	; 0xce <datarw>
+
+000003f8 <data_write>:
+        data_write((uint8_t)mychar);
+    
 }
 
 void data_write(uint8_t val)
 {
- 37a:	cf 93       	push	r28
- 37c:	c8 2f       	mov	r28, r24
+ 3f8:	cf 93       	push	r28
+ 3fa:	c8 2f       	mov	r28, r24
 
     //write data to DD RAM
     PORTA |= _BV(RS);
- 37e:	10 9a       	sbi	0x02, 0	; 2
+ 3fc:	10 9a       	sbi	0x02, 0	; 2
     PORTA &=~ _BV(RW);
- 380:	11 98       	cbi	0x02, 1	; 2
+ 3fe:	11 98       	cbi	0x02, 1	; 2
     write_db74((val>>7)&1,(val>>6)&1,(val>>5)&1,(val>>4)&1);
- 382:	84 fb       	bst	r24, 4
- 384:	22 27       	eor	r18, r18
- 386:	20 f9       	bld	r18, 0
- 388:	85 fb       	bst	r24, 5
- 38a:	44 27       	eor	r20, r20
- 38c:	40 f9       	bld	r20, 0
- 38e:	86 fb       	bst	r24, 6
- 390:	66 27       	eor	r22, r22
- 392:	60 f9       	bld	r22, 0
- 394:	88 1f       	adc	r24, r24
- 396:	88 27       	eor	r24, r24
- 398:	88 1f       	adc	r24, r24
- 39a:	30 e0       	ldi	r19, 0x00	; 0
- 39c:	50 e0       	ldi	r21, 0x00	; 0
- 39e:	70 e0       	ldi	r23, 0x00	; 0
- 3a0:	90 e0       	ldi	r25, 0x00	; 0
- 3a2:	0e 94 a8 01 	call	0x350	; 0x350 <write_db74>
+ 400:	84 fb       	bst	r24, 4
+ 402:	22 27       	eor	r18, r18
+ 404:	20 f9       	bld	r18, 0
+ 406:	85 fb       	bst	r24, 5
+ 408:	44 27       	eor	r20, r20
+ 40a:	40 f9       	bld	r20, 0
+ 40c:	86 fb       	bst	r24, 6
+ 40e:	66 27       	eor	r22, r22
+ 410:	60 f9       	bld	r22, 0
+ 412:	88 1f       	adc	r24, r24
+ 414:	88 27       	eor	r24, r24
+ 416:	88 1f       	adc	r24, r24
+ 418:	30 e0       	ldi	r19, 0x00	; 0
+ 41a:	50 e0       	ldi	r21, 0x00	; 0
+ 41c:	70 e0       	ldi	r23, 0x00	; 0
+ 41e:	90 e0       	ldi	r25, 0x00	; 0
+ 420:	0e 94 bb 01 	call	0x376	; 0x376 <write_db74>
     datarw();
- 3a6:	0e 94 5f 00 	call	0xbe	; 0xbe <datarw>
+ 424:	0e 94 67 00 	call	0xce	; 0xce <datarw>
     write_db74((val>>3)&1,(val>>2)&1,(val>>1)&1,(val>>0)&1);
- 3aa:	2c 2f       	mov	r18, r28
- 3ac:	21 70       	andi	r18, 0x01	; 1
- 3ae:	c1 fb       	bst	r28, 1
- 3b0:	44 27       	eor	r20, r20
- 3b2:	40 f9       	bld	r20, 0
- 3b4:	c2 fb       	bst	r28, 2
- 3b6:	66 27       	eor	r22, r22
- 3b8:	60 f9       	bld	r22, 0
- 3ba:	30 e0       	ldi	r19, 0x00	; 0
- 3bc:	50 e0       	ldi	r21, 0x00	; 0
- 3be:	70 e0       	ldi	r23, 0x00	; 0
- 3c0:	c3 fb       	bst	r28, 3
- 3c2:	88 27       	eor	r24, r24
- 3c4:	80 f9       	bld	r24, 0
- 3c6:	90 e0       	ldi	r25, 0x00	; 0
- 3c8:	0e 94 a8 01 	call	0x350	; 0x350 <write_db74>
+ 428:	2c 2f       	mov	r18, r28
+ 42a:	21 70       	andi	r18, 0x01	; 1
+ 42c:	c1 fb       	bst	r28, 1
+ 42e:	44 27       	eor	r20, r20
+ 430:	40 f9       	bld	r20, 0
+ 432:	c2 fb       	bst	r28, 2
+ 434:	66 27       	eor	r22, r22
+ 436:	60 f9       	bld	r22, 0
+ 438:	30 e0       	ldi	r19, 0x00	; 0
+ 43a:	50 e0       	ldi	r21, 0x00	; 0
+ 43c:	70 e0       	ldi	r23, 0x00	; 0
+ 43e:	c3 fb       	bst	r28, 3
+ 440:	88 27       	eor	r24, r24
+ 442:	80 f9       	bld	r24, 0
+ 444:	90 e0       	ldi	r25, 0x00	; 0
+ 446:	0e 94 bb 01 	call	0x376	; 0x376 <write_db74>
     datarw();
 }
- 3cc:	cf 91       	pop	r28
+ 44a:	cf 91       	pop	r28
     PORTA |= _BV(RS);
     PORTA &=~ _BV(RW);
     write_db74((val>>7)&1,(val>>6)&1,(val>>5)&1,(val>>4)&1);
     datarw();
     write_db74((val>>3)&1,(val>>2)&1,(val>>1)&1,(val>>0)&1);
     datarw();
- 3ce:	0c 94 5f 00 	jmp	0xbe	; 0xbe <datarw>
+ 44c:	0c 94 67 00 	jmp	0xce	; 0xce <datarw>
 
-000003d2 <char_write>:
+00000450 <char_write>:
+    // Return the address and whether or not the device is busy
     return (address | busy<<7);
 }
 
 void char_write(char mychar)
 {
-    data_write((uint8_t)mychar);
- 3d2:	0c 94 bd 01 	jmp	0x37a	; 0x37a <data_write>
+ 450:	cf 93       	push	r28
+ 452:	c8 2f       	mov	r28, r24
+    chars_written++;
+ 454:	20 91 2a 01 	lds	r18, 0x012A
+ 458:	30 91 2b 01 	lds	r19, 0x012B
+ 45c:	2f 5f       	subi	r18, 0xFF	; 255
+ 45e:	3f 4f       	sbci	r19, 0xFF	; 255
+ 460:	30 93 2b 01 	sts	0x012B, r19
+ 464:	20 93 2a 01 	sts	0x012A, r18
 
-000003d6 <string_write>:
- 3d6:	0f 93       	push	r16
- 3d8:	1f 93       	push	r17
- 3da:	cf 93       	push	r28
- 3dc:	df 93       	push	r29
- 3de:	ec 01       	movw	r28, r24
- 3e0:	8c 01       	movw	r16, r24
- 3e2:	fe 01       	movw	r30, r28
- 3e4:	01 90       	ld	r0, Z+
- 3e6:	00 20       	and	r0, r0
- 3e8:	e9 f7       	brne	.-6      	; 0x3e4 <string_write+0xe>
- 3ea:	31 97       	sbiw	r30, 0x01	; 1
- 3ec:	ec 1b       	sub	r30, r28
- 3ee:	fd 0b       	sbc	r31, r29
- 3f0:	c8 01       	movw	r24, r16
- 3f2:	8c 1b       	sub	r24, r28
- 3f4:	9d 0b       	sbc	r25, r29
- 3f6:	8e 17       	cp	r24, r30
- 3f8:	9f 07       	cpc	r25, r31
- 3fa:	30 f4       	brcc	.+12     	; 0x408 <string_write+0x32>
- 3fc:	f8 01       	movw	r30, r16
- 3fe:	81 91       	ld	r24, Z+
- 400:	8f 01       	movw	r16, r30
- 402:	0e 94 bd 01 	call	0x37a	; 0x37a <data_write>
- 406:	ed cf       	rjmp	.-38     	; 0x3e2 <string_write+0xc>
- 408:	df 91       	pop	r29
- 40a:	cf 91       	pop	r28
- 40c:	1f 91       	pop	r17
- 40e:	0f 91       	pop	r16
- 410:	08 95       	ret
+    if ((chars_written==16)||(mychar=='\n'))
+ 468:	20 31       	cpi	r18, 0x10	; 16
+ 46a:	31 05       	cpc	r19, r1
+ 46c:	31 f0       	breq	.+12     	; 0x47a <char_write+0x2a>
+ 46e:	8a 30       	cpi	r24, 0x0A	; 10
+ 470:	21 f0       	breq	.+8      	; 0x47a <char_write+0x2a>
+            line_num = 2;
+        }
+    }
 
-00000412 <main>:
+    if (mychar!='\n')
+        data_write((uint8_t)mychar);
+ 472:	8c 2f       	mov	r24, r28
+    
+}
+ 474:	cf 91       	pop	r28
+            line_num = 2;
+        }
+    }
+
+    if (mychar!='\n')
+        data_write((uint8_t)mychar);
+ 476:	0c 94 fc 01 	jmp	0x3f8	; 0x3f8 <data_write>
+{
+    chars_written++;
+
+    if ((chars_written==16)||(mychar=='\n'))
+    {
+        if (line_num==1)
+ 47a:	20 91 00 01 	lds	r18, 0x0100
+ 47e:	30 91 01 01 	lds	r19, 0x0101
+ 482:	21 30       	cpi	r18, 0x01	; 1
+ 484:	31 05       	cpc	r19, r1
+ 486:	51 f4       	brne	.+20     	; 0x49c <char_write+0x4c>
+        {
+            set_ddram_address(0x40);
+ 488:	80 e4       	ldi	r24, 0x40	; 64
+ 48a:	90 e0       	ldi	r25, 0x00	; 0
+ 48c:	0e 94 d0 01 	call	0x3a0	; 0x3a0 <set_ddram_address>
+            line_num = 2;
+ 490:	22 e0       	ldi	r18, 0x02	; 2
+ 492:	30 e0       	ldi	r19, 0x00	; 0
+ 494:	30 93 01 01 	sts	0x0101, r19
+ 498:	20 93 00 01 	sts	0x0100, r18
+        }
+    }
+
+    if (mychar!='\n')
+ 49c:	ca 30       	cpi	r28, 0x0A	; 10
+ 49e:	49 f7       	brne	.-46     	; 0x472 <char_write+0x22>
+        data_write((uint8_t)mychar);
+    
+}
+ 4a0:	cf 91       	pop	r28
+ 4a2:	08 95       	ret
+
+000004a4 <string_write>:
+ 4a4:	0f 93       	push	r16
+ 4a6:	1f 93       	push	r17
+ 4a8:	cf 93       	push	r28
+ 4aa:	df 93       	push	r29
+ 4ac:	ec 01       	movw	r28, r24
+ 4ae:	0e 94 b5 01 	call	0x36a	; 0x36a <get_current_address>
+ 4b2:	8e 01       	movw	r16, r28
+ 4b4:	fe 01       	movw	r30, r28
+ 4b6:	01 90       	ld	r0, Z+
+ 4b8:	00 20       	and	r0, r0
+ 4ba:	e9 f7       	brne	.-6      	; 0x4b6 <string_write+0x12>
+ 4bc:	31 97       	sbiw	r30, 0x01	; 1
+ 4be:	ec 1b       	sub	r30, r28
+ 4c0:	fd 0b       	sbc	r31, r29
+ 4c2:	c8 01       	movw	r24, r16
+ 4c4:	8c 1b       	sub	r24, r28
+ 4c6:	9d 0b       	sbc	r25, r29
+ 4c8:	8e 17       	cp	r24, r30
+ 4ca:	9f 07       	cpc	r25, r31
+ 4cc:	40 f4       	brcc	.+16     	; 0x4de <string_write+0x3a>
+ 4ce:	f8 01       	movw	r30, r16
+ 4d0:	81 91       	ld	r24, Z+
+ 4d2:	8f 01       	movw	r16, r30
+ 4d4:	0e 94 28 02 	call	0x450	; 0x450 <char_write>
+ 4d8:	0e 94 b5 01 	call	0x36a	; 0x36a <get_current_address>
+ 4dc:	eb cf       	rjmp	.-42     	; 0x4b4 <string_write+0x10>
+ 4de:	df 91       	pop	r29
+ 4e0:	cf 91       	pop	r28
+ 4e2:	1f 91       	pop	r17
+ 4e4:	0f 91       	pop	r16
+ 4e6:	08 95       	ret
+
+000004e8 <main>:
 
 
 int main (int argc, char *argv[])
 {
 	//Intitialize LCD. Set Blinking cursor.
-	lcd_cursor();
- 412:	0e 94 68 00 	call	0xd0	; 0xd0 <lcd_cursor>
+	lcd_init();
+ 4e8:	0e 94 70 00 	call	0xe0	; 0xe0 <lcd_init>
 
     
 	//Write ECE to screen
-    string_write("Library Victory");
- 416:	80 e0       	ldi	r24, 0x00	; 0
- 418:	91 e0       	ldi	r25, 0x01	; 1
- 41a:	0e 94 eb 01 	call	0x3d6	; 0x3d6 <string_write>
- 41e:	ff cf       	rjmp	.-2      	; 0x41e <main+0xc>
+    string_write("abcdefghijklmnopqrstuv");
+ 4ec:	82 e0       	ldi	r24, 0x02	; 2
+ 4ee:	91 e0       	ldi	r25, 0x01	; 1
+ 4f0:	0e 94 52 02 	call	0x4a4	; 0x4a4 <string_write>
+ 4f4:	2f e3       	ldi	r18, 0x3F	; 63
+ 4f6:	8d e0       	ldi	r24, 0x0D	; 13
+ 4f8:	93 e0       	ldi	r25, 0x03	; 3
+ 4fa:	21 50       	subi	r18, 0x01	; 1
+ 4fc:	80 40       	sbci	r24, 0x00	; 0
+ 4fe:	90 40       	sbci	r25, 0x00	; 0
+ 500:	e1 f7       	brne	.-8      	; 0x4fa <main+0x12>
+ 502:	00 c0       	rjmp	.+0      	; 0x504 <main+0x1c>
+ 504:	00 00       	nop
 
-00000420 <_exit>:
- 420:	f8 94       	cli
+    _delay_ms(1000);
 
-00000422 <__stop_program>:
- 422:	ff cf       	rjmp	.-2      	; 0x422 <__stop_program>
+    lcd_init();
+ 506:	0e 94 70 00 	call	0xe0	; 0xe0 <lcd_init>
+
+    string_write("dose\nballs do...");
+ 50a:	89 e1       	ldi	r24, 0x19	; 25
+ 50c:	91 e0       	ldi	r25, 0x01	; 1
+ 50e:	0e 94 52 02 	call	0x4a4	; 0x4a4 <string_write>
+ 512:	ff cf       	rjmp	.-2      	; 0x512 <main+0x2a>
+
+00000514 <_exit>:
+ 514:	f8 94       	cli
+
+00000516 <__stop_program>:
+ 516:	ff cf       	rjmp	.-2      	; 0x516 <__stop_program>

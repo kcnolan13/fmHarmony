@@ -1,16 +1,10 @@
 // Marcel Marki & Kyle Nolan
 // LCD Module Library File
 
-#include <stdlib.h>
 #include "display.h"
 
-int chars_written = 0;
-int line_num = 1;
-
-int lcd_init()
+int lcd_cursor()
 {
-    chars_written = 0;
-    line_num = 1;
 	//Power Port D as outputs.
 	DDRA |= 0xFF;
 
@@ -159,27 +153,18 @@ void datarw(){
 void string_write(char *mystring)
 {
     int i;
-    get_current_address();
+    //get_current_address();
     //printf("writing string\n");
     for (i=0; i<strlen(mystring); i++) {
         char_write(mystring[i]);
-        get_current_address();
+        //get_current_address();
     }
 }
 
 int get_current_address() {
     int address;
     address = instruction_read()&0x7F;
-    return address+1;
-}
-
-void set_ddram_address(int address) {
-    PORTA &=~ _BV(RS);
-    PORTA &=~ _BV(RW);
-    write_db74(1,(address>>6)&1,(address>>5)&1,(address>>4)&1);
-    datarw();
-    write_db74((address>>3)&1,(address>>2)&1,(address>>1)&1,(address>>0)&1);
-    datarw();
+    return address;
 }
 
 int instruction_read() 
@@ -244,20 +229,7 @@ int instruction_read()
 
 void char_write(char mychar)
 {
-    chars_written++;
-
-    if ((chars_written==17)||(mychar=='\n'))
-    {
-        if (line_num==1)
-        {
-            set_ddram_address(0x40);
-            line_num = 2;
-        }
-    }
-
-    if (mychar!='\n')
-        data_write((uint8_t)mychar);
-    
+    data_write((uint8_t)mychar);
 }
 
 void data_write(uint8_t val)

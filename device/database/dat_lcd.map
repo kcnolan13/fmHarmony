@@ -344,9 +344,9 @@ END GROUP
  .stab          0x0000000000001c38       0xe4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eewr_byte_atmega1284p.o)
                                          0xf0 (size before relaxing)
 
-.stabstr        0x0000000000000000      0xfc6
+.stabstr        0x0000000000000000      0xfc4
  *(.stabstr)
- .stabstr       0x0000000000000000      0xfc6 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/crtm1284p.o
+ .stabstr       0x0000000000000000      0xfc4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/crtm1284p.o
 
 .stab.excl
  *(.stab.excl)

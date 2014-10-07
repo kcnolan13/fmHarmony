@@ -21,6 +21,8 @@
 void InitUSART(void);
 char getChar(void);
 char peekChar(void);
+int serialStart(void);
+int serialEnd(void);
 
 struct station{
     char callsign[8];
@@ -37,11 +39,14 @@ volatile char empty  = 'A';
 char rxBuffer[RX_BUFFER_SIZE];
 uint8_t rxReadPos = 0;
 uint8_t rxWritePos = 0;
+volatile char serial_history[3] = {'\0'};
+char serialStartChar = '$';
+char serialEndChar = '^';
 
 //State Variables
 volatile int update_progress = 0;
 int read_ready = 0;
-int eeprom_index = 0;
+volatile int eeprom_index = 0;
 int read_index = 0;
 
 union float2bytes { 
@@ -50,37 +55,41 @@ union float2bytes {
 };
 
 ISR(USART1_RX_vect){
-    //Read value out of the UART buffer
     
-    rxBuffer[rxWritePos] = UDR1;
 
-    if(rxBuffer[rxWritePos] == '@'){
+    //shift serial history back one
+    serial_history[2] = serial_history[1];
+    serial_history[1] = serial_history[0];
+    //Read value out of the UART buffer
+    serial_history[0] = UDR1;
+
+    if (update_progress==1)
+    {
+        rxBuffer[rxWritePos] = serial_history[0];
+        rxWritePos++;
+    }   
+
+    if(serialStart()){
         update_progress = 1;
+        //lcd_cursor();
+        //eeprom_index = 0;
         //string_write("1");
     } 
-    else if(rxBuffer[rxWritePos] == '#'){
-        //update_progress = 0;
-        //string_write("0");
-    }
-    else{
-        //string_write("x");
-    }
 
-    rxWritePos++;
-     
     if(rxWritePos >= RX_BUFFER_SIZE)
     {
         rxWritePos = 0;
     }
+
 }
 
 int main (int argc, char *argv[])
 {
-    int i = 0;
+    //int i = 0;
     char holder = 'B';
     char readbyte = 'B';
-    char * prueba = "\0";
-    uint8_t ByteofData;
+    //char * prueba = "\0";
+    //uint8_t ByteofData;
     
     DDRB = 0xFF;
 
@@ -93,18 +102,30 @@ int main (int argc, char *argv[])
     sei();
 
     //Intitialize LCD. Set Blinking cursor.
-    lcd_cursor();
+    lcd_init();
+
+    _delay_ms(1000);
     
     //string_write("Loading Database. Don't Update.");
 
-    struct station stat_test;
+    struct station *stat_test = (struct station*)malloc(sizeof(struct station));
 
 
     //ByteofData = eeprom_read_byte((uint8_t)0);
+    int i=0;
+    for (i=0; i<232; i++)
+    {
+        //eeprom_write_byte((uint8_t *)i,'A');
+        readbyte = (char)eeprom_read_byte((int *)i);
+        char_write(readbyte);
+        _delay_ms(100);
+        
+        if (i%32==0)
+            lcd_init();
+    }
 
-
-    eeprom_read_block((void*)stat_test.callsign, (const void*)(0), 1);
-    char_write(stat_test.callsign[0]);
+    //eeprom_read_block((void*)stat_test->callsign, (const void*)(0), 1);
+    //char_write(stat_test->callsign[0]);
 
     /*
     char_write(stat_test.callsign[1]);
@@ -121,9 +142,11 @@ int main (int argc, char *argv[])
             //string_write("y");
             holder = getChar();
             if (holder != '\0'){
-            	if(holder == '#') update_progress = 0;
+            	if(serialEnd()) update_progress = 0;
             	else{
-	            	eeprom_write_byte(eeprom_index,holder);
+	            	eeprom_write_byte((uint8_t *)eeprom_index,holder);
+                    /*if (eeprom_index < 16)
+                        char_write(holder);*/
 	            	eeprom_index ++;
 	            	read_ready = 1;
 	            }
@@ -131,9 +154,15 @@ int main (int argc, char *argv[])
         }
 
         if (read_ready){
-            readbyte = eeprom_read_byte((char*)read_index);
+            readbyte = (char)eeprom_read_byte((const uint8_t *)read_index);
             read_index ++;
-            //char_write(readbyte);
+            if (read_index < 232)
+            {
+                if ((read_index-1)%32==0)
+                    lcd_init();
+
+                char_write(readbyte);
+            }
             read_ready = 0;             
         }
         
@@ -193,4 +222,20 @@ char getChar(void)
     }
     
     return ret;
+}
+
+int serialStart(void)
+{
+    if ((serial_history[0]==serialStartChar)&&(serial_history[1]==serialStartChar)&&(serial_history[2]==serialStartChar))
+        return 1;
+    else
+        return 0;
+}
+
+int serialEnd(void)
+{
+    if ((serial_history[0]==serialEndChar)&&(serial_history[1]==serialEndChar)&&(serial_history[2]==serialEndChar))
+        return 1;
+    else
+        return 0;
 }

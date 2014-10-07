@@ -9,14 +9,16 @@
 #include "display.h"
 
 
+
+
 int main (int argc, char *argv[])
 {
 	//Intitialize LCD. Set Blinking cursor.
 	int readbyte;
 
 	lcd_cursor();
-	eeprom_write_byte(0,'A');
-	readbyte = eeprom_read_byte((char*)0);
+	eeprom_write_byte(0,65);
+	readbyte = eeprom_read_byte((int*)0);
 
 	char readchar = (char)readbyte;
     

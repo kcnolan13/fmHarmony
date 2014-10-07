@@ -6,8 +6,8 @@ Archive member included because of file (symbol)
                               main.o (__do_copy_data)
 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
                               main.o (__do_clear_bss)
-/usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eerd_block_atmega1284p.o)
-                              main.o (__eerd_block_m1284p)
+/usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eerd_byte_atmega1284p.o)
+                              main.o (__eerd_byte_m1284p)
 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eewr_byte_atmega1284p.o)
                               main.o (__eewr_byte_m1284p)
 
@@ -131,7 +131,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x5e4
+.text           0x0000000000000000      0x780
  *(.vectors)
  .vectors       0x0000000000000000       0x8c /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/crtm1284p.o
                 0x0000000000000000                __vectors
@@ -221,82 +221,84 @@ END GROUP
                 0x00000000000000ca                __vector_16
                 0x00000000000000ca                __vector_18
                 0x00000000000000ca                __vector_20
- .text          0x00000000000000ce       0xd4 main.o
-                0x00000000000000ce                __vector_28
-                0x0000000000000132                InitUSART
-                0x000000000000015c                peekChar
-                0x0000000000000176                getChar
- .text          0x00000000000001a2      0x354 display.o
-                0x00000000000001a2                datarw
-                0x00000000000001b4                lcd_cursor
-                0x0000000000000312                letterwrite
-                0x0000000000000352                instruction_read
-                0x000000000000042a                get_current_address
-                0x0000000000000434                write_db74
-                0x000000000000045e                data_write
-                0x00000000000004b6                char_write
-                0x00000000000004ba                string_write
- .text          0x00000000000004f6        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
- .text          0x00000000000004f6        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
- .text          0x00000000000004f6        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
- .text          0x00000000000004f6        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eerd_block_atmega1284p.o)
- .text          0x00000000000004f6        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eewr_byte_atmega1284p.o)
-                0x00000000000004f6                . = ALIGN (0x2)
+ .text          0x00000000000000ce      0x16a main.o
+                0x00000000000000ce                InitUSART
+                0x00000000000000f8                peekChar
+                0x0000000000000112                getChar
+                0x000000000000013e                serialStart
+                0x0000000000000168                __vector_28
+                0x000000000000020e                serialEnd
+ .text          0x0000000000000238      0x41a display.o
+                0x0000000000000238                datarw
+                0x000000000000024a                lcd_init
+                0x00000000000003bc                letterwrite
+                0x00000000000003fc                instruction_read
+                0x00000000000004d4                get_current_address
+                0x00000000000004e0                write_db74
+                0x000000000000050a                set_ddram_address
+                0x0000000000000562                data_write
+                0x00000000000005ba                char_write
+                0x000000000000060e                string_write
+ .text          0x0000000000000652        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
+ .text          0x0000000000000652        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
+ .text          0x0000000000000652        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
+ .text          0x0000000000000652        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eerd_byte_atmega1284p.o)
+ .text          0x0000000000000652        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eewr_byte_atmega1284p.o)
+                0x0000000000000652                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x00000000000004f6       0xae main.o
-                0x00000000000004f6                main
+ .text.startup  0x0000000000000652       0xfe main.o
+                0x0000000000000652                main
  .text.libgcc.mul
-                0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
+                0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
  .text.libgcc.div
-                0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
- .text.libgcc   0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
+                0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
+ .text.libgcc   0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
+                0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
+                0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
+                0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
+                0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
  .text.libgcc.mul
-                0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
+                0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
  .text.libgcc.div
-                0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
- .text.libgcc   0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
+                0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
+ .text.libgcc   0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
  .text.libgcc.prologue
-                0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
+                0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
  .text.libgcc.builtins
-                0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
+                0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
  .text.libgcc.fmul
-                0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
+                0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
  .text.libgcc.fixed
-                0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
+                0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
  .text.libgcc.mul
-                0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
+                0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
  .text.libgcc.div
-                0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
- .text.libgcc   0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
+                0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
+ .text.libgcc   0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
  .text.libgcc.prologue
-                0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
+                0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
  .text.libgcc.builtins
-                0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
+                0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
  .text.libgcc.fmul
-                0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
+                0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
  .text.libgcc.fixed
-                0x00000000000005a4        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
+                0x0000000000000750        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
  .text.avr-libc
-                0x00000000000005a4       0x20 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eerd_block_atmega1284p.o)
-                0x00000000000005a4                __eerd_block_m1284p
-                0x00000000000005a8                __eerd_blraw_m1284p
+                0x0000000000000750       0x10 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eerd_byte_atmega1284p.o)
+                0x0000000000000750                __eerd_byte_m1284p
  .text.avr-libc
-                0x00000000000005c4       0x1c /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eewr_byte_atmega1284p.o)
-                0x00000000000005c4                __eewr_byte_m1284p
-                0x00000000000005c6                __eewr_r18_m1284p
-                0x00000000000005e0                . = ALIGN (0x2)
+                0x0000000000000760       0x1c /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eewr_byte_atmega1284p.o)
+                0x0000000000000760                __eewr_byte_m1284p
+                0x0000000000000762                __eewr_r18_m1284p
+                0x000000000000077c                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000000000005e0        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
-                0x00000000000005e0                exit
-                0x00000000000005e0                _exit
+ .fini9         0x000000000000077c        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
+                0x000000000000077c                exit
+                0x000000000000077c                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -315,62 +317,67 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000000000005e0        0x4 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
+ .fini0         0x000000000000077c        0x4 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
  *(.fini0)
-                0x00000000000005e4                _etext = .
+                0x0000000000000780                _etext = .
 
-.data           0x0000000000800100        0x2 load address 0x00000000000005e4
+.data           0x0000000000800100        0x6 load address 0x0000000000000780
                 0x0000000000800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/crtm1284p.o
- .data          0x0000000000800100        0x1 main.o
-                0x0000000000800100                empty
- .data          0x0000000000800101        0x0 display.o
- .data          0x0000000000800101        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
- .data          0x0000000000800101        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
- .data          0x0000000000800101        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
- .data          0x0000000000800101        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eerd_block_atmega1284p.o)
- .data          0x0000000000800101        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eewr_byte_atmega1284p.o)
+ .data          0x0000000000800100        0x3 main.o
+                0x0000000000800100                serialEndChar
+                0x0000000000800101                serialStartChar
+                0x0000000000800102                empty
+ .data          0x0000000000800103        0x2 display.o
+                0x0000000000800103                line_num
+ .data          0x0000000000800105        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
+ .data          0x0000000000800105        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
+ .data          0x0000000000800105        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
+ .data          0x0000000000800105        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eerd_byte_atmega1284p.o)
+ .data          0x0000000000800105        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eewr_byte_atmega1284p.o)
  *(.data*)
  *(.rodata)
  *(.rodata*)
  *(.gnu.linkonce.d*)
-                0x0000000000800102                . = ALIGN (0x2)
- *fill*         0x0000000000800101        0x1 
-                0x0000000000800102                _edata = .
-                0x0000000000800102                PROVIDE (__data_end, .)
+                0x0000000000800106                . = ALIGN (0x2)
+ *fill*         0x0000000000800105        0x1 
+                0x0000000000800106                _edata = .
+                0x0000000000800106                PROVIDE (__data_end, .)
 
-.bss            0x0000000000800102       0x8a
-                0x0000000000800102                PROVIDE (__bss_start, .)
+.bss            0x0000000000800106       0x8f
+                0x0000000000800106                PROVIDE (__bss_start, .)
  *(.bss)
- .bss           0x0000000000800102        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/crtm1284p.o
- .bss           0x0000000000800102        0xa main.o
-                0x0000000000800102                read_index
-                0x0000000000800104                eeprom_index
-                0x0000000000800106                read_ready
-                0x0000000000800108                update_progress
-                0x000000000080010a                rxWritePos
-                0x000000000080010b                rxReadPos
- .bss           0x000000000080010c        0x0 display.o
- .bss           0x000000000080010c        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
- .bss           0x000000000080010c        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
- .bss           0x000000000080010c        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
- .bss           0x000000000080010c        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eerd_block_atmega1284p.o)
- .bss           0x000000000080010c        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eewr_byte_atmega1284p.o)
+ .bss           0x0000000000800106        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/crtm1284p.o
+ .bss           0x0000000000800106        0xd main.o
+                0x0000000000800106                read_index
+                0x0000000000800108                eeprom_index
+                0x000000000080010a                read_ready
+                0x000000000080010c                update_progress
+                0x000000000080010e                serial_history
+                0x0000000000800111                rxWritePos
+                0x0000000000800112                rxReadPos
+ .bss           0x0000000000800113        0x2 display.o
+                0x0000000000800113                chars_written
+ .bss           0x0000000000800115        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_exit.o)
+ .bss           0x0000000000800115        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_copy_data.o)
+ .bss           0x0000000000800115        0x0 /usr/lib/gcc/avr/4.8.2/avr51/libgcc.a(_clear_bss.o)
+ .bss           0x0000000000800115        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eerd_byte_atmega1284p.o)
+ .bss           0x0000000000800115        0x0 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eewr_byte_atmega1284p.o)
  *(.bss*)
  *(COMMON)
- COMMON         0x000000000080010c       0x80 main.o
-                0x000000000080010c                rxBuffer
-                0x000000000080018c                PROVIDE (__bss_end, .)
-                0x00000000000005e4                __data_load_start = LOADADDR (.data)
-                0x00000000000005e6                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x0000000000800115       0x80 main.o
+                0x0000000000800115                rxBuffer
+                0x0000000000800195                PROVIDE (__bss_end, .)
+                0x0000000000000780                __data_load_start = LOADADDR (.data)
+                0x0000000000000786                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x000000000080018c        0x0
-                0x000000000080018c                PROVIDE (__noinit_start, .)
+.noinit         0x0000000000800195        0x0
+                0x0000000000800195                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x000000000080018c                PROVIDE (__noinit_end, .)
-                0x000000000080018c                _end = .
-                0x000000000080018c                PROVIDE (__heap_start, .)
+                0x0000000000800195                PROVIDE (__noinit_end, .)
+                0x0000000000800195                _end = .
+                0x0000000000800195                PROVIDE (__heap_start, .)
 
 .eeprom         0x0000000000810000        0x0
  *(.eeprom*)
@@ -391,21 +398,21 @@ END GROUP
 .user_signatures
  *(.user_signatures*)
 
-.stab           0x0000000000000000     0x219c
+.stab           0x0000000000000000     0x2484
  *(.stab)
  .stab          0x0000000000000000      0x6cc /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/crtm1284p.o
- .stab          0x00000000000006cc      0x9b4 main.o
-                                        0x9c0 (size before relaxing)
- .stab          0x0000000000001080      0xf30 display.o
-                                       0x114c (size before relaxing)
- .stab          0x0000000000001fb0      0x108 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eerd_block_atmega1284p.o)
-                                        0x114 (size before relaxing)
- .stab          0x00000000000020b8       0xe4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eewr_byte_atmega1284p.o)
+ .stab          0x00000000000006cc      0xb88 main.o
+                                        0xb94 (size before relaxing)
+ .stab          0x0000000000001254     0x10bc display.o
+                                       0x12f0 (size before relaxing)
+ .stab          0x0000000000002310       0x90 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eerd_byte_atmega1284p.o)
+                                         0x9c (size before relaxing)
+ .stab          0x00000000000023a0       0xe4 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/libc.a(eewr_byte_atmega1284p.o)
                                          0xf0 (size before relaxing)
 
-.stabstr        0x0000000000000000     0x1297
+.stabstr        0x0000000000000000     0x137e
  *(.stabstr)
- .stabstr       0x0000000000000000     0x1297 /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/crtm1284p.o
+ .stabstr       0x0000000000000000     0x137e /usr/lib/gcc/avr/4.8.2/../../../avr/lib/avr51/crtm1284p.o
 
 .stab.excl
  *(.stab.excl)

@@ -49,8 +49,7 @@ int main (int argc, char *argv[])
     }
 
     open_port();
-    send_string("@");
-    send_float("102.1");
+    send_string("$$$");
 
     //Fetch each line into a string
     while (fgets(buf,1000, file_hndl)!=NULL){
@@ -67,7 +66,8 @@ int main (int argc, char *argv[])
     //Close File
     fclose(file_hndl);
 
-    send_string("#");
+    usleep(3000000);
+    send_string("^^^");
 
     serialport_close(fd);
     return 0;
@@ -168,19 +168,19 @@ int parse_line(char * in_line){
     if (initial_length > 2){
         if (initial_length >= 200){
             //grid population
-            send_byte((uint8_t)atoi(token));
+            send_byte((uint8_t)*(token));
             printf("%s ", token);
             while(token){
                 i++;
                 token = strtok_single(NULL, " ");
-                if (i < 100) send_byte((uint8_t)atoi(token));
+                if (i < 100) send_byte((uint8_t)*(token));
                 if (i < 100)  printf("%s ",token);
                 usleep(50000);
             }
         }
         else{
             //Station line
-            printf("string:%s ", token);
+            printf("callsign:%s ", token);
             send_string(token);
             while(token){
                 i++;
@@ -192,7 +192,7 @@ int parse_line(char * in_line){
         }  
     }
     else{
-        send_byte((uint8_t)atoi(token));
+        send_byte((uint8_t)*(token));
         printf("byte:%s ",token);
     }
     printf("\n");
