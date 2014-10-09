@@ -2,7 +2,7 @@
 #=================================================================
 # APPLICATION NAME: fmFirmware
 #
-# DESCRIPTION: MCU Firmware for the FM Harmony Device
+# DESCRIPTION: Microcontroller Firmware for the FM Harmony Device
 #
 # AUTHORS: Marcel Marki, Kyle Nolan
 #
@@ -25,16 +25,22 @@
 #include <avr/eeprom.h>
 #include "display.h"
 
-//Device Constants
+//---- DEVICE CONSTANTS ----//
+
 #define RX_BUFFER_SIZE  128
 #define STATION_BLOCKSIZE 28
 #define FIRST_STATION_OFFSET 101// 1 + 100
 #define NUM_GRID_CELLS 100
 #define SERIAL_TIMEOUT 50000
+
+//serial termination flags
 #define FL_SUCCESS 0
 #define FL_FAIL 1
+
+//modes of operation
 #define MD_NORMAL 0
 #define MD_UPDATE 1
+#define MD_UPDATE_REQUIRED 2
 
 //---- FUNCTION DECLARATIONS ----//
 
@@ -45,6 +51,7 @@ void database_load(void);
 void database_free(void);
 
 //EEPROM Operations
+void wipe_eeprom(void);
 int my_eeprom_read_int(int address);
 char my_eeprom_read_char(int address);
 float my_eeprom_read_float(int address);
@@ -62,9 +69,11 @@ int detectSerialEnd(void);
 char getChar(void);
 char peekChar(void);
 void terminate_serial(int flag);
-void check_integrity(void);
+void check_database_integrity(void);
+
 
 //modes of operation
+void wait_for_update(void);
 void print_eeprom_station_contents(void);
 void print_eeprom_contents(int start_addr, int end_addr);
 void print_all_known_stations(void);
@@ -104,8 +113,6 @@ double serial_timer = 0;
 volatile int op_mode = MD_NORMAL;
 volatile int eeprom_index = 0;
 int updating = 0;
-int read_ready = 0;
-int read_index = 0;
 int database_corrupted = 0;
 
 //used to reconstruct a float from four continguous bytes in EEPROM
@@ -125,7 +132,7 @@ int main (int argc, char *argv[])
     prepare_device();
 
     //load in the FM stations database from EEPROM
-    string_write("syncing\nmemory ...");
+    string_write("reading\ndatabase...");
     database_load();
     _delay_ms(1000);
     
@@ -136,10 +143,26 @@ int main (int argc, char *argv[])
         {
             case MD_NORMAL:
 
+                //ask for an update if no known stations
+                if (num_stations < 1)
+                {
+                    print_eeprom_contents(0,32);
+                    //don't set the mode if the update has already been triggered
+                    if (op_mode != MD_UPDATE)
+                        op_mode = MD_UPDATE_REQUIRED;
+
+                    break;
+                }
+
                 //behave normally
                 //print_eeprom_contents(0,32);
                 print_all_callsigns();
                 print_all_known_stations();
+            break;
+
+            case MD_UPDATE_REQUIRED:
+                //do nothing until an update is triggered
+                wait_for_update();
             break;
 
             case MD_UPDATE:
@@ -148,8 +171,9 @@ int main (int argc, char *argv[])
                 if (updating == 0)
                 {
                     lcd_init();
-                    string_write("downloading\nupdates ...");
+                    string_write("updating...\ndon't unplug");
                     updating = 1;
+                    database_corrupted = 0;
 
                     //free the old database from program memory
                     database_free();
@@ -163,39 +187,41 @@ int main (int argc, char *argv[])
 
                     //handle serial transfer end sequence
                     if(detectSerialEnd()) {
+
                         //terminate connection and update the database
                         terminate_serial(FL_SUCCESS);
 
+                        //check for database corruption
+                        check_database_integrity();
+                        if (database_corrupted)
+                        {
+                            //wipe 100 stations worth of EEPROM and require a fresh update
+                            wipe_eeprom();
+                            op_mode = MD_UPDATE_REQUIRED;
+                        }
+
                     } else {
-                        //this is not part of the end sequence --> write it to EEPROM!
+
+                        //write real serial data bytes to EEPROM
                         eeprom_write_byte((uint8_t *)eeprom_index,holder);
                         eeprom_index ++;
-                        read_ready = 1;
                     }
 
                 } else {
-                    //no data was available to read; make sure to timeout eventually
+
+                    //no data was available to read this time around; work towards a timeout
                     serial_timer ++;
 
-                    //string_write_int(serial_timer,3); string_write(", ");
                     if (serial_timer > SERIAL_TIMEOUT)
                     {
-                        //timeout --> close serial connection and import the new database
+                        //serial timeout --> close serial connection, wipe memory, and require a fresh update
                         terminate_serial(FL_FAIL);
+                        wipe_eeprom();
+                        op_mode = MD_UPDATE_REQUIRED;
                     }
                 }
             break;
 
-        }
-
-        if (read_ready) {
-            eeprom_read_byte((const uint8_t *)read_index);//readbyte = (char)eeprom_read_byte((const uint8_t *)read_index);
-            read_index ++;
-            //if (read_index < 232)
-            {
-                //char_write(readbyte);
-            }
-            read_ready = 0;             
         }
         
     } //primary program loop
@@ -235,7 +261,6 @@ ISR(USART1_RX_vect){
     {
         rxWritePos = 0;
     }
-
 }
 
 // Initialize USART
@@ -284,6 +309,12 @@ void database_load(void)
     if (num_stations==255)
         num_stations = 0;
 
+    _delay_ms(500);
+    lcd_init();
+    string_write("importing ");
+    string_write_int(num_stations,3);
+    string_write("\nstations...");
+
     //allocate memory for all the station structures
     all_stations = (Station *)malloc(num_stations*sizeof(Station));
 
@@ -306,7 +337,6 @@ void database_load(void)
     for (i=0; i<num_stations; i++)
     {
         int start = FIRST_STATION_OFFSET+i*STATION_BLOCKSIZE;
-
         my_eeprom_read_string(all_stations[i].callsign,start,8); start += 8;
         all_stations[i].freq = my_eeprom_read_float(start); start += 4;
         all_stations[i].lat = my_eeprom_read_float(start); start += 4;
@@ -333,6 +363,19 @@ void database_free(void)
 }
 
 //---- EEPROM Operations ----//
+
+//wipe 100-stations-worth of EEPROM data
+void wipe_eeprom(void)
+{
+    int i;
+    lcd_init();
+    string_write("wiping\nmemory...");
+    for (i=0; i<FIRST_STATION_OFFSET+100*STATION_BLOCKSIZE; i++)
+    {
+        if (op_mode==MD_UPDATE) return;
+        eeprom_write_byte((uint8_t *)i,255);
+    }
+}
 
 //read a single-byte integer from an EEPROM address
 int my_eeprom_read_int(int address)
@@ -491,34 +534,51 @@ void terminate_serial(int flag)
     lcd_init();
 
     if (flag==FL_SUCCESS)
-        string_write("syncing\nmemory ...");
+        string_write("reading\ndatabase ...");
     else
         string_write("ERROR:\ntimeout ...");
 
     database_load();
-    _delay_ms(2000);
+    _delay_ms(1000);
 
     if (flag==FL_SUCCESS)
-        string_write("\nDATABASE\nUPDATED");
+        string_write("\nupdate complete\n");
     else
-        string_write("\nUPDATE\nFAILED");
+        string_write("\nupdate failed\n");
 
-    _delay_ms(1500);
+    _delay_ms(500);
 }
 
 //check for database corruption
-void check_integrity(void)
+void check_database_integrity(void)
 {
     int i, j;
     for (i=0; i<num_stations; i++)
     {
         char * call = all_stations[i].callsign;
-        for (j=0; j<strlen(call); j++)
+        for (j=0; j<8; j++)
         {
             //indicate corruption if any station callsigns contain abnormal characters
-            if ((call[j] < 33)||(call[j] > 126))
+            if (((call[j] < 33)||(call[j] > 126))&&(call[j]!=' '))
             {
                 database_corrupted = 1;
+                lcd_init();
+                string_write("CORRUPTION\nDETECTED");
+                _delay_ms(2000);
+                lcd_init();
+                string_write("tracing\ncorruption...");
+                _delay_ms(500);
+                lcd_init();
+                string_write("station #");
+                string_write_int(i+1,3);
+                string_write(" : ");
+                char_write('\'');
+                char_write(call[j]);
+                char_write('\'');
+                char_write('\n');
+                _delay_ms(2000);
+                print_callsign(i);
+                _delay_ms(4000);
                 return;
             }
         }
@@ -545,7 +605,7 @@ void print_eeprom_contents(int start_addr, int end_addr)
         if (one_byte == '\0')
             one_byte = '?';
         char_write(one_byte);
-        _delay_ms(250);
+        _delay_ms(100);
     }
 }
 
@@ -577,8 +637,7 @@ void print_all_known_stations(void)
 
     _delay_ms(2000);
 
-    if (op_mode==MD_UPDATE)
-        return;
+    if (op_mode==MD_UPDATE) return;
 
     for (i=0; i<num_stations; i++)
     {
@@ -616,5 +675,15 @@ void print_all_callsigns(void)
         if (op_mode==MD_UPDATE) return;
 
         _delay_ms(250);   
+    }
+}
+
+void wait_for_update(void)
+{
+    lcd_init();
+    string_write("update required\n...feed me...");
+    while (1)
+    {
+        if (op_mode==MD_UPDATE) return;
     }
 }

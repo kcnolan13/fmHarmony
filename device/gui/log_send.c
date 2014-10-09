@@ -14,6 +14,7 @@
 #include "arduino-serial-lib.h"
 
 #define BUF_MAX 256
+#define UPLOAD_SPEED 5
 
 int open_port(void);
 int send_string(char* in_string);
@@ -67,6 +68,7 @@ int main (int argc, char *argv[])
     printf("\n\n");
 
     //wait a while to make sure the device has detected the start sequence and is ready for data
+    printf("giving device plenty of time...\n\n"); fflush(stdout);
     usleep(5000000);
 
     //parse the log file line by line
@@ -85,6 +87,7 @@ int main (int argc, char *argv[])
     fclose(log_file);
 
     //make sure the device has had enough time to write all the data before sending end sequence
+    printf("giving device plenty of time...\n\n"); fflush(stdout);
     usleep(4000000);
 
     //send the end sequence
@@ -135,7 +138,7 @@ int send_string(char* in_string){
         return -2;
     }
 
-    usleep(10000);
+    usleep(10000/UPLOAD_SPEED);
 
     return 0;
 }
@@ -164,7 +167,7 @@ int send_float(char* in_string){
         }
     } printf("\n");
 
-    usleep(10000);
+    usleep(10000/UPLOAD_SPEED);
 
     return 0;
 }
@@ -182,7 +185,7 @@ int send_byte (uint8_t in_byte){
         return -2;
     }
 
-    usleep(20000);
+    usleep(20000/UPLOAD_SPEED);
 
     return 0;
 }
@@ -234,7 +237,7 @@ int parse_line(char * in_line){
                      fflush(stdout);
                 }
 
-                usleep(500000);
+                usleep(500000/UPLOAD_SPEED);
             }
             printf("\n"); fflush(stdout);
         }
@@ -242,21 +245,34 @@ int parse_line(char * in_line){
             //Station line
             stations_uploaded++;
             printf("\n---------------------------------\nUploading Station (%d of %d)\n---------------------------------\n\n",stations_uploaded, num_stations);
-            send_string(token);
-            if (strlen(token) < 8)
+
+            //send the station callsign --> always send only 8 chars; truncate or pad if needed
+            char *token2 = (char *)malloc(8*sizeof(char));
+
+            if (strlen(token) > 8)
+                strncpy(token2,token,8);
+            else
+                strcpy(token2,token);
+
+            send_string(token2);
+            if (strlen(token2) < 8)
             {
                 int k=0;
-                for (k=0; k< 8-strlen(token); k++)
+                for (k=0; k< 8-strlen(token2); k++)
                 {
                     send_string(" ");
                 }
             }
+
+            free(token2);
+
+            //send the other station parameters
             while(token){
                 i++;
                 token = strtok_single(NULL, " ");
                 if (i < 6) send_float(token); 
                 //if (i < 6) printf("float:%s ",token); 
-                usleep(200000);
+                usleep(200000/UPLOAD_SPEED);
             }       
         }  
     }
