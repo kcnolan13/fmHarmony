@@ -16,7 +16,7 @@
 //Serial Variables
 #define RX_BUFFER_SIZE  128
 #define STATION_BLOCKSIZE 28
-#define FIRST_STATION_OFFSET 104// 4 + 100
+#define FIRST_STATION_OFFSET 101// 1 + 100
 #define NUM_GRID_CELLS 100
 #define SERIAL_TIMEOUT 50000
 #define FL_SUCCESS 0
@@ -33,7 +33,7 @@ float my_eeprom_read_float(int address);
 void my_eeprom_read_string(char *dest, int address, int num_chars);
 void string_write_int(int num, int num_digits);
 void string_write_float(float num, int dec_digits);
-void print_eeprom_contents(void);
+void print_eeprom_contents(int start_addr, int end_addr);
 void print_eeprom_station_contents(void);
 void print_station(int index);
 void print_callsign(int station_index);
@@ -174,6 +174,7 @@ int main (int argc, char *argv[])
 
         } else {
             //behave normally
+            //print_eeprom_contents(0,32);
             print_all_callsigns();
             print_all_known_stations();
         }
@@ -261,8 +262,8 @@ int serialEnd(void)
 
 int my_eeprom_read_int(int address)
 {
-    char temp_num = ((char)eeprom_read_byte((uint8_t *)address));
-    return (atoi(&temp_num));
+    int temp_num = ((int)eeprom_read_byte((uint8_t *)address));
+    return (temp_num);
 }
 
 char my_eeprom_read_char(int address)
@@ -314,18 +315,25 @@ void string_write_float(float num, int dec_digits)
     string_write_int(temp,4);
 }
 
-void print_eeprom_contents(void)
+void print_eeprom_contents(int start_addr, int end_addr)
 {
     int i=0;
     char one_byte;
 
-    for (i=0; i<1+NUM_GRID_CELLS+num_stations*STATION_BLOCKSIZE; i++)
+    if (end_addr == -1)
+        end_addr = 1+NUM_GRID_CELLS+num_stations*STATION_BLOCKSIZE;
+
+    lcd_init();
+
+    for (i=start_addr; i<end_addr; i++)
     {
+        if (update_trigger)
+        return;
         one_byte = my_eeprom_read_char(i);
         if (one_byte == '\0')
             one_byte = '?';
         char_write(one_byte);
-        _delay_ms(100);
+        _delay_ms(250);
     }
 }
 
@@ -393,7 +401,10 @@ void database_load(void)
 {
     int i;
     //figure out how many stations there are by reading the first number written to EEPROM
-    num_stations = (int)my_eeprom_read_float(0);
+    num_stations = my_eeprom_read_int(0);
+
+    if (num_stations==255)
+        num_stations = 0;
 
     //allocate memory for all the station structures
     all_stations = (Station *)malloc(num_stations*sizeof(Station));
@@ -402,7 +413,7 @@ void database_load(void)
     int total = 0;
     for (i=0; i < NUM_GRID_CELLS; i ++)
     {
-        stations_in_cell[i] = my_eeprom_read_int(i+4);
+        stations_in_cell[i] = my_eeprom_read_int(i+1);
         cell_offsets[i] = FIRST_STATION_OFFSET+total*STATION_BLOCKSIZE;
         total += stations_in_cell[i];
     }

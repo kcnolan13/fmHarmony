@@ -203,27 +203,35 @@ int parse_line(char * in_line){
             //grid population
             send_byte((uint8_t)*(token));
             printf("\n\nMaine Station Grid Distribution\n");
-            printf("\n-------------------------------------------------------------\n");
+            printf("\n---------------------------------------------------------------------------------\n");
             int col_counter = 1;
-            printf("|  %s  ", token); fflush(stdout);
+            printf("|       |       |       |       |       |       |       |       |       |       |\n");
+            printf("|   %s   ", token); fflush(stdout);
             
             while(token){
 
                 col_counter++;
                 i++;
                 token = strtok_single(NULL, " ");
+
+                if ((col_counter==1)&&(strlen(token) > 0))
+                    printf("|       |       |       |       |       |       |       |       |       |       |\n");
+
                 if (i < 100) {
                     send_byte((uint8_t)*(token));
                     if (strlen(token) < 2)
-                        printf("|  %s  ",token);
+                        printf("|   %s   ",token);
                     else
-                        printf("|  %s ",token);
+                        printf("|   %s  ",token);
                 }
 
                 if (col_counter > 9)
                 {
                     col_counter = 0;
-                    printf("|\n-------------------------------------------------------------\n"); fflush(stdout);
+                    printf("|\n|       |       |       |       |       |       |       |       |       |       |\n");
+                    printf("---------------------------------------------------------------------------------\n");
+
+                     fflush(stdout);
                 }
 
                 usleep(500000);
@@ -253,9 +261,9 @@ int parse_line(char * in_line){
         }  
     }
     else{
-        send_float(token);
-        num_stations = atoi(token);
-        printf("%d stations to upload\n", num_stations); fflush(stdout);
+        num_stations = (uint8_t)atoi(token);
+        send_byte((uint8_t)num_stations);
+        printf("\n%d stations to upload\n", num_stations); fflush(stdout);
     }
     printf("\n");
     return 0;
