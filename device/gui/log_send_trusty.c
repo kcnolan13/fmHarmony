@@ -23,11 +23,12 @@ char * line_prep(char* in_line);
 void strip_newline( char *str, int size );
 int send_float(char* in_string);
 int send_byte (uint8_t in_byte);
+
 void find_serial_transmitter(void);
 
 int fd = -1;
 char serialport[BUF_MAX];
-char *optarg;
+char *optarg;// =  "/dev/serial/by-id/usb-Dean_Camera_LUFA_USB-RS232_Adapter_A48303630363513112E1-if00";
 int baudrate = 9600;
 
 union float2bytes { 
@@ -38,57 +39,49 @@ union float2bytes {
 int main (int argc, char *argv[])
 {
     optarg = (char *)malloc(100*sizeof(char));
-
-    //fill optarg with the path to the serial transmitter
     find_serial_transmitter();
-
-    FILE *log_file;
+    FILE *file_hndl;
     char buf[1000];
     char *str_array[140]={"\0"};
-    int i=0;
+    int i;
 
-    //Open the FM stations log file that will become the device database
-    log_file = fopen("log.txt","r");
-    if (!log_file){
-        printf("ERROR: Could not open FM Stations log file for reading.\n");
+    //Open log file
+    file_hndl =fopen("log.txt","r");
+    if (!file_hndl){
+        printf("ERROR: Could not open file for reading.\n");
         return -1;
     }
 
-    //create a connection over the virtual serial port
     open_port();
-
-    //send the start sequence
-    perror("START SEQUENCE:\n");
+    printf("START SEQUENCE:\n");
     send_string("$$$");
     printf("\n\n");
 
-    //wait a while to make sure the device has detected the start sequence and is ready for data
+    //wait a while to make sure the device is ready to write
     usleep(5000000);
 
-    //parse the log file line by line
-    while (fgets(buf,1000, log_file)!=NULL) 
-    {
-        //keep track of each line
+    //Fetch each line into a string
+    while (fgets(buf,1000, file_hndl)!=NULL){
         str_array[i] = buf;
+        //printf("%s",str_array[i]);
+
         strip_newline( str_array[i], 210);
 
-        //prepare, parse, and transmit the data within each line
+        //Parse and send lines
         parse_line(line_prep(str_array[i]));
         i++;
     }
 
-    //close the log file
-    fclose(log_file);
+    //Close File
+    fclose(file_hndl);
 
-    //make sure the device has had enough time to write all the data before sending end sequence
+    //make sure device has had enough time to finish
     usleep(4000000);
 
-    //send the end sequence
     printf("END SEQUENCE:\n");
     send_string("^^^");
     printf("\n\n");
 
-    //terminate the virtual serial port connection
     serialport_close(fd);
     return 0;
 }
@@ -271,6 +264,7 @@ void strip_newline( char *str, int size )
     {
         if ( str[i] == '\n' )
         {
+            //printf("We are here: %d\n", i);
             str[i] = '\0';
 
             // we're done, so just exit the function by returning

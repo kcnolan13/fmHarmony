@@ -29,6 +29,8 @@ int fd = -1;
 char serialport[BUF_MAX];
 char *optarg;
 int baudrate = 9600;
+int num_stations = 0;
+int stations_uploaded = 0;
 
 union float2bytes { 
     float f; 
@@ -51,6 +53,7 @@ int main (int argc, char *argv[])
     log_file = fopen("log.txt","r");
     if (!log_file){
         printf("ERROR: Could not open FM Stations log file for reading.\n");
+        fflush(stdout);
         return -1;
     }
 
@@ -58,8 +61,9 @@ int main (int argc, char *argv[])
     open_port();
 
     //send the start sequence
-    perror("START SEQUENCE:\n");
+    printf("START SEQUENCE:\n"); fflush(stdout);
     send_string("$$$");
+
     printf("\n\n");
 
     //wait a while to make sure the device has detected the start sequence and is ready for data
@@ -84,7 +88,7 @@ int main (int argc, char *argv[])
     usleep(4000000);
 
     //send the end sequence
-    printf("END SEQUENCE:\n");
+    printf("END SEQUENCE:\n"); fflush(stdout);
     send_string("^^^");
     printf("\n\n");
 
@@ -96,15 +100,15 @@ int main (int argc, char *argv[])
 int open_port(void){
     if( fd!=-1 ) {
         serialport_close(fd);
-        printf("closed port %s\n",serialport);
+        printf("closed port %s\n",serialport); fflush(stdout);
     }
     strcpy(serialport,optarg);
     fd = serialport_init(optarg, baudrate);
     if( fd==-1 ){
-        printf("couldn't open port: %s\n", serialport);
+        printf("couldn't open port: %s\n", serialport); fflush(stdout);
         return -1;
     }
-    printf("opened port! %s\n\n",serialport);
+    printf("opened port! %s\n\n",serialport); fflush(stdout);
     serialport_flush(fd);
     
     return 0;
@@ -117,7 +121,7 @@ int send_string(char* in_string){
     int rc = -1;
 
     if( fd == -1 ){ 
-        printf("serial port not opened\n");
+        printf("serial port not opened\n"); fflush(stdout);
         return -1;
     }
 
@@ -127,9 +131,11 @@ int send_string(char* in_string){
 
     rc = serialport_write(fd, in_string);
     if(rc==-1){
-        printf("error writing\n");
+        printf("error writing\n"); fflush(stdout);
         return -2;
     }
+
+    usleep(10000);
 
     return 0;
 }
@@ -140,7 +146,7 @@ int send_float(char* in_string){
     union float2bytes f2b;
 
     if( fd == -1 ){ 
-        printf("serial port not opened\n");
+        printf("serial port not opened\n"); fflush(stdout);
         return -1;
     }
 
@@ -148,15 +154,17 @@ int send_float(char* in_string){
     f2b.f = atof(in_string);
 
     for (i = 0; i < 4; i++ ) {
-        printf("byte %d = %c, ", i, f2b.b[i]);
+        printf("byte %d = %c, ", i, f2b.b[i]); fflush(stdout);
         
         //functionalize!
         rc = send_byte((uint8_t)f2b.b[i]); //If this doesn't work, try a loop of 1 char stringwrites.
         if(rc==-1){
-            printf("error writing\n");
+            printf("error writing\n"); fflush(stdout);
             return -2;
         }
     } printf("\n");
+
+    usleep(10000);
 
     return 0;
 }
@@ -165,14 +173,16 @@ int send_byte (uint8_t in_byte){
     int rc = -1;
 
     if( fd == -1 ){ 
-        printf("serial port not opened");
+        printf("serial port not opened"); fflush(stdout);
         return -1;
     }
     rc = serialport_writebyte(fd, in_byte);
     if(rc==-1){
-        printf("error writing");
+        printf("error writing"); fflush(stdout);
         return -2;
     }
+
+    usleep(20000);
 
     return 0;
 }
@@ -180,7 +190,7 @@ int send_byte (uint8_t in_byte){
 int parse_line(char * in_line){
     int i = 0;
     int initial_length = strlen(in_line);
-    printf("chars parsed: %d\n", initial_length);
+    printf("chars parsed: %d\n", initial_length); fflush(stdout);
     char * token = strtok_single(in_line, " ");
     /* walk through other tokens */
     //The first call you use a char array which has the elements you want parsed.
@@ -192,23 +202,38 @@ int parse_line(char * in_line){
         if (initial_length >= 200){
             //grid population
             send_byte((uint8_t)*(token));
-            printf("%s ", token);
+            printf("\n\nMaine Station Grid Distribution\n");
+            printf("\n-------------------------------------------------------------\n");
+            int col_counter = 1;
+            printf("|  %s  ", token); fflush(stdout);
+            
             while(token){
 
+                col_counter++;
                 i++;
                 token = strtok_single(NULL, " ");
                 if (i < 100) {
                     send_byte((uint8_t)*(token));
-                    printf("%s ",token);
+                    if (strlen(token) < 2)
+                        printf("|  %s  ",token);
+                    else
+                        printf("|  %s ",token);
                 }
 
-                usleep(200000);
+                if (col_counter > 9)
+                {
+                    col_counter = 0;
+                    printf("|\n-------------------------------------------------------------\n"); fflush(stdout);
+                }
+
+                usleep(500000);
             }
-            printf("\n");
+            printf("\n"); fflush(stdout);
         }
         else{
             //Station line
-            //printf("callsign:%s\n", token);
+            stations_uploaded++;
+            printf("\n---------------------------------\nUploading Station (%d of %d)\n---------------------------------\n\n",stations_uploaded, num_stations);
             send_string(token);
             if (strlen(token) < 8)
             {
@@ -229,7 +254,8 @@ int parse_line(char * in_line){
     }
     else{
         send_float(token);
-        //printf("num_stations: %s\n",token);
+        num_stations = atoi(token);
+        printf("%d stations to upload\n", num_stations); fflush(stdout);
     }
     printf("\n");
     return 0;
@@ -291,7 +317,7 @@ void find_serial_transmitter(void)
 
     if ((dp = opendir(base_directory)) == NULL)
     {
-        printf("ERROR: cannot open /dev/serial/by-id/\n\n");
+        printf("ERROR: cannot open /dev/serial/by-id/\n\n"); fflush(stdout);
         exit(1);
     }
 
@@ -299,13 +325,13 @@ void find_serial_transmitter(void)
     {
         if (!strncmp(dirp->d_name, common_chars, num_common_chars))
         {
-            printf("\nFOUND SERIAL TRANSMITTER!\n%s\n\n", dirp->d_name);
+            printf("\nFOUND SERIAL TRANSMITTER!\n%s\n\n", dirp->d_name); fflush(stdout);
             sprintf(optarg, "%s%s",base_directory,dirp->d_name);
             closedir(dp);
             return;
         }
     }
 
-    printf("\nERROR: cannot find serial transmitter\n\n");
+    printf("\nERROR: cannot find serial transmitter\n\n"); fflush(stdout);
     closedir(dp);
 }

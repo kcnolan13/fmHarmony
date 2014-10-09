@@ -18,6 +18,9 @@
 #define STATION_BLOCKSIZE 28
 #define FIRST_STATION_OFFSET 104// 4 + 100
 #define NUM_GRID_CELLS 100
+#define SERIAL_TIMEOUT 50000
+#define FL_SUCCESS 0
+#define FL_FAIL 1
 
 void InitUSART(void);
 char getChar(void);
@@ -30,14 +33,17 @@ float my_eeprom_read_float(int address);
 void my_eeprom_read_string(char *dest, int address, int num_chars);
 void string_write_int(int num, int num_digits);
 void string_write_float(float num, int dec_digits);
-void print_eeprom_contents();
-void print_eeprom_station_contents();
+void print_eeprom_contents(void);
+void print_eeprom_station_contents(void);
 void print_station(int index);
 void print_callsign(int station_index);
 void prepare_device(void);
 void database_load(void);
 void database_free(void);
-void print_all_known_stations();
+void print_all_known_stations(void);
+void print_all_callsigns(void);
+void terminate_serial(int flag);
+void check_integrity(void);
 
 typedef struct station {
     char callsign[8];
@@ -60,6 +66,7 @@ volatile uint8_t rxWritePos = 0;
 volatile char serial_history[3] = {'\0'};
 char serialStartChar = '$';
 char serialEndChar = '^';
+double serial_timer = 0;
 
 //State Variables
 volatile int update_trigger = 0;
@@ -67,6 +74,7 @@ volatile int eeprom_index = 0;
 int updating = 0;
 int read_ready = 0;
 int read_index = 0;
+int database_corrupted = 0;
 
 union float2bytes { 
     float f; 
@@ -94,7 +102,7 @@ ISR(USART1_RX_vect){
     //trigger a serial database update if the start sequence has occurred
     if(serialStart()){
         update_trigger = 1;
-    } 
+    }
 
     //make the receive buffer loop
     if(rxWritePos >= RX_BUFFER_SIZE)
@@ -113,10 +121,9 @@ int main (int argc, char *argv[])
     prepare_device();
 
     //load in the FM stations database from EEPROM
-    string_write("importing ...");
+    string_write("syncing\nmemory ...");
     database_load();
     _delay_ms(1000);
-    string_write("done!");
     
     //primary program loop
     while(1){
@@ -128,7 +135,7 @@ int main (int argc, char *argv[])
             if (updating == 0)
             {
                 lcd_init();
-                string_write("transferring ...");
+                string_write("downloading\nupdates ...");
                 updating = 1;
 
                 //free the old database from program memory
@@ -137,20 +144,14 @@ int main (int argc, char *argv[])
 
             //read serial data from receive buffer when available
             if(rxReadPos != rxWritePos) {
+
+                serial_timer = 0;
                 holder = getChar();
 
                 //handle serial transfer end sequence
             	if(serialEnd()) {
-
-                    update_trigger = 0;
-                    updating = 0;
-
-                    //import the new database
-                    lcd_init();
-                    string_write("importing ...");
-                    database_load();
-                    _delay_ms(2000);
-                    string_write("done!");
+                    //terminate connection and update the database
+                    terminate_serial(FL_SUCCESS);
 
                 } else {
                     //this is not part of the end sequence --> write it to EEPROM!
@@ -158,12 +159,23 @@ int main (int argc, char *argv[])
 	            	eeprom_index ++;
 	            	read_ready = 1;
 	            }
-            } 
+
+            } else {
+                //no data was available to read; make sure to timeout eventually
+                serial_timer ++;
+
+                //string_write_int(serial_timer,3); string_write(", ");
+                if (serial_timer > SERIAL_TIMEOUT)
+                {
+                    //timeout --> close serial connection and import the new database
+                    terminate_serial(FL_FAIL);
+                }
+            }
+
         } else {
-
             //behave normally
+            print_all_callsigns();
             print_all_known_stations();
-
         }
 
         if (read_ready) {
@@ -302,7 +314,7 @@ void string_write_float(float num, int dec_digits)
     string_write_int(temp,4);
 }
 
-void print_eeprom_contents()
+void print_eeprom_contents(void)
 {
     int i=0;
     char one_byte;
@@ -317,7 +329,7 @@ void print_eeprom_contents()
     }
 }
 
-void print_eeprom_station_contents()
+void print_eeprom_station_contents(void)
 {
     int start = FIRST_STATION_OFFSET;
     int i=0;
@@ -431,12 +443,12 @@ void database_free(void)
 
 }
 
-void print_all_known_stations()
+void print_all_known_stations(void)
 {
     int i;
     lcd_init();
     string_write_int(num_stations,3);
-    string_write(" known\nstations . . .");
+    string_write(" known\nstations");
 
     _delay_ms(2000);
 
@@ -455,5 +467,75 @@ void print_all_known_stations()
             return;
 
         _delay_ms(200);   
+    }
+}
+
+void print_all_callsigns(void)
+{
+    int i;
+    lcd_init();
+    string_write_int(num_stations,3);
+    string_write(" known\nstations");
+    _delay_ms(2000);
+
+    lcd_init();
+
+    if (update_trigger)
+        return;
+
+    for (i=0; i<num_stations; i++)
+    {
+        if (update_trigger)
+            return;
+
+        string_write_int(i+1,3); string_write(": "); print_callsign(i); string_write("\n");
+
+        if (update_trigger)
+            return;
+
+        _delay_ms(250);   
+    }
+}
+
+void terminate_serial(int flag)
+{
+    update_trigger = 0;
+    updating = 0;
+    serial_timer = 0;
+
+    //import the new database
+    lcd_init();
+
+    if (flag==FL_SUCCESS)
+        string_write("syncing\nmemory ...");
+    else
+        string_write("ERROR:\ntimeout ...");
+
+    database_load();
+    _delay_ms(2000);
+
+    if (flag==FL_SUCCESS)
+        string_write("\nDATABASE\nUPDATED");
+    else
+        string_write("\nUPDATE\nFAILED");
+
+    _delay_ms(1500);
+
+}
+
+void check_integrity(void)
+{
+    int i, j;
+    for (i=0; i<num_stations; i++)
+    {
+        char * call = all_stations[i].callsign;
+        for (j=0; j<strlen(call); j++)
+        {
+            if ((call[j] < 33)||(call[j] > 126))
+            {
+                database_corrupted = 1;
+                return;
+            }
+        }
     }
 }
