@@ -1,0 +1,73 @@
+JHBuild requires a Python runtime. Verify Python >= 2.3 is installed.
+The recommended way to download JHBuild is via the version control system, git. This can be achieved with the following command. It is recommended to run the command from a new directory where all source code will be installed, for example, ~/jhbuild/checkout.
+$ git clone git://git.gnome.org/jhbuild
+...
+$
+This will download JHBuild into a new folder named jhbuild under the current directory. Now to build and install JHBuild:
+$ cd jhbuild
+$ ./autogen.sh
+...
+$ make
+...
+$ make install
+...
+$
+If gnome-common, yelp-tools and autotools are available, autogen.sh will configure JHBuild to install via autotools. If gnome-common, yelp-tools and autotools are not available, autogen.sh will configure JHBuild to install via a plain Makefile. To always use the plain Makefile method pass --simple-install to autogen.sh.
+If the above steps complete successfully, a small shell script will be installed in ~/.local/bin to start JHBuild. Add ~/.local/bin to the PATH:
+$ PATH=$PATH:~/.local/bin
+$
+To permanently add ~/.local/bin to the PATH variable, run the following command:
+$ echo 'PATH=$PATH:~/.local/bin' >> ~/.bashrc
+$
+
+sudo apt-get install yelp-tools
+sudo apt-get install gnome-common
+./autogen.sh
+make
+sudo make install
+jhbuild sanitycheck
+sudo apt-get install apt-file
+sudo apt-file update
+jhbuild sysdeps --install
+
+now do jhbuild sanitycheck and keep installing whatever other deps it finds
+
+jhbuild build pygobject
+
+sudo apt-get install python-dev
+sudo apt-get install libffi-dev
+sudo apt-get install libfreetype6-dev
+sudo apt-get install libpixman-1-0
+sudo apt-get install python-cairo
+sudo apt-get install python-libxslt1
+sudo apt-get install libglfw-dev
+sudo apt-get install libpixman-1-dev
+sudo apt-get install python3-opengl
+sudo apt-get install python3-dev
+sudo apt-get install python3-cairo-dev
+
+jhbuild build --nodeps pygobject
+
+sudo apt-get install libtasn1-6-dev
+sudo apt-get install libgnutls-dev
+sudo apt-get install sqlite3
+sudo apt-get install libsqlite3-dev
+sudo apt-get install libnspr4-dev
+sudo apt-get install libsystemd-login-dev
+sudo apt-get install python-pampy
+sudo apt-get install libpam-python
+sudo apt-get install libpam0g-dev
+sudo apt-get install libgudev-1.0-dev
+sudo apt-get install libatasmart-dev
+sudo apt-get install libacl1-dev
+sudo apt-get install libdbus-1-dev
+sudo apt-get install libgphoto2-dev
+sudo apt-get install ragel
+sudo apt-get install libtiff5-dev
+sudo apt-get install libxtst-dev
+sudo apt-get install libxorg-gtest-dev
+sudo apt-get install doxygen
+sudo apt-get install xmlto
+
+
+jhbuild build --nodeps gtk+

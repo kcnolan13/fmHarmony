@@ -1,6 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 import subprocess
 import sys
+
+from gi.repository import Gtk
+
+
 
 def execute_command(command):
 	p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
@@ -14,11 +18,16 @@ def execute_command(command):
 	print "\n============================\nexecution complete\n============================\n"
 	return ''.join(stdout)
 
+class MainWindow(Gtk.Window):
+
+	def __init__(self):
+		#Set the Glade file
+		
+
+
 def main():
-	execute_command("make -C ./lib_serial/ clean");
-	execute_command("make -C ./lib_serial/");
-	execute_command("./lib_serial/log_send");
-	execute_command("make -C ./lib_serial/ clean");
+	win = MainWindow()
+	Gtk.main()
 
 if __name__ == '__main__': 
 	main()

@@ -51,7 +51,7 @@ int main (int argc, char *argv[])
     int i=0;
 
     //Open the FM stations log file that will become the device database
-    log_file = fopen("log.txt","r");
+    log_file = fopen("./lib_serial/log.txt","r");
     if (!log_file){
         printf("ERROR: Could not open FM Stations log file for reading.\n");
         fflush(stdout);

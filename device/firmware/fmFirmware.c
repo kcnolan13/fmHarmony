@@ -142,7 +142,6 @@ int main (int argc, char *argv[])
         switch (op_mode)
         {
             case MD_NORMAL:
-
                 //ask for an update if no known stations
                 if (num_stations < 1)
                 {
@@ -155,6 +154,7 @@ int main (int argc, char *argv[])
                 }
 
                 //behave normally
+                //print_eeprom_contents(0,32);
                 //print_eeprom_contents(0,32);
                 print_all_callsigns();
                 print_all_known_stations();
@@ -174,6 +174,7 @@ int main (int argc, char *argv[])
                     string_write("updating...\ndon't unplug");
                     updating = 1;
                     database_corrupted = 0;
+                    eeprom_index = 0;
 
                     //free the old database from program memory
                     database_free();
@@ -198,6 +199,10 @@ int main (int argc, char *argv[])
                             //wipe 100 stations worth of EEPROM and require a fresh update
                             wipe_eeprom();
                             op_mode = MD_UPDATE_REQUIRED;
+                        } else {
+                            lcd_init();
+                            string_write("update complete");
+                            _delay_ms(1000);
                         }
 
                     } else {
@@ -216,6 +221,7 @@ int main (int argc, char *argv[])
                     {
                         //serial timeout --> close serial connection, wipe memory, and require a fresh update
                         terminate_serial(FL_FAIL);
+                        print_eeprom_contents(0,32);
                         wipe_eeprom();
                         op_mode = MD_UPDATE_REQUIRED;
                     }
@@ -541,9 +547,7 @@ void terminate_serial(int flag)
     database_load();
     _delay_ms(1000);
 
-    if (flag==FL_SUCCESS)
-        string_write("\nupdate complete\n");
-    else
+    if (flag==FL_FAIL)
         string_write("\nupdate failed\n");
 
     _delay_ms(500);
