@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+	<Document>
+		<name>Radio Stations Within 54.20176730486009 Miles</name>
+							<Style id="station1">
+								<IconStyle>
+									<scale>1</scale>
+									<Icon>
+										<href>./icons/station1.png</href>
+									</Icon>
+								</IconStyle>
+							</Style>
+
+							<Style id="station2">
+								<IconStyle>
+									<scale>1</scale>
+									<Icon>
+										<href>./icons/station2.png</href>
+									</Icon>
+								</IconStyle>
+							</Style>
+
+							<Style id="station3">
+								<IconStyle>
+									<scale>1</scale>
+									<Icon>
+										<href>./icons/station3.png</href>
+									</Icon>
+								</IconStyle>
+							</Style>
+
+							<Style id="station4">
+								<IconStyle>
+									<scale>1</scale>
+									<Icon>
+										<href>./icons/station4.png</href>
+									</Icon>
+								</IconStyle>
+							</Style>
+
+							<Style id="station5">
+								<IconStyle>
+									<scale>1</scale>
+									<Icon>
+										<href>./icons/station5.png</href>
+									</Icon>
+								</IconStyle>
+							</Style>
+
+		<Folder id="stationPlacemarks">
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; DK228CL - 93.5</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0.1 (kW)&lt;br&gt;
+				HAAT: 267 (m)&lt;br&gt;
+				</description>
+				<index>0</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-115.152, 36.9364, 267</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; DK232BM - 94.3</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0.1 (kW)&lt;br&gt;
+				HAAT: 515 (m)&lt;br&gt;
+				</description>
+				<index>1</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-116.74, 37.2994, 515</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; DK237AV - 95.3</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0.1 (kW)&lt;br&gt;
+				HAAT: 107 (m)&lt;br&gt;
+				</description>
+				<index>2</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-116.776, 37.7269, 107</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; DKHWK - 92.7</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0.3 (kW)&lt;br&gt;
+				HAAT: 296 (m)&lt;br&gt;
+				</description>
+				<index>3</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-116.779, 38.0728, 296</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; K201BF - 88.1</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0.1 (kW)&lt;br&gt;
+				HAAT: 461 (m)&lt;br&gt;
+				</description>
+				<index>4</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-116.742, 37.3, 461</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; K208ET - 89.5</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0 (kW)&lt;br&gt;
+				HAAT: 438.7 (m)&lt;br&gt;
+				</description>
+				<index>5</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-116.775, 38.0517, 438.7</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; K210BK - 89.3</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0 (kW)&lt;br&gt;
+				HAAT: -75.3 (m)&lt;br&gt;
+				</description>
+				<index>6</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-117.19, 37.5964, -75.3</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; K210BK - 89.9</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0 (kW)&lt;br&gt;
+				HAAT: -109 (m)&lt;br&gt;
+				</description>
+				<index>7</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-117.191, 37.5975, -109</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; K214CJ - 90.7</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0 (kW)&lt;br&gt;
+				HAAT: 431 (m)&lt;br&gt;
+				</description>
+				<index>8</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-116.775, 38.0522, 431</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; K219AV - 91.7</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0.1 (kW)&lt;br&gt;
+				HAAT: 504 (m)&lt;br&gt;
+				</description>
+				<index>9</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-115.151, 36.9358, 504</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; K221BF - 92.1</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0 (kW)&lt;br&gt;
+				HAAT: -95 (m)&lt;br&gt;
+				</description>
+				<index>10</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-115.227, 36.9278, -95</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; K224AR - 92.7</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0 (kW)&lt;br&gt;
+				HAAT: -95 (m)&lt;br&gt;
+				</description>
+				<index>11</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-115.227, 36.9278, -95</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; K247AX - 97.3</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0 (kW)&lt;br&gt;
+				HAAT: 139.3 (m)&lt;br&gt;
+				</description>
+				<index>12</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-116.775, 38.0689, 139.3</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; K258AF - 99.5</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0 (kW)&lt;br&gt;
+				HAAT: 389 (m)&lt;br&gt;
+				</description>
+				<index>13</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-115.325, 36.8789, 389</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; K269AV - 101.7</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0 (kW)&lt;br&gt;
+				HAAT: 377 (m)&lt;br&gt;
+				</description>
+				<index>14</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-116.775, 38.0522, 377</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; K288CE - 105.5</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0 (kW)&lt;br&gt;
+				HAAT: 362 (m)&lt;br&gt;
+				</description>
+				<index>15</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-115.325, 36.8778, 362</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; K290AO - 105.9</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0 (kW)&lt;br&gt;
+				HAAT: 442.6 (m)&lt;br&gt;
+				</description>
+				<index>16</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-116.775, 38.0519, 442.6</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; K292BS - 106.3</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0 (kW)&lt;br&gt;
+				HAAT: 359 (m)&lt;br&gt;
+				</description>
+				<index>17</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-115.325, 36.8778, 359</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; KACE - 97.9</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0.2 (kW)&lt;br&gt;
+				HAAT: 543.4 (m)&lt;br&gt;
+				</description>
+				<index>18</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-115.151, 36.9364, 543.4</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; KACG - 102.3</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 51 (kW)&lt;br&gt;
+				HAAT: 136 (m)&lt;br&gt;
+				</description>
+				<index>19</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-116.775, 37.7269, 136</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; KGFN - 89.1</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0.2 (kW)&lt;br&gt;
+				HAAT: 65.3 (m)&lt;br&gt;
+				</description>
+				<index>20</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-116.776, 37.7267, 65.3</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; KTPH - 91.7</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 1 (kW)&lt;br&gt;
+				HAAT: 430 (m)&lt;br&gt;
+				</description>
+				<index>21</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-116.775, 38.0519, 430</coordinates>
+				</Point>
+			</Placemark>
+
+		</Folder>
+
+	</Document>
+</kml>

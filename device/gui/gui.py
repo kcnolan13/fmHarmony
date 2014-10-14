@@ -28,7 +28,6 @@ class MainWindow:
 
     stdout = []
     stations_uploaded = 0
-    cells_uploaded = float(0)
 
     counter = 0
 
@@ -46,17 +45,10 @@ class MainWindow:
 
       #set progress
       if (line.find("Uploading Station") > -1):
-        if (stations_uploaded==0):
-          self.buffer_insert(self.window_upload.buffer_messages,"\n\n...........\n\n")
-
         stations_uploaded = stations_uploaded + 1
         self.buffer_insert(self.window_upload.buffer_messages,"Uploading Stations ("+str(stations_uploaded)+" / "+str(self.num_stations)+")\n")
-
-      if (line.find("|  ") > -1):
-        self.buffer_insert(self.window_upload.buffer_messages,"Uploading Cells ("+str(int(round((cells_uploaded+0.333333)*10)))+" / 100)\n")
-        cells_uploaded = cells_uploaded + 0.333333
         
-      self.window_upload.progressbar.set_fraction((float(stations_uploaded)+float(cells_uploaded)) / float(self.num_stations+10))
+      self.window_upload.progressbar.set_fraction(float(stations_uploaded) / float(self.num_stations))
 
       stdout.append(line)
       print line,
@@ -170,7 +162,7 @@ class MainWindow:
     rows = self.buff.splitlines(True)
     self.num_stations = 0
 
-    if len(rows) < 3:
+    if len(rows) < 2:
       self.invalid_line(counter+1)
       return
 
@@ -196,20 +188,6 @@ class MainWindow:
         print "\t"+str(self.num_stations)+" stations found, from "+str(len(words))+" supplied argument"
         
         if (self.num_stations < 1) or (self.num_stations > 100) or (len(words) > 1):
-          self.invalid_line(counter)
-          return
-
-      #grab the station distribution per Maine grid cell
-      elif (counter==2):
-        for i in range(0, len(words)-1):
-          #make sure only numbers were passed here, and that there are exactly 100
-          if (not (words[i].isdigit())):
-            print "argument "+str(i+1)+" is not a number"
-            self.invalid_line(counter)
-            return
-
-        if (len(words) != 100):
-          print "\tERROR: supplied ("+str(len(words))+" / 100) grid cells"
           self.invalid_line(counter)
           return
 

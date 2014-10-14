@@ -602,62 +602,12 @@ function logStations()
     stationsWindow = window.open('','Stations Log',"width=400, height = 40");
     //stationsWindow.document.write('Stations within '+guiOptions.radius+' miles of '+user.x+', '+user.y+':\n\n');
 
-    //holds a list of stations for each map grid cell
-    var stationCells = [];
-
     stationsWindow.document.write(stationFeatures.length+"<br>");
 
-    //cell rows vertically
-    for (var v=0; v<gridSideLength; v++)
+    //write out the stations listing to the log
+    for (var i=0; i<stationFeatures.length; i++)
     {
-        //individual horizontal cells
-        for (var h=0; h<gridSideLength; h++)
-        {
-            //make a list of all the features in this cell
-            var featuresInCell = [];
-            for (var s=0; s<stationFeatures.length; s++)
-            {
-                //determine if this station resides within the cell
-                var point = new OpenLayers.LonLat(stationFeatures[s].geometry.x, stationFeatures[s].geometry.y);
-
-                point.transform(toProjection, fromProjection);
-
-                var cellOrigin = new OpenLayers.LonLat(gridOrigin.lon+gridWidth/gridSideLength*(h), gridOrigin.lat-gridHeight/gridSideLength*(v));
-
-                if ((point.lon >= cellOrigin.lon)&&(point.lon <= cellOrigin.lon+gridWidth/gridSideLength)&&(point.lat <= cellOrigin.lat)&&(point.lat >= cellOrigin.lat-gridHeight/gridSideLength))
-                {
-                    //the station does reside within this cell
-                    featuresInCell.push(stationFeatures[s]);
-                }
-            }
-            //add all the features in this cell back to stationCells
-            stationCells.push(featuresInCell);
-
-            //write to the grid the number of stations in this cell
-            if (gridLayer != null)
-            {
-                var point = new OpenLayers.Geometry.Point(gridOrigin.lon+gridWidth/gridSideLength*(h+0.15), gridOrigin.lat-gridHeight/gridSideLength*(v+0.15));
-                point.transform(fromProjection,toProjection);
-                //textLayer.addFeatures([new OpenLayers.Feature.Vector(point, {labelText: featuresInCell.length, fontColor: "red"})])
-            }
-
-        }
-    }
-
-    //write out the number of stations in each cell, space delimited
-    for (var i=0; i<stationCells.length; i++)
-    {
-        stationsWindow.document.write(stationCells[i].length+" ");
-    }
-
-    stationsWindow.document.write("<br>");
-
-    //write out this group of stations to the log
-    for (var i=0; i<stationCells.length; i++)
-    {
-        for (var j=0; j<stationCells[i].length; j++)
-        {
-            var feature = stationCells[i][j];
+            var feature = stationFeatures[i];
             var lat, lon, erp, haat, callsign, freq;
 
             var descr = feature.attributes.description;
@@ -674,11 +624,8 @@ function logStations()
             lon = point.lon;
 
             stationsWindow.document.write(callsign+" "+freq+" "+lat.toFixed(5)+" "+lon.toFixed(5)+" "+erp+" "+haat+"<br>");
-        }
-
     }
     stationsWindow.focus();
-
 
 }
 

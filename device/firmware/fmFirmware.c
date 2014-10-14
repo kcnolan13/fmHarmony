@@ -24,13 +24,13 @@
 #include <inttypes.h>
 #include <avr/eeprom.h>
 #include "display.h"
+#include "parse.h"
 
 //---- DEVICE CONSTANTS ----//
 
 #define RX_BUFFER_SIZE  128
 #define STATION_BLOCKSIZE 28
-#define FIRST_STATION_OFFSET 101// 1 + 100
-#define NUM_GRID_CELLS 100
+#define FIRST_STATION_OFFSET 1
 #define SERIAL_TIMEOUT 50000
 
 //serial termination flags
@@ -46,6 +46,8 @@
 
 //device configuration
 void InitUSART(void);
+void disable_gps(void);
+void enable_gps(void);
 void prepare_device(void);
 void database_load(void);
 void database_free(void);
@@ -71,8 +73,11 @@ char peekChar(void);
 void terminate_serial(int flag);
 void check_database_integrity(void);
 
+//Geo-Algorithms
+int get_nearest_station(float lon, float lat);
 
 //modes of operation
+void show_nearest_station(void);
 void wait_for_update(void);
 void print_eeprom_station_contents(void);
 void print_eeprom_contents(int start_addr, int end_addr);
@@ -95,10 +100,8 @@ typedef struct station {
 //Station array held in program memory, populated from EEPROM
 Station *all_stations;
 int num_stations = 0;
-//The number of stations in each Maine grid cell (#1 - #100)
-int stations_in_cell[NUM_GRID_CELLS] = {0};
-//The Byte offset to the start of each grid cell in EEPROM (relative to location of first station)
-int cell_offsets[NUM_GRID_CELLS] = {0};
+//index of nearest station
+int nearest_station = -1;
 
 //Serial Variables
 volatile char rxBuffer[RX_BUFFER_SIZE];
@@ -109,6 +112,11 @@ char serialStartChar = '$';
 char serialEndChar = '^';
 double serial_timer = 0;
 
+//GPS Variables
+volatile int gps_rxCount = 0;
+volatile char gps_rxBuffer[80] = {'\0'};   //should really be about 66 chars
+char *gps_data[13];
+
 //State Variables
 volatile int op_mode = MD_NORMAL;
 volatile int eeprom_index = 0;
@@ -116,7 +124,7 @@ int updating = 0;
 int database_corrupted = 0;
 
 //used to reconstruct a float from four continguous bytes in EEPROM
-union float2bytes { 
+union float2bytes {
     float f; 
     char b[sizeof(float)];
 };
@@ -127,9 +135,15 @@ union float2bytes {
 int main (int argc, char *argv[])
 {
     char holder;
-    
+    int i;
     //set up GPIO, initialize interrupts, serial comm, and LCD
     prepare_device();
+
+    //allocate memory for each of the gps_data fields
+    for (i=0; i<13; i++)
+    {
+        gps_data[i] = (char *)malloc(16*sizeof(char));
+    }
 
     //load in the FM stations database from EEPROM
     string_write("reading\ndatabase...");
@@ -145,7 +159,7 @@ int main (int argc, char *argv[])
                 //ask for an update if no known stations
                 if (num_stations < 1)
                 {
-                    print_eeprom_contents(0,32);
+                    //print_eeprom_contents(0,32);
                     //don't set the mode if the update has already been triggered
                     if (op_mode != MD_UPDATE)
                         op_mode = MD_UPDATE_REQUIRED;
@@ -156,8 +170,10 @@ int main (int argc, char *argv[])
                 //behave normally
                 //print_eeprom_contents(0,32);
                 //print_eeprom_contents(0,32);
+                enable_gps();
                 print_all_callsigns();
-                print_all_known_stations();
+                print_gps_data();
+                //print_all_known_stations();
             break;
 
             case MD_UPDATE_REQUIRED:
@@ -166,6 +182,8 @@ int main (int argc, char *argv[])
             break;
 
             case MD_UPDATE:
+
+                disable_gps();
 
                 //handle the update trigger
                 if (updating == 0)
@@ -240,7 +258,7 @@ int main (int argc, char *argv[])
 
 //---- device configuration ----//
 
-//serial receive interrupt behavior
+//serial database update receive interrupt behavior
 ISR(USART1_RX_vect){
     
     //remember the last 3 bytes received (to handle start + end sequences)
@@ -269,26 +287,94 @@ ISR(USART1_RX_vect){
     }
 }
 
+//GPS serial receive interrupt behavior
+ISR(USART0_RX_vect) {
+    int i;
+
+    //prevent buffer overflow
+    if (gps_rxCount > 80)
+    {
+        for (i=0; i<80; i++)
+            gps_rxBuffer[i]='\0';
+
+        gps_rxCount = 0; 
+    }
+
+    //Read value out of the UART buffer
+    gps_rxBuffer[gps_rxCount] = UDR0;
+
+    gps_rxCount ++;
+
+    //start new if receive $
+    if (gps_rxBuffer[gps_rxCount-1]=='$')
+    {
+        for (i=1; i<80; i++)
+            gps_rxBuffer[i]='\0'; 
+
+        gps_rxBuffer[0] = '$';
+        gps_rxCount = 1; 
+    }
+
+    //carriage return ----> parse the string and update the gps_data fields
+    if ((gps_rxBuffer[gps_rxCount-1]=='\r')) {
+        if (tag_check(gps_rxBuffer))
+        {
+            //disable gps interrupts
+            disable_gps();
+
+            //strip off the rxBuffer carriage return
+            gps_rxBuffer[strlen(gps_rxBuffer)-1] = '\0';
+
+            //update the application gps_data fields
+            parse_nmea(strcat(gps_rxBuffer, ","), gps_data);
+
+            //clear the rxBuffer
+            for (i=0; i<80; i++)
+                gps_rxBuffer[i]='\0';
+            gps_rxCount = 0;
+        }
+    }
+}
+
 // Initialize USART
 void InitUSART(void)
 {
-    // Set the Baud Rate to 9600 for 1 MHz system clock
+    // Set the serial Baud Rate to 9600 for 1 MHz system clock
     UBRR1H = 0;
     UBRR1L = 12;
+
+    // Set the GPS Baud Rate.
+    UBRR0H = 0;
+    UBRR0L = 12;
     
-    // Enable The Receiver and Transmitter
+    // Enable Receiver and Transmitter
     UCSR1B |= (1 << RXCIE1) | (1 << TXCIE1) | (1 << RXEN1) | (1 << TXEN1);
+    UCSR0B |= (1 << RXCIE0) | (1 << TXCIE0) | (1 << RXEN0) | (1 << TXEN0);
     
     // Set U2X0 to reduce the Baud Rate error
     UCSR1A |= (1 << U2X1 );
+    UCSR0A |= (1 << U2X0 );
     
-    // Set the Frame Format to 8
+    // Set the DB Update Frame Format to 8
     // Set the Parity to No Parity
     // Set the Stop Bits to 2
     UCSR1C |= (1 << UCSZ11) | (1 << UCSZ10) | (1 << USBS1);
 
-    //stdin = &my_stream;
-    //stdout= &my_stream;
+    // Set the GPS Frame Format to 8
+    // Set the Parity to No Parity
+    // Set the Stop Bits to 1
+    UCSR0C |= (1 << UCSZ01) | (1 << UCSZ00);
+
+}
+
+void disable_gps(void)
+{
+    UCSR0B &= ~((1 << RXCIE0) | (1 << TXCIE0) | (1 << RXEN0) | (1 << TXEN0));
+}
+
+void enable_gps(void)
+{
+    UCSR0B |= (1 << RXCIE0) | (1 << TXCIE0) | (1 << RXEN0) | (1 << TXEN0);
 }
 
 //set up GPIO, initialize interrupts, serial comm, and LCD
@@ -324,21 +410,6 @@ void database_load(void)
     //allocate memory for all the station structures
     all_stations = (Station *)malloc(num_stations*sizeof(Station));
 
-    //populate the array containing the number of stations in each grid cell (next NUM_GRID_CELLS bytes in EEPROM)
-    int total = 0;
-    for (i=0; i < NUM_GRID_CELLS; i ++)
-    {
-        stations_in_cell[i] = my_eeprom_read_int(i+1);
-        cell_offsets[i] = FIRST_STATION_OFFSET+total*STATION_BLOCKSIZE;
-        total += stations_in_cell[i];
-    }
-
-    /*for (i=0; i<NUM_GRID_CELLS; i++)
-    {
-        string_write_int(cell_offsets[i],3);
-        _delay_ms(50);
-    }*/
-
     //load in the stations one by one into the all_stations array of Station structs
     for (i=0; i<num_stations; i++)
     {
@@ -359,13 +430,6 @@ void database_free(void)
 
     free(all_stations);
     all_stations = NULL;
-
-    int i;
-    for (i=0; i<NUM_GRID_CELLS; i++)
-    {
-        stations_in_cell[i] = 0;
-        cell_offsets[i] = 0;
-    }
 }
 
 //---- EEPROM Operations ----//
@@ -589,6 +653,14 @@ void check_database_integrity(void)
     }
 }
 
+//---- GEO-ALGORITHMS ----//
+
+int get_nearest_station(float lat, float lon)
+{
+
+}
+
+
 //---- MODES OF OPERATION ----//
 
 //print the EEPROM contents for an address range
@@ -598,7 +670,7 @@ void print_eeprom_contents(int start_addr, int end_addr)
     char one_byte;
 
     if (end_addr == -1)
-        end_addr = 1+NUM_GRID_CELLS+num_stations*STATION_BLOCKSIZE;
+        end_addr = 1+num_stations*STATION_BLOCKSIZE;
 
     lcd_init();
 
@@ -634,14 +706,13 @@ void print_eeprom_station_contents(void)
 //print the information held for all stations to the screen
 void print_all_known_stations(void)
 {
+    if (op_mode==MD_UPDATE) return;
     int i;
     lcd_init();
     string_write_int(num_stations,3);
     string_write(" known\nstations");
 
     _delay_ms(2000);
-
-    if (op_mode==MD_UPDATE) return;
 
     for (i=0; i<num_stations; i++)
     {
@@ -659,6 +730,7 @@ void print_all_known_stations(void)
 //quickly print all known callsigns to the screen
 void print_all_callsigns(void)
 {
+    if (op_mode==MD_UPDATE) return;
     int i;
     lcd_init();
     string_write_int(num_stations,3);
@@ -667,8 +739,6 @@ void print_all_callsigns(void)
 
     lcd_init();
     string_write("\n");
-
-    if (op_mode==MD_UPDATE) return;
 
     for (i=0; i<num_stations; i++)
     {
@@ -688,6 +758,93 @@ void wait_for_update(void)
     string_write("update required\n...feed me...");
     while (1)
     {
+        if (op_mode==MD_UPDATE) return;
+    }
+}
+
+void show_nearest_station(void)
+{
+    lcd_init();
+    string_write("Nearest Station:\n");
+    print_callsign(nearest_station);
+    _delay_ms(2000);
+    print_station(nearest_station);
+    _delay_ms(2000);
+}
+
+void print_gps_data(void)
+{
+    if (op_mode==MD_UPDATE) return;
+    lcd_init();
+    string_write("Printing Latest\nGPS Data");
+    _delay_ms(1000);
+    lcd_init();
+    int i=0;
+    for (i=0; i<13; i++)
+    {
+
+        if (i>0)
+            string_write("\n");
+
+        switch (i)
+        {
+            case 0:
+                string_write("Message");
+            break;
+
+            case 1:
+                string_write("Time");
+            break;
+
+            case 2:
+                string_write("NRW");
+            break;
+
+            case 3:
+                string_write("Lat");
+            break;
+
+            case 4:
+                string_write("N/S");
+            break;
+
+            case 5:
+                string_write("Lon");
+            break;
+
+            case 6:
+                string_write("E/W");
+            break;
+
+            case 7:
+                string_write("Speed");
+            break;
+
+            case 8:
+                string_write("Course");
+            break;
+
+            case 9:
+                string_write("Date");
+            break;
+
+            case 10:
+                string_write("MagVar");
+            break;
+
+            case 11:
+                string_write("Mode");
+            break;
+
+            case 12:
+                string_write("Checksum");
+            break;
+        }
+
+        string_write(": ");
+        string_write(gps_data[i]);
+
+        _delay_ms(500);
         if (op_mode==MD_UPDATE) return;
     }
 }

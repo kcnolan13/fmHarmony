@@ -47,7 +47,6 @@ int main (int argc, char *argv[])
 
     FILE *log_file;
     char buf[1000];
-    char *str_array[140]={"\0"};
     int i=0;
 
     //Open the FM stations log file that will become the device database
@@ -74,12 +73,10 @@ int main (int argc, char *argv[])
     //parse the log file line by line
     while (fgets(buf,1000, log_file)!=NULL) 
     {
-        //keep track of each line
-        str_array[i] = buf;
-        strip_newline( str_array[i], 210);
+        strip_newline( buf, strlen(buf));
 
         //prepare, parse, and transmit the data within each line
-        parse_line(line_prep(str_array[i]));
+        parse_line(line_prep((char *)&buf));
         i++;
     }
 
@@ -119,7 +116,7 @@ int open_port(void){
 
 int send_string(char* in_string){
 
-    //printf("in send_string\n");
+    printf("in send_string\n");
 
     int rc = -1;
 
@@ -201,82 +198,45 @@ int parse_line(char * in_line){
     //to resume from the last spot in the string. Once the first call is made your char 
     //array receives the parsed string. If you don't put NULL you would lose your place 
     //and effectivly the last part of your string.
-    if (initial_length > 10){
-        if (initial_length >= 200){
-            //grid population
-            send_byte((uint8_t)*(token));
-            printf("\n\nMaine Station Grid Distribution\n");
-            printf("\n---------------------------------------------------------------------------------\n");
-            int col_counter = 1;
-            printf("|       |       |       |       |       |       |       |       |       |       |\n");
-            printf("|   %s   ", token); fflush(stdout);
-            
-            while(token){
+    if (initial_length > 10) {
 
-                col_counter++;
-                i++;
-                token = strtok_single(NULL, " ");
+        //Station line
+        stations_uploaded++;
+        printf("\n---------------------------------\nUploading Station (%d of %d)\n---------------------------------\n\n",stations_uploaded, num_stations);
 
-                if ((col_counter==1)&&(strlen(token) > 0))
-                    printf("|       |       |       |       |       |       |       |       |       |       |\n");
+        //send the station callsign --> always send only 8 chars; truncate or pad if needed
+        char *token2 = (char *)malloc(8*sizeof(char));
 
-                if (i < 100) {
-                    send_byte((uint8_t)*(token));
-                    if (strlen(token) < 2)
-                        printf("|   %s   ",token);
-                    else
-                        printf("|   %s  ",token);
-                }
+        if (strlen(token) > 8)
+            printf("WARNING: clipping callsign\n");
 
-                if (col_counter > 9)
-                {
-                    col_counter = 0;
-                    printf("|\n|       |       |       |       |       |       |       |       |       |       |\n");
-                    printf("---------------------------------------------------------------------------------\n");
+            strncpy(token2,token,8);
 
-                     fflush(stdout);
-                }
+        send_string(token2);
 
-                usleep(500000/UPLOAD_SPEED);
-            }
-            printf("\n"); fflush(stdout);
-        }
-        else{
-            //Station line
-            stations_uploaded++;
-            printf("\n---------------------------------\nUploading Station (%d of %d)\n---------------------------------\n\n",stations_uploaded, num_stations);
-
-            //send the station callsign --> always send only 8 chars; truncate or pad if needed
-            char *token2 = (char *)malloc(8*sizeof(char));
-
-            if (strlen(token) > 8)
-                strncpy(token2,token,8);
-            else
-                strcpy(token2,token);
-
-            send_string(token2);
-            if (strlen(token2) < 8)
+        //pad with spaces as necessary to guarantee 8-char callsigns
+        if (strlen(token2) < 8)
+        {
+            int k=0;
+            for (k=0; k< 8-strlen(token2); k++)
             {
-                int k=0;
-                for (k=0; k< 8-strlen(token2); k++)
-                {
-                    send_string(" ");
-                }
+                send_string(" ");
             }
+        }
 
-            free(token2);
+        free(token2);
 
-            //send the other station parameters
-            while(token){
-                i++;
-                token = strtok_single(NULL, " ");
-                if (i < 6) send_float(token); 
-                //if (i < 6) printf("float:%s ",token); 
-                usleep(200000/UPLOAD_SPEED);
-            }       
-        }  
+        //send the other station parameters
+        while(token){
+            i++;
+            token = strtok_single(NULL, " ");
+            if (i < 6) send_float(token); 
+            //if (i < 6) printf("float:%s ",token); 
+            usleep(200000/UPLOAD_SPEED);
+        }        
     }
     else{
+        //first line with num_stations
         num_stations = (uint8_t)atoi(token);
         send_byte((uint8_t)num_stations);
         printf("\n%d stations to upload\n", num_stations); fflush(stdout);
