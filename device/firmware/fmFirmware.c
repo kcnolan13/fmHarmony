@@ -64,8 +64,10 @@ void check_database_integrity(void);
 
 //Geo-Positional Algorithms
 int get_nearest_station(float lon, float lat);
+float my_distance_to_station(int station_index);
 float earth_distance(float lat1, float lon1, float lat2, float lon2);
 double to_radians(double decimal_angle);
+int gps_locked(void);
 
 //modes of operation
 void wipe_eeprom(void);
@@ -172,8 +174,17 @@ int main (int argc, char *argv[])
 
                 //behave normally
                 enable_gps();
-                //print_all_callsigns();
-                print_gps_data();
+                print_all_callsigns();
+
+                if (gps_locked()) {
+                    show_nearest_station();
+                    print_gps_data();
+                } else {
+                    lcd_init();
+                    string_write("GPS Not Locked\n");
+                    _delay_ms(1000);
+                }
+                
                 //print_raw_gps_data();
                 //print_all_known_stations();
             break;
@@ -549,10 +560,31 @@ void check_database_integrity(void)
 
 //---- GEO-POSITIONAL ALGORITHMS ----//
 
+//find the closest station to a lat/lon coordinate pair
 int get_nearest_station(float lat, float lon)
 {
+    float min_dist = -1;
+    int station_index = -1, i;
 
-    return -1;
+    //compute earth distance to all stations --> track min distance
+    for (i=0; i<num_stations; i++)
+    {
+        float temp = earth_distance(lat, lon, all_stations[i].lat, all_stations[i].lon);
+        if ((temp < min_dist)||(min_dist==-1))
+        {
+            //this is the closest station at the moment
+            station_index = i;
+            min_dist = temp;
+        }
+    }
+
+    return station_index;
+}
+
+//find the distance from the user to a particular station
+float my_distance_to_station(int station_index)
+{
+    return earth_distance(user->lat, user->lon, all_stations[station_index].lat, all_stations[station_index].lon);
 }
 
 //use the haversine fomula to calculate the great-circle distance between two coordinate pairs
@@ -578,6 +610,32 @@ float earth_distance(float lat1, float lon1, float lat2, float lon2)
 double to_radians(double decimal_angle)
 {
     return (M_PI)*decimal_angle/180;
+}
+
+//make sure there is valid GPS data to work with
+int gps_locked(void)
+{
+    int i;
+    for (i=0; i<4; i++)
+    {
+        if (user->msg_type[i]=='\0')
+            return 0;
+    }
+
+    for (i=0; i<4; i++)
+    {
+        if (user->utc_time[i]=='\0')
+            return 0;
+    }
+
+    if ((user->lat==0)||(user->lon==0))
+        return 0;
+
+    if (user->checksum[0] != '*')
+        return 0;
+
+    return 1;
+
 }
 
 
@@ -684,10 +742,20 @@ void wait_for_update(void)
 
 void show_nearest_station(void)
 {
+    if (op_mode==MD_UPDATE) return;
     lcd_init();
-    string_write("Nearest Station:\n");
-    print_callsign(nearest_station);
+    string_write("Finding Nearest\nStation...");
     _delay_ms(2000);
+
+    lcd_init();
+    nearest_station = get_nearest_station(user->lat, user->lon);
+    print_callsign(nearest_station); string_write("\n");
+    string_write_float(my_distance_to_station(nearest_station),1); string_write(" km");
+    if (op_mode==MD_UPDATE) return;
+    _delay_ms(4000);
+
+    if (op_mode==MD_UPDATE) return;
+    lcd_init();    
     print_station(nearest_station);
     _delay_ms(2000);
 }
@@ -922,4 +990,5 @@ void test_earth_distance(void)
     string_write_float(distance,1); string_write(" km");
     _delay_ms(2500);
 
+    //just for reference, UMaine coords are: 44.900 -68.667
 }
