@@ -64,7 +64,8 @@ void check_database_integrity(void);
 
 //Geo-Positional Algorithms
 int get_nearest_station(float lon, float lat);
-int earth_distance(float lat1, float lon1, float lat2, float lon2);
+float earth_distance(float lat1, float lon1, float lat2, float lon2);
+double to_radians(double decimal_angle);
 
 //modes of operation
 void wipe_eeprom(void);
@@ -78,6 +79,7 @@ void print_callsign(int station_index);
 void print_station(int index);
 void print_gps_data(void);
 void print_raw_gps_data(void);
+void test_earth_distance(void);
 
 //---- VARS AND STRUCTURES ----//
 
@@ -169,22 +171,16 @@ int main (int argc, char *argv[])
                 }
 
                 //behave normally
-                //print_eeprom_contents(0,32);
-                //print_eeprom_contents(0,32);
                 enable_gps();
                 //print_all_callsigns();
                 print_gps_data();
-                print_raw_gps_data();
+                //print_raw_gps_data();
                 //print_all_known_stations();
             break;
 
             case MD_UPDATE_REQUIRED:
-                enable_gps();
-                //print_all_callsigns();
-                print_gps_data();
-                print_raw_gps_data();
                 //do nothing until an update is triggered
-                //wait_for_update();
+                wait_for_update();
             break;
 
             case MD_UPDATE:
@@ -559,10 +555,29 @@ int get_nearest_station(float lat, float lon)
     return -1;
 }
 
-int earth_distance(float lat1, float lon1, float lat2, float lon2)
+//use the haversine fomula to calculate the great-circle distance between two coordinate pairs
+float earth_distance(float lat1, float lon1, float lat2, float lon2)
 {
-    
-    return -1;
+    //radius of earth in km
+    double R = 6371;
+
+    double theta1 = to_radians((double)lat1);
+    double theta2 = to_radians((double)lat2);
+
+    double dtheta = to_radians((double)lat2 - (double)lat1);
+    double dlambda = to_radians((double)lon2 - (double)lon1);
+
+    double a = sin(dtheta/2)*sin(dtheta/2) + cos(theta1)*cos(theta2)*sin(dlambda/2)*sin(dlambda/2);
+    double c = 2*atan2(sqrt(a), sqrt(1-a));
+    double distance = R*c;
+
+    return (float)distance;
+}
+
+//convert an angle from degrees to radians
+double to_radians(double decimal_angle)
+{
+    return (M_PI)*decimal_angle/180;
 }
 
 
@@ -877,4 +892,34 @@ void print_callsign(int station_index)
     {
         char_write(all_stations[station_index].callsign[i]);
     }
+}
+
+void test_earth_distance(void)
+{
+    lcd_init();
+    string_write("Calculating\nEarth Distances");
+    _delay_ms(2000);
+
+    lcd_init();
+    string_write("Denver -> NYC:\n");
+    float lat1 = 40+43/60;
+    float lon1 = -1*(74+1/60);
+    float lat2 = 39+45/60;
+    float lon2 = -1*(104+59/60);
+    float distance = earth_distance(lat1, lon1, lat2, lon2);
+    //should be about 2625 km
+    string_write_float(distance,1); string_write(" km");
+    _delay_ms(2500);
+
+    lcd_init();
+    string_write("North KC -> KC:\n");
+    lat1 = 39.131;
+    lon1 = -94.563;
+    lat2 = 39.0832;
+    lon2 = -94.559;
+    distance = earth_distance(lat1, lon1, lat2, lon2);
+    //should be somewhere around 5 km
+    string_write_float(distance,1); string_write(" km");
+    _delay_ms(2500);
+
 }
