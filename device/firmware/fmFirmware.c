@@ -23,8 +23,10 @@
 #include <stdlib.h>
 #include <inttypes.h>
 #include <avr/eeprom.h>
-#include "display.h"
-#include "parse.h"
+
+#include "lcd.h"
+#include "gps.h"
+#include "eeprom.h"
 
 //---- DEVICE CONSTANTS ----//
 
@@ -52,19 +54,6 @@ void prepare_device(void);
 void database_load(void);
 void database_free(void);
 
-//EEPROM Operations
-void wipe_eeprom(void);
-int my_eeprom_read_int(int address);
-char my_eeprom_read_char(int address);
-float my_eeprom_read_float(int address);
-void my_eeprom_read_string(char *dest, int address, int num_chars);
-
-//LCD Routines
-void string_write_int(int num, int num_digits);
-void string_write_float(float num, int dec_digits);
-void print_station(int index);
-void print_callsign(int station_index);
-
 //Update Utilities
 int detectSerialStart(void);
 int detectSerialEnd(void);
@@ -73,19 +62,24 @@ char peekChar(void);
 void terminate_serial(int flag);
 void check_database_integrity(void);
 
-//Geo-Algorithms
+//Geo-Positional Algorithms
 int get_nearest_station(float lon, float lat);
+int earth_distance(float lat1, float lon1, float lat2, float lon2);
 
 //modes of operation
+void wipe_eeprom(void);
 void show_nearest_station(void);
 void wait_for_update(void);
 void print_eeprom_station_contents(void);
 void print_eeprom_contents(int start_addr, int end_addr);
 void print_all_known_stations(void);
 void print_all_callsigns(void);
+void print_callsign(int station_index);
+void print_station(int index);
+void print_gps_data(void);
+void print_raw_gps_data(void);
 
-
-//---- GLOBAL VARS AND STRUCTURES ----//
+//---- VARS AND STRUCTURES ----//
 
 //Generic FM Station Structure
 typedef struct station {
@@ -97,11 +91,15 @@ typedef struct station {
     float haat;
 } Station;
 
+
 //Station array held in program memory, populated from EEPROM
 Station *all_stations;
 int num_stations = 0;
 //index of nearest station
 int nearest_station = -1;
+
+//User data held in program memory, populated with parsed GPS data
+UserData *user;
 
 //Serial Variables
 volatile char rxBuffer[RX_BUFFER_SIZE];
@@ -139,11 +137,14 @@ int main (int argc, char *argv[])
     //set up GPIO, initialize interrupts, serial comm, and LCD
     prepare_device();
 
-    //allocate memory for each of the gps_data fields
+    //allocate memory for each of the raw gps_data fields
     for (i=0; i<13; i++)
     {
         gps_data[i] = (char *)malloc(16*sizeof(char));
     }
+
+    //allocate memory for the UserData struct
+    user = (UserData *)malloc(sizeof(UserData));
 
     //load in the FM stations database from EEPROM
     string_write("reading\ndatabase...");
@@ -171,14 +172,19 @@ int main (int argc, char *argv[])
                 //print_eeprom_contents(0,32);
                 //print_eeprom_contents(0,32);
                 enable_gps();
-                print_all_callsigns();
+                //print_all_callsigns();
                 print_gps_data();
+                print_raw_gps_data();
                 //print_all_known_stations();
             break;
 
             case MD_UPDATE_REQUIRED:
+                enable_gps();
+                //print_all_callsigns();
+                print_gps_data();
+                print_raw_gps_data();
                 //do nothing until an update is triggered
-                wait_for_update();
+                //wait_for_update();
             break;
 
             case MD_UPDATE:
@@ -323,10 +329,13 @@ ISR(USART0_RX_vect) {
             disable_gps();
 
             //strip off the rxBuffer carriage return
-            gps_rxBuffer[strlen(gps_rxBuffer)-1] = '\0';
+            gps_rxBuffer[strlen((char *)gps_rxBuffer)-1] = '\0';
 
             //update the application gps_data fields
-            parse_nmea(strcat(gps_rxBuffer, ","), gps_data);
+            parse_nmea(strcat((char *)gps_rxBuffer, ","), gps_data);
+
+            //use the raw gps_data fields to populate the UserData struct
+            update_user_gps_data(gps_data, user);
 
             //clear the rxBuffer
             for (i=0; i<80; i++)
@@ -430,117 +439,6 @@ void database_free(void)
 
     free(all_stations);
     all_stations = NULL;
-}
-
-//---- EEPROM Operations ----//
-
-//wipe 100-stations-worth of EEPROM data
-void wipe_eeprom(void)
-{
-    int i;
-    lcd_init();
-    string_write("wiping\nmemory...");
-    for (i=0; i<FIRST_STATION_OFFSET+100*STATION_BLOCKSIZE; i++)
-    {
-        if (op_mode==MD_UPDATE) return;
-        eeprom_write_byte((uint8_t *)i,255);
-    }
-}
-
-//read a single-byte integer from an EEPROM address
-int my_eeprom_read_int(int address)
-{
-    int temp_num = ((int)eeprom_read_byte((uint8_t *)address));
-    return (temp_num);
-}
-
-//read a char from an EEPROM address
-char my_eeprom_read_char(int address)
-{
-    return (char)eeprom_read_byte((uint8_t *)address);
-}
-
-//read a 4-byte float from an EEPROM address
-float my_eeprom_read_float(int address)
-{
-    return (float)(eeprom_read_float((const float *)address));
-}
-
-//read a string from an EEPROM address
-void my_eeprom_read_string(char *dest, int address, int num_chars)
-{
-    eeprom_read_block((void *)dest,(const void *)address,num_chars);
-}
-
-//---- LCD Routines ----//
-
-//write a multi-char integer to the LCD as a string
-void string_write_int(int num, int num_digits)
-{
-    char *temp = (char *)malloc(num_digits*sizeof(char));
-    sprintf(temp,"%d",num);
-    string_write(temp);
-    free(temp);
-}
-
-//write a floating point number to the LCD as a string
-void string_write_float(float num, int dec_digits)
-{
-    double intpart, fractpart;
-    fractpart = modf(num, &intpart);
-
-    string_write_int((int)intpart,4); string_write("."); 
-
-    int temp = (int)(abs((round((fractpart*pow(10,dec_digits))))));
-    int digits = 0;
-
-    if (temp!=0)
-    {
-        digits = floor(log10(abs(temp)))+1;
-    } else {
-        digits = 0;
-    }
-
-    int i=0;
-    for (i=0; i<(dec_digits-digits); i++)
-    {
-        string_write("0");
-    }
-
-    string_write_int(temp,4);
-}
-
-//print the informatoin held for a single station to the LCD
-void print_station(int index)
-{
-    string_write_int(index+1,3); string_write(": "); print_callsign(index); _delay_ms(250); string_write("\n"); 
-    if (op_mode==MD_UPDATE)
-        return;
-    string_write("freq: "); string_write_float(all_stations[index].freq,1); _delay_ms(250); string_write("\n");
-    if (op_mode==MD_UPDATE)
-        return;
-    string_write("lat: "); string_write_float(all_stations[index].lat,4); _delay_ms(250); string_write("\n");
-    if (op_mode==MD_UPDATE)
-        return;
-    string_write("lon: "); string_write_float(all_stations[index].lon,4); _delay_ms(250); string_write("\n");
-    if (op_mode==MD_UPDATE)
-        return;
-    string_write("erp: "); string_write_float(all_stations[index].erp,1); _delay_ms(250); string_write("\n");
-    if (op_mode==MD_UPDATE)
-        return;
-    string_write("haat: "); string_write_float(all_stations[index].haat,0); _delay_ms(250); string_write("\n");
-    if (op_mode==MD_UPDATE)
-        return;
-}
-
-//print the callsign for a given station index to the LCD
-void print_callsign(int station_index)
-{
-    int i;
-    for (i=0; i<8; i++) 
-    {
-        char_write(all_stations[station_index].callsign[i]);
-    }
 }
 
 //---- UPDATE UTILITIES ----//
@@ -653,11 +551,18 @@ void check_database_integrity(void)
     }
 }
 
-//---- GEO-ALGORITHMS ----//
+//---- GEO-POSITIONAL ALGORITHMS ----//
 
 int get_nearest_station(float lat, float lon)
 {
 
+    return -1;
+}
+
+int earth_distance(float lat1, float lon1, float lat2, float lon2)
+{
+    
+    return -1;
 }
 
 
@@ -772,11 +677,90 @@ void show_nearest_station(void)
     _delay_ms(2000);
 }
 
+//print the formatted data stored in the UserData struct to the screen
 void print_gps_data(void)
 {
     if (op_mode==MD_UPDATE) return;
     lcd_init();
-    string_write("Printing Latest\nGPS Data");
+    string_write("Printing\nGPS Data");
+    _delay_ms(1000);
+    lcd_init();
+    int i=0;
+    for (i=0; i<11; i++)
+    {
+
+        if (i>0)
+            string_write("\n");
+
+        switch (i)
+        {
+            case 0:
+                string_write("Message: "); 
+                string_write_numchars(user->msg_type,8);
+            break;
+
+            case 1:
+                string_write("Time: ");
+                string_write_numchars(user->utc_time,8);
+            break;
+
+            case 2:
+                string_write("NRW: ");
+                char_write(user->nrw);
+            break;
+
+            case 3:
+                string_write("Lat: ");
+                string_write_float(user->lat,4);
+            break;
+
+            case 4:
+                string_write("Lon: ");
+                string_write_float(user->lon,4);
+            break;
+
+            case 5:
+                string_write("Speed: ");
+                string_write_float(user->speed,1);
+            break;
+
+            case 6:
+                string_write("Course: ");
+                string_write_float(user->course,3);
+            break;
+
+            case 7:
+                string_write("Date: ");
+                string_write_numchars(user->date,8);
+            break;
+
+            case 8:
+                string_write("MagVar: ");
+                string_write_numchars(user->mag_var,8);
+            break;
+
+            case 9:
+                string_write("Mode: ");
+                char_write(user->mode);
+            break;
+
+            case 10:
+                string_write("Checksum: ");
+                string_write_numchars(user->checksum,3);
+            break;
+        }
+
+        _delay_ms(1000);
+        if (op_mode==MD_UPDATE) return;
+    }
+}
+
+//print the raw gps data in the gps_data string array to the screen
+void print_raw_gps_data(void)
+{
+    if (op_mode==MD_UPDATE) return;
+    lcd_init();
+    string_write("Printing Raw\nGPS Data");
     _delay_ms(1000);
     lcd_init();
     int i=0;
@@ -846,5 +830,51 @@ void print_gps_data(void)
 
         _delay_ms(500);
         if (op_mode==MD_UPDATE) return;
+    }
+}
+
+//print the informatoin held for a single station to the LCD
+void print_station(int index)
+{
+    string_write_int(index+1,3); string_write(": "); print_callsign(index); _delay_ms(250); string_write("\n"); 
+    if (op_mode==MD_UPDATE)
+        return;
+    string_write("freq: "); string_write_float(all_stations[index].freq,1); _delay_ms(250); string_write("\n");
+    if (op_mode==MD_UPDATE)
+        return;
+    string_write("lat: "); string_write_float(all_stations[index].lat,4); _delay_ms(250); string_write("\n");
+    if (op_mode==MD_UPDATE)
+        return;
+    string_write("lon: "); string_write_float(all_stations[index].lon,4); _delay_ms(250); string_write("\n");
+    if (op_mode==MD_UPDATE)
+        return;
+    string_write("erp: "); string_write_float(all_stations[index].erp,1); _delay_ms(250); string_write("\n");
+    if (op_mode==MD_UPDATE)
+        return;
+    string_write("haat: "); string_write_float(all_stations[index].haat,0); _delay_ms(250); string_write("\n");
+    if (op_mode==MD_UPDATE)
+        return;
+}
+
+//wipe 100-stations-worth of EEPROM data
+void wipe_eeprom(void)
+{
+    int i;
+    lcd_init();
+    string_write("wiping\nmemory...");
+    for (i=0; i<FIRST_STATION_OFFSET+100*STATION_BLOCKSIZE; i++)
+    {
+        if (op_mode==MD_UPDATE) return;
+        eeprom_write_byte((uint8_t *)i,255);
+    }
+}
+
+//print the callsign for a given station index to the LCD
+void print_callsign(int station_index)
+{
+    int i;
+    for (i=0; i<8; i++) 
+    {
+        char_write(all_stations[station_index].callsign[i]);
     }
 }

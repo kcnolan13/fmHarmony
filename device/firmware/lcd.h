@@ -1,8 +1,8 @@
 //Marcel Marki and Kyle Nolan
 //Header File for LDC Module
 
-#ifndef DISPLAY_H
-#define DISPLAY_H
+#ifndef LCD_H
+#define LCD_H
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -48,5 +48,9 @@ void set_ddram_address(int address);
 
 //Write Data to Pins DB4 to DB7
 void write_db74(int DB7_val, int DB6_val, int DB5_val, int DB4_val);
+
+void string_write_int(int num, int num_digits);
+void string_write_float(float num, int dec_digits);
+void string_write_numchars(char *mystring, int num_chars);
 
 #endif

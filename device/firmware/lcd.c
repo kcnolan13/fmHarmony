@@ -2,7 +2,7 @@
 // LCD Module Library File
 
 #include <stdlib.h>
-#include "display.h"
+#include "lcd.h"
 
 int chars_written = 0;
 int line_num = 1;
@@ -287,4 +287,54 @@ void write_db74(int DB7_val, int DB6_val, int DB5_val, int DB4_val)
     else PORTA |= _BV(DB5);
     if (DB4_val == 0) PORTA &=~ _BV(DB4);
     else PORTA |= _BV(DB4);
+}
+
+//write a multi-char integer to the LCD as a string
+void string_write_int(int num, int num_digits)
+{
+    char *temp = (char *)malloc(num_digits*sizeof(char));
+    sprintf(temp,"%d",num);
+    string_write(temp);
+    free(temp);
+}
+
+//write a floating point number to the LCD as a string
+void string_write_float(float num, int dec_digits)
+{
+    double intpart, fractpart;
+    fractpart = modf(num, &intpart);
+
+    string_write_int((int)intpart,4); string_write("."); 
+
+    int temp = (int)(abs((round((fractpart*pow(10,dec_digits))))));
+    int digits = 0;
+
+    if (temp!=0)
+    {
+        digits = floor(log10(abs(temp)))+1;
+    } else {
+        digits = 0;
+    }
+
+    int i=0;
+    for (i=0; i<(dec_digits-digits); i++)
+    {
+        string_write("0");
+    }
+
+    string_write_int(temp,4);
+}
+
+void string_write_numchars(char *mystring, int num_chars)
+{
+    int i;
+    get_current_address();
+    //printf("writing string\n");
+    for (i=0; i<num_chars; i++) {
+        
+        if (i >= strlen(mystring)) 
+            break;
+        char_write(mystring[i]);
+        get_current_address();
+    }
 }
