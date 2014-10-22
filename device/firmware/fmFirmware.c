@@ -160,14 +160,14 @@ int main (int argc, char *argv[])
                 if (gps_locked(user))
                 {
                     lcd_init();
-                    string_write("GPS Locked!\n");
+                    string_write("GPS Fix:\n");
                     _delay_ms(500);
                     string_write_float(user->lat,3);
                     _delay_ms(250);
                     string_write(", ");
                     _delay_ms(250);
                     string_write_float(user->lon,3);
-                    _delay_ms(2000);
+                    _delay_ms(3000);
 
                     //compute and show the nearest station
                     show_nearest_station();
@@ -177,7 +177,7 @@ int main (int argc, char *argv[])
 
                 } else {
                     lcd_init();
-                    string_write("No GPS Fix\n");
+                    string_write("No GPS Fix...\n");
                     string_write("Be Patient...");
                     /*_delay_ms(500);
                     string_write(gps_data[3]);

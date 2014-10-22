@@ -156,12 +156,16 @@ void update_user_gps_data(char *gps_data[13], UserData *user)
 
 	user->lat = 0;
 	temp = lat2dec(gps_data[3], gps_data[4][0]);
-	if (temp != -528)
+
+	//handle invalid latitudes
+	if ((temp >= -90)&&(temp <= 90))
 		user->lat = temp;
 
 	user->lon = 0;
 	temp = lon2dec(gps_data[5], gps_data[6][0]);
-	if (temp != -5328)
+
+	//handle invalid longitudes
+	if ((temp >= -180)&&(temp <= 180))
 		user->lon = temp;
 
 	user->speed = 0;
@@ -263,13 +267,6 @@ int gps_locked(UserData *user)
 
     if ((user->lat==0)||(user->lon==0))
         return 0;
-
-    if ((user->lat==-528)&&(user->lon==-5328))
-    {
-    	user->lat = 0;
-    	user->lon = 0;
-    	return 0;
-    }
 
     if (user->checksum[0] != '*')
         return 0;
