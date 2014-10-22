@@ -25,7 +25,7 @@
 #include <avr/eeprom.h>
 
 #include "lcd.h"
-#include "gps.h"
+#include "geolocation.h"
 #include "eeprom.h"
 
 //---- DEVICE CONSTANTS ----//
@@ -46,7 +46,7 @@
 
 //---- FUNCTION DECLARATIONS ----//
 
-//device configuration
+//device + database config
 void InitUSART(void);
 void disable_gps(void);
 void enable_gps(void);
@@ -54,20 +54,13 @@ void prepare_device(void);
 void database_load(void);
 void database_free(void);
 
-//Update Utilities
+//update utilities
 int detectSerialStart(void);
 int detectSerialEnd(void);
 char getChar(void);
 char peekChar(void);
 void terminate_serial(int flag);
 void check_database_integrity(void);
-
-//Geo-Positional Algorithms
-int get_nearest_station(float lon, float lat);
-float my_distance_to_station(int station_index);
-float earth_distance(float lat1, float lon1, float lat2, float lon2);
-double to_radians(double decimal_angle);
-int gps_locked(void);
 
 //modes of operation
 void wipe_eeprom(void);
@@ -82,19 +75,9 @@ void print_station(int index);
 void print_gps_data(void);
 void print_raw_gps_data(void);
 void test_earth_distance(void);
+void wait_for_gps_lock(void);
 
-//---- VARS AND STRUCTURES ----//
-
-//Generic FM Station Structure
-typedef struct station {
-    char callsign[8];
-    float freq;
-    float lat;
-    float lon;
-    float erp;
-    float haat;
-} Station;
-
+//---- VARS ----//
 
 //Station array held in program memory, populated from EEPROM
 Station *all_stations;
@@ -119,7 +102,7 @@ volatile int gps_rxCount = 0;
 volatile char gps_rxBuffer[80] = {'\0'};   //should really be about 66 chars
 char *gps_data[13];
 
-//State Variables
+//Device State Variables
 volatile int op_mode = MD_NORMAL;
 volatile int eeprom_index = 0;
 int updating = 0;
@@ -138,6 +121,7 @@ int main (int argc, char *argv[])
 {
     char holder;
     int i;
+
     //set up GPIO, initialize interrupts, serial comm, and LCD
     prepare_device();
 
@@ -162,31 +146,50 @@ int main (int argc, char *argv[])
         {
             case MD_NORMAL:
                 //ask for an update if no known stations
-                if (num_stations < 1)
-                {
-                    //print_eeprom_contents(0,32);
-                    //don't set the mode if the update has already been triggered
-                    if (op_mode != MD_UPDATE)
-                        op_mode = MD_UPDATE_REQUIRED;
-
+                if (num_stations < 1) {
+                    op_mode = MD_UPDATE_REQUIRED;
                     break;
                 }
 
                 //behave normally
                 enable_gps();
+
+                //print the callsigns of all stations in the database
                 print_all_callsigns();
 
-                if (gps_locked()) {
+                if (gps_locked(user))
+                {
+                    lcd_init();
+                    string_write("GPS Locked!\n");
+                    _delay_ms(500);
+                    string_write_float(user->lat,3);
+                    _delay_ms(250);
+                    string_write(", ");
+                    _delay_ms(250);
+                    string_write_float(user->lon,3);
+                    _delay_ms(2000);
+
+                    //compute and show the nearest station
                     show_nearest_station();
+
+                    //print the most recent gps data
                     print_gps_data();
+
                 } else {
                     lcd_init();
-                    string_write("GPS Not Locked\n");
-                    _delay_ms(1000);
+                    string_write("No GPS Fix\n");
+                    string_write("Be Patient...");
+                    /*_delay_ms(500);
+                    string_write(gps_data[3]);
+                    string_write(", ");
+                    string_write(gps_data[5]);*/
+                    _delay_ms(2000);
                 }
-                
+
+                //go through the complete list of known stations
+                print_all_known_stations();
+
                 //print_raw_gps_data();
-                //print_all_known_stations();
             break;
 
             case MD_UPDATE_REQUIRED:
@@ -196,6 +199,7 @@ int main (int argc, char *argv[])
 
             case MD_UPDATE:
 
+                //make sure gps interrupts do not disrupt the update process
                 disable_gps();
 
                 //handle the update trigger
@@ -207,7 +211,7 @@ int main (int argc, char *argv[])
                     database_corrupted = 0;
                     eeprom_index = 0;
 
-                    //free the old database from program memory
+                    //scrap the outdated database structures
                     database_free();
                 }
 
@@ -332,14 +336,13 @@ ISR(USART0_RX_vect) {
     if ((gps_rxBuffer[gps_rxCount-1]=='\r')) {
         if (tag_check(gps_rxBuffer))
         {
-            //disable gps interrupts
             disable_gps();
-
-            //strip off the rxBuffer carriage return
-            gps_rxBuffer[strlen((char *)gps_rxBuffer)-1] = '\0';
+            
+            //strip off the rxBuffer carriage return and replace with ,
+            gps_rxBuffer[gps_rxCount-1] = ',';
 
             //update the application gps_data fields
-            parse_nmea(strcat((char *)gps_rxBuffer, ","), gps_data);
+            parse_nmea(gps_rxBuffer, gps_data);
 
             //use the raw gps_data fields to populate the UserData struct
             update_user_gps_data(gps_data, user);
@@ -558,86 +561,6 @@ void check_database_integrity(void)
     }
 }
 
-//---- GEO-POSITIONAL ALGORITHMS ----//
-
-//find the closest station to a lat/lon coordinate pair
-int get_nearest_station(float lat, float lon)
-{
-    float min_dist = -1;
-    int station_index = -1, i;
-
-    //compute earth distance to all stations --> track min distance
-    for (i=0; i<num_stations; i++)
-    {
-        float temp = earth_distance(lat, lon, all_stations[i].lat, all_stations[i].lon);
-        if ((temp < min_dist)||(min_dist==-1))
-        {
-            //this is the closest station at the moment
-            station_index = i;
-            min_dist = temp;
-        }
-    }
-
-    return station_index;
-}
-
-//find the distance from the user to a particular station
-float my_distance_to_station(int station_index)
-{
-    return earth_distance(user->lat, user->lon, all_stations[station_index].lat, all_stations[station_index].lon);
-}
-
-//use the haversine fomula to calculate the great-circle distance between two coordinate pairs
-float earth_distance(float lat1, float lon1, float lat2, float lon2)
-{
-    //radius of earth in km
-    double R = 6371;
-
-    double theta1 = to_radians((double)lat1);
-    double theta2 = to_radians((double)lat2);
-
-    double dtheta = to_radians((double)lat2 - (double)lat1);
-    double dlambda = to_radians((double)lon2 - (double)lon1);
-
-    double a = sin(dtheta/2)*sin(dtheta/2) + cos(theta1)*cos(theta2)*sin(dlambda/2)*sin(dlambda/2);
-    double c = 2*atan2(sqrt(a), sqrt(1-a));
-    double distance = R*c;
-
-    return (float)distance;
-}
-
-//convert an angle from degrees to radians
-double to_radians(double decimal_angle)
-{
-    return (M_PI)*decimal_angle/180;
-}
-
-//make sure there is valid GPS data to work with
-int gps_locked(void)
-{
-    int i;
-    for (i=0; i<4; i++)
-    {
-        if (user->msg_type[i]=='\0')
-            return 0;
-    }
-
-    for (i=0; i<4; i++)
-    {
-        if (user->utc_time[i]=='\0')
-            return 0;
-    }
-
-    if ((user->lat==0)||(user->lon==0))
-        return 0;
-
-    if (user->checksum[0] != '*')
-        return 0;
-
-    return 1;
-
-}
-
 
 //---- MODES OF OPERATION ----//
 
@@ -748,9 +671,9 @@ void show_nearest_station(void)
     _delay_ms(2000);
 
     lcd_init();
-    nearest_station = get_nearest_station(user->lat, user->lon);
+    nearest_station = get_nearest_station(all_stations, num_stations, user->lat, user->lon);
     print_callsign(nearest_station); string_write("\n");
-    string_write_float(my_distance_to_station(nearest_station),1); string_write(" km");
+    string_write_float(my_distance_to_station(user, all_stations, nearest_station),1); string_write(" km");
     if (op_mode==MD_UPDATE) return;
     _delay_ms(4000);
 
@@ -765,7 +688,7 @@ void print_gps_data(void)
 {
     if (op_mode==MD_UPDATE) return;
     lcd_init();
-    string_write("Printing\nGPS Data");
+    string_write("Latest\nGPS Data:");
     _delay_ms(1000);
     lcd_init();
     int i=0;
@@ -843,7 +766,7 @@ void print_raw_gps_data(void)
 {
     if (op_mode==MD_UPDATE) return;
     lcd_init();
-    string_write("Printing Raw\nGPS Data");
+    string_write("Raw\nGPS Data");
     _delay_ms(1000);
     lcd_init();
     int i=0;
@@ -991,4 +914,20 @@ void test_earth_distance(void)
     _delay_ms(2500);
 
     //just for reference, UMaine coords are: 44.900 -68.667
+}
+
+void wait_for_gps_lock(void)
+{
+    lcd_init();
+    string_write("Waiting For\nGPS Lock...");
+    _delay_ms(1000);
+    while (!(gps_locked(user)))
+    {
+        lcd_init();
+        print_gps_data();
+        if (op_mode==MD_UPDATE) return;
+        _delay_ms(250);
+    }
+    lcd_init();
+    print_gps_data();
 }

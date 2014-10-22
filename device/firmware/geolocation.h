@@ -4,6 +4,16 @@
 #ifndef GPS_H
 #define GPS_H
 
+//Generic FM Station Structure
+typedef struct station {
+    char callsign[8];
+    float freq;
+    float lat;
+    float lon;
+    float erp;
+    float haat;
+} Station;
+
 //User GPS Data Structure
 typedef struct user_data {
     char msg_type[8];
@@ -39,5 +49,20 @@ float lat2dec(char lat[9], char N_indicator);
 
 //convert GPRMC-style longitude to decimal degrees
 float lon2dec(char lon[10], char E_indicator);
+
+//find the closest station to a given lat/lon pair
+int get_nearest_station(Station *all_stations, int num_stations, float lon, float lat);
+
+//find the closest station to the user
+float my_distance_to_station(UserData *user, Station *all_stations, int station_index);
+
+//use the haversine fomula to calculate the great-circle distance between two coordinate pairs
+float earth_distance(float lat1, float lon1, float lat2, float lon2);
+
+//convert an angle from degrees to radians (needed for the haversine formula)
+double to_radians(double decimal_angle);
+
+//has the UserData struct been populated with enough GPS data?
+int gps_locked(UserData *user);
 
 #endif
