@@ -1,5 +1,5 @@
 //Marcel Marki and Kyle Nolan
-//Header File for LDC Module
+//Header File for EEPROM Module
 
 #ifndef EEPROM_H
 #define EEPROM_H

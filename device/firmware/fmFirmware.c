@@ -129,10 +129,25 @@ int main (int argc, char *argv[])
     for (i=0; i<13; i++)
     {
         gps_data[i] = (char *)malloc(16*sizeof(char));
+
+        if (gps_data[i] == NULL)
+        {
+            lcd_init();
+            string_write("bad malloc");
+            return 0;
+        }
+
     }
 
     //allocate memory for the UserData struct
     user = (UserData *)malloc(sizeof(UserData));
+
+    if (user == NULL)
+    {
+            lcd_init();
+            string_write("bad malloc");
+            return 0;
+    }
 
     //load in the FM stations database from EEPROM
     string_write("reading\ndatabase...");
@@ -428,6 +443,13 @@ void database_load(void)
 
     //allocate memory for all the station structures
     all_stations = (Station *)malloc(num_stations*sizeof(Station));
+
+    if (all_stations == NULL)
+    {
+            lcd_init();
+            string_write("bad malloc");
+            return;
+    }
 
     //load in the stations one by one into the all_stations array of Station structs
     for (i=0; i<num_stations; i++)

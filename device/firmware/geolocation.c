@@ -1,5 +1,5 @@
 // Marcel Marki & Kyle Nolan
-// GPS Parsing Module Library File
+// GPS Module Library File
 
 #include <stdlib.h>
 #include <string.h>
@@ -9,7 +9,7 @@
 #include "lcd.h"
 
 //Parse the NMEA nmea_string and populate the gps_data fields
-int parse_nmea(char *in_sent, char *gps_data[13]){
+int parse_nmea(volatile char *in_sent, char *gps_data[13]){
 
 	int i = 0, j=0;
 	char* token;

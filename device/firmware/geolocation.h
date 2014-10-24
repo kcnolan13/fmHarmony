@@ -1,5 +1,5 @@
 // Marcel Marki & Kyle Nolan
-// GPS Parsing Module Library File
+// GPS Module Library File
 
 #ifndef GPS_H
 #define GPS_H
@@ -30,7 +30,7 @@ typedef struct user_data {
 } UserData;
 
 //Parse the NMEA nmea_string and populate the gps_data fields
-int parse_nmea(char *in_sent,  char *gps_data[13]);
+int parse_nmea(volatile char *in_sent,  char *gps_data[13]);
 
 //Make sure the NMEA sentence leads with $GPRMC
 int tag_check(volatile char *in_sent);

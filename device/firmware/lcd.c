@@ -293,6 +293,12 @@ void write_db74(int DB7_val, int DB6_val, int DB5_val, int DB4_val)
 void string_write_int(int num, int num_digits)
 {
     char *temp = (char *)malloc(num_digits*sizeof(char));
+    if (temp==NULL)
+    {
+            lcd_init();
+            string_write("bad malloc");
+            return;
+    }
     sprintf(temp,"%d",num);
     string_write(temp);
     free(temp);
