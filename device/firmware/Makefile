@@ -1,5 +1,5 @@
 PRG            = dat_lcd
-OBJ            = fmFirmware.o lcd.o geolocation.o eeprom.o
+OBJ            = fmFirmware.o lcd.o geolocation.o database.o dev_ops.o
 PROGRAMMER     = avrispmkII
 PORT           = usb
 MCU_TARGET     = atmega1284p

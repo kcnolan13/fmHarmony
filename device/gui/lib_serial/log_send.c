@@ -68,7 +68,7 @@ int main (int argc, char *argv[])
 
     //wait a while to make sure the device has detected the start sequence and is ready for data
     printf("giving device plenty of time...\n\n"); fflush(stdout);
-    usleep(5000000);
+    usleep(6000000);
 
     //parse the log file line by line
     while (fgets(buf,1000, log_file)!=NULL) 

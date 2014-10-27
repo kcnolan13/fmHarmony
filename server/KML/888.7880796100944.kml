@@ -245,27 +245,13 @@
 			</Placemark>
 
 			<Placemark>
-				<name>&lt;font face=Arial size=2 &gt; WBOR - 91.1</name>
-				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
-				ERP: 0.3 (kW)&lt;br&gt;
-				HAAT: 47 (m)&lt;br&gt;
-				</description>
-				<index>14</index>
-				<styleUrl>#station4</styleUrl>
-				<Point>
-					<coordinates>-68.0381, 43.9094, 47</coordinates>
-				</Point>
-			</Placemark>
-
-			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WBQX - 106.9</name>
 				<description>&lt;font face=Arial size=2&gt; 
 				&lt;br&gt;&lt;br&gt;
 				ERP: 29.5 (kW)&lt;br&gt;
 				HAAT: 193 (m)&lt;br&gt;
 				</description>
-				<index>15</index>
+				<index>14</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-68.8422, 44.1083, 193</coordinates>
@@ -279,7 +265,7 @@
 				ERP: 30 (kW)&lt;br&gt;
 				HAAT: 193 (m)&lt;br&gt;
 				</description>
-				<index>16</index>
+				<index>15</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-68.8592, 44.1269, 193</coordinates>
@@ -293,7 +279,7 @@
 				ERP: 48 (kW)&lt;br&gt;
 				HAAT: 122 (m)&lt;br&gt;
 				</description>
-				<index>17</index>
+				<index>16</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-68.005, 43.9278, 122</coordinates>
@@ -307,7 +293,7 @@
 				ERP: 10.5 (kW)&lt;br&gt;
 				HAAT: 152 (m)&lt;br&gt;
 				</description>
-				<index>18</index>
+				<index>17</index>
 				<styleUrl>#station3</styleUrl>
 				<Point>
 					<coordinates>-68.3078, 44.745, 152</coordinates>
@@ -321,7 +307,7 @@
 				ERP: 61 (kW)&lt;br&gt;
 				HAAT: 93 (m)&lt;br&gt;
 				</description>
-				<index>19</index>
+				<index>18</index>
 				<styleUrl>#station3</styleUrl>
 				<Point>
 					<coordinates>-68.3892, 44.5644, 93</coordinates>
@@ -335,7 +321,7 @@
 				ERP: 32 (kW)&lt;br&gt;
 				HAAT: 129 (m)&lt;br&gt;
 				</description>
-				<index>20</index>
+				<index>19</index>
 				<styleUrl>#station3</styleUrl>
 				<Point>
 					<coordinates>-68.2586, 44.5544, 129</coordinates>
@@ -349,7 +335,7 @@
 				ERP: 22 (kW)&lt;br&gt;
 				HAAT: 118 (m)&lt;br&gt;
 				</description>
-				<index>21</index>
+				<index>20</index>
 				<styleUrl>#station3</styleUrl>
 				<Point>
 					<coordinates>-68.3747, 44.6169, 118</coordinates>
@@ -363,7 +349,7 @@
 				ERP: 0.4 (kW)&lt;br&gt;
 				HAAT: 387 (m)&lt;br&gt;
 				</description>
-				<index>22</index>
+				<index>21</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-69.1781, 44.0475, 387</coordinates>
@@ -377,7 +363,7 @@
 				ERP: 35 (kW)&lt;br&gt;
 				HAAT: 494 (m)&lt;br&gt;
 				</description>
-				<index>23</index>
+				<index>22</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-67.6422, 45.1294, 494</coordinates>
@@ -391,7 +377,7 @@
 				ERP: 48 (kW)&lt;br&gt;
 				HAAT: 142 (m)&lt;br&gt;
 				</description>
-				<index>24</index>
+				<index>23</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-67.4933, 45.3439, 142</coordinates>
@@ -405,7 +391,7 @@
 				ERP: 6 (kW)&lt;br&gt;
 				HAAT: 100 (m)&lt;br&gt;
 				</description>
-				<index>25</index>
+				<index>24</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
 					<coordinates>-68.8317, 44.8031, 100</coordinates>
@@ -419,7 +405,7 @@
 				ERP: 40 (kW)&lt;br&gt;
 				HAAT: 430 (m)&lt;br&gt;
 				</description>
-				<index>26</index>
+				<index>25</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-69.5789, 44.2508, 430</coordinates>
@@ -433,7 +419,7 @@
 				ERP: 1.5 (kW)&lt;br&gt;
 				HAAT: 122 (m)&lt;br&gt;
 				</description>
-				<index>27</index>
+				<index>26</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-69.8033, 44.6561, 122</coordinates>
@@ -447,8 +433,8 @@
 				ERP: 27 (kW)&lt;br&gt;
 				HAAT: 205 (m)&lt;br&gt;
 				</description>
-				<index>28</index>
-				<styleUrl>#station0</styleUrl>
+				<index>27</index>
+				<styleUrl>#station-1</styleUrl>
 				<Point>
 					<coordinates>-68.7497, 45.0444, 205</coordinates>
 				</Point>
@@ -461,7 +447,7 @@
 				ERP: 16 (kW)&lt;br&gt;
 				HAAT: 235 (m)&lt;br&gt;
 				</description>
-				<index>29</index>
+				<index>28</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-68.8617, 44.1264, 235</coordinates>
@@ -475,7 +461,7 @@
 				ERP: 100 (kW)&lt;br&gt;
 				HAAT: 391 (m)&lt;br&gt;
 				</description>
-				<index>30</index>
+				<index>29</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-69.5764, 44.2494, 391</coordinates>
@@ -489,7 +475,7 @@
 				ERP: 2 (kW)&lt;br&gt;
 				HAAT: 371 (m)&lt;br&gt;
 				</description>
-				<index>31</index>
+				<index>30</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-68.8483, 44.2111, 371</coordinates>
@@ -503,8 +489,8 @@
 				ERP: 3 (kW)&lt;br&gt;
 				HAAT: 91 (m)&lt;br&gt;
 				</description>
-				<index>32</index>
-				<styleUrl>#station3</styleUrl>
+				<index>31</index>
+				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-68.3486, 44.4897, 91</coordinates>
 				</Point>
@@ -517,7 +503,7 @@
 				ERP: 50 (kW)&lt;br&gt;
 				HAAT: 39.2 (m)&lt;br&gt;
 				</description>
-				<index>33</index>
+				<index>32</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-68.0758, 44.1083, 39.2</coordinates>
@@ -531,7 +517,7 @@
 				ERP: 0.1 (kW)&lt;br&gt;
 				HAAT: 32 (m)&lt;br&gt;
 				</description>
-				<index>34</index>
+				<index>33</index>
 				<styleUrl>#station3</styleUrl>
 				<Point>
 					<coordinates>-68.3364, 44.5658, 32</coordinates>
@@ -545,7 +531,7 @@
 				ERP: 5 (kW)&lt;br&gt;
 				HAAT: 91 (m)&lt;br&gt;
 				</description>
-				<index>35</index>
+				<index>34</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-68.3164, 44.3353, 91</coordinates>
@@ -559,7 +545,7 @@
 				ERP: 0.1 (kW)&lt;br&gt;
 				HAAT: -128.4 (m)&lt;br&gt;
 				</description>
-				<index>36</index>
+				<index>35</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-69.4433, 44.5456, -128.4</coordinates>
@@ -573,7 +559,7 @@
 				ERP: 50 (kW)&lt;br&gt;
 				HAAT: 149 (m)&lt;br&gt;
 				</description>
-				<index>37</index>
+				<index>36</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-67.9056, 44.5536, 149</coordinates>
@@ -587,7 +573,7 @@
 				ERP: 2 (kW)&lt;br&gt;
 				HAAT: 110 (m)&lt;br&gt;
 				</description>
-				<index>38</index>
+				<index>37</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-69.445, 44.2067, 110</coordinates>
@@ -601,7 +587,7 @@
 				ERP: 5.2 (kW)&lt;br&gt;
 				HAAT: 224 (m)&lt;br&gt;
 				</description>
-				<index>39</index>
+				<index>38</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-69.3819, 44.2964, 224</coordinates>
@@ -615,7 +601,7 @@
 				ERP: 100 (kW)&lt;br&gt;
 				HAAT: 329 (m)&lt;br&gt;
 				</description>
-				<index>40</index>
+				<index>39</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
 					<coordinates>-68.8092, 45.0572, 329</coordinates>
@@ -629,7 +615,7 @@
 				ERP: 6 (kW)&lt;br&gt;
 				HAAT: 100 (m)&lt;br&gt;
 				</description>
-				<index>41</index>
+				<index>40</index>
 				<styleUrl>#station3</styleUrl>
 				<Point>
 					<coordinates>-68.0306, 44.7922, 100</coordinates>
@@ -643,7 +629,7 @@
 				ERP: 7.9 (kW)&lt;br&gt;
 				HAAT: 366 (m)&lt;br&gt;
 				</description>
-				<index>42</index>
+				<index>41</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-68.8483, 44.2111, 366</coordinates>
@@ -657,7 +643,7 @@
 				ERP: 0.1 (kW)&lt;br&gt;
 				HAAT: 11.5 (m)&lt;br&gt;
 				</description>
-				<index>43</index>
+				<index>42</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-68.8881, 44.1103, 11.5</coordinates>
@@ -671,7 +657,7 @@
 				ERP: 0.1 (kW)&lt;br&gt;
 				HAAT: 645 (m)&lt;br&gt;
 				</description>
-				<index>44</index>
+				<index>43</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-69.4903, 44.935, 645</coordinates>
@@ -685,7 +671,7 @@
 				ERP: 27 (kW)&lt;br&gt;
 				HAAT: 204 (m)&lt;br&gt;
 				</description>
-				<index>45</index>
+				<index>44</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-67.8283, 44.6425, 204</coordinates>
@@ -699,7 +685,7 @@
 				ERP: 0.9 (kW)&lt;br&gt;
 				HAAT: 388 (m)&lt;br&gt;
 				</description>
-				<index>46</index>
+				<index>45</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-69.3669, 44.5822, 388</coordinates>
@@ -713,7 +699,7 @@
 				ERP: 0.1 (kW)&lt;br&gt;
 				HAAT: 34.4 (m)&lt;br&gt;
 				</description>
-				<index>47</index>
+				<index>46</index>
 				<styleUrl>#station3</styleUrl>
 				<Point>
 					<coordinates>-68.3622, 44.5825, 34.4</coordinates>
@@ -727,7 +713,7 @@
 				ERP: 57 (kW)&lt;br&gt;
 				HAAT: 747 (m)&lt;br&gt;
 				</description>
-				<index>48</index>
+				<index>47</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-69.6861, 45.0317, 747</coordinates>
@@ -741,7 +727,7 @@
 				ERP: 15.5 (kW)&lt;br&gt;
 				HAAT: 127 (m)&lt;br&gt;
 				</description>
-				<index>49</index>
+				<index>48</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-68.4286, 44.0253, 127</coordinates>
@@ -755,7 +741,7 @@
 				ERP: 17 (kW)&lt;br&gt;
 				HAAT: 121.1 (m)&lt;br&gt;
 				</description>
-				<index>50</index>
+				<index>49</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-67.9772, 44.4447, 121.1</coordinates>
@@ -769,7 +755,7 @@
 				ERP: 90 (kW)&lt;br&gt;
 				HAAT: 460 (m)&lt;br&gt;
 				</description>
-				<index>51</index>
+				<index>50</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-67.6422, 45.1294, 460</coordinates>
@@ -783,7 +769,7 @@
 				ERP: 41 (kW)&lt;br&gt;
 				HAAT: 113 (m)&lt;br&gt;
 				</description>
-				<index>52</index>
+				<index>51</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-68.1692, 44.31, 113</coordinates>
@@ -797,7 +783,7 @@
 				ERP: 2.4 (kW)&lt;br&gt;
 				HAAT: 147 (m)&lt;br&gt;
 				</description>
-				<index>53</index>
+				<index>52</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-67.4917, 45.3447, 147</coordinates>
@@ -811,7 +797,7 @@
 				ERP: 0.5 (kW)&lt;br&gt;
 				HAAT: 108.7 (m)&lt;br&gt;
 				</description>
-				<index>54</index>
+				<index>53</index>
 				<styleUrl>#station4</styleUrl>
 				<Point>
 					<coordinates>-68.3416, 44.3518, 108.7</coordinates>
@@ -825,7 +811,7 @@
 				ERP: 27.5 (kW)&lt;br&gt;
 				HAAT: 205 (m)&lt;br&gt;
 				</description>
-				<index>55</index>
+				<index>54</index>
 				<styleUrl>#station3</styleUrl>
 				<Point>
 					<coordinates>-68.2725, 44.7133, 205</coordinates>
@@ -839,7 +825,7 @@
 				ERP: 2 (kW)&lt;br&gt;
 				HAAT: 275 (m)&lt;br&gt;
 				</description>
-				<index>56</index>
+				<index>55</index>
 				<styleUrl>#station1</styleUrl>
 				<Point>
 					<coordinates>-68.8092, 45.0572, 275</coordinates>
@@ -853,7 +839,7 @@
 				ERP: 0 (kW)&lt;br&gt;
 				HAAT: 201.6 (m)&lt;br&gt;
 				</description>
-				<index>57</index>
+				<index>56</index>
 				<styleUrl>#station3</styleUrl>
 				<Point>
 					<coordinates>-68.2726, 44.7138, 201.6</coordinates>
@@ -867,7 +853,7 @@
 				ERP: 1.5 (kW)&lt;br&gt;
 				HAAT: 204 (m)&lt;br&gt;
 				</description>
-				<index>58</index>
+				<index>57</index>
 				<styleUrl>#station2</styleUrl>
 				<Point>
 					<coordinates>-68.9167, 45.0937, 204</coordinates>
