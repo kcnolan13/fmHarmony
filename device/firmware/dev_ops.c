@@ -295,19 +295,45 @@ void wait_for_update(volatile DEV_STATE *device)
 
 void show_nearest_station(volatile DEV_STATE *device, DATABASE *fm_stations, GPS_DATA *gps_data)
 {
+    int i;
     if (device->op_mode==MD_UPDATE) return;
     lcd_init();
     string_write("Finding Nearest\nStation...");
     _delay_ms(2000);
 
     lcd_init();
+
     fm_stations->nearest_station = get_nearest_station(fm_stations->all_stations, fm_stations->num_stations, gps_data->lat, gps_data->lon);
+
+    calculate_bearings(gps_data, fm_stations);
+
     print_callsign(fm_stations, fm_stations->nearest_station); string_write("\n");
-    string_write_float(my_distance_to_station(gps_data, fm_stations->all_stations, fm_stations->nearest_station),1); string_write(" km");
-    if (device->op_mode==MD_UPDATE) return;
-    _delay_ms(4000);
+    string_write_float(my_distance_to_station(gps_data, fm_stations->all_stations, fm_stations->nearest_station),1); string_write(" km, ");
+
+    //write out the abs bearing chars
+    for (i=0; i<3; i++)
+        char_write(gps_data->str_abs_bearing_nearest[i]);
 
     if (device->op_mode==MD_UPDATE) return;
+
+    _delay_ms(10000);
+
+    if (device->op_mode==MD_UPDATE) return;
+
+    lcd_init();
+    string_write("A.Bear: "); string_write_float(gps_data->abs_bearing_nearest,1); char_write(DEG_SYMBOL); char_write('\n');
+    _delay_ms(4000);
+
+    lcd_init();
+    string_write("Course: "); string_write_float(gps_data->course,1); char_write(DEG_SYMBOL); char_write('\n');
+    string_write("R.Bear: "); string_write_float(gps_data->rel_bearing_nearest,1); char_write(DEG_SYMBOL);
+
+    if (device->op_mode==MD_UPDATE) return;
+
+    _delay_ms(8000);
+
+    if (device->op_mode==MD_UPDATE) return;
+
     lcd_init();    
     print_station(device, fm_stations, fm_stations->nearest_station);
     _delay_ms(2000);

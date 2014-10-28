@@ -30,7 +30,10 @@ int parse_nmea(volatile char *in_sent, char * volatile *raw_gps_data){
 
 	//copy over the first token
 	token = strtok_single((char *)in_sent, ",");
-	strcpy(raw_gps_data[0], token);
+	//strcpy(raw_gps_data[0], token);
+
+	char token2[6] = "$GPRMC";
+	strncpy(raw_gps_data[0],token2,6);
 
 	//copy over the rest of the tokens
 	while((token) && (l<NUM_GPS_FIELDS-1)) 
@@ -234,6 +237,59 @@ float my_distance_to_station(GPS_DATA * gps_data, STATION *all_stations, int sta
     return earth_distance(gps_data->lat, gps_data->lon, all_stations[station_index].lat, all_stations[station_index].lon);
 }
 
+//calculate the absolute and relative bearings to the nearest station 
+int calculate_bearings(GPS_DATA *gps_data, DATABASE *fm_stations)
+{
+	double y, x, bearing, lat1, lat2, lon1, lon2;
+	float slice;
+
+	//16-point compass 
+	char *str_bearings[] = {"N  ", "NNE", "NE ", "ENE", "E  ", "ESE", "SE ", "SSE", "S  ", "SSW", "SW ", "WSW", "W  ", "WNW", "NW ", "NNW"};
+
+	lat1 = to_radians((double)gps_data->lat);
+	lon1 = to_radians((double)gps_data->lon);
+	lat2 = to_radians((double)fm_stations->all_stations[fm_stations->nearest_station].lat);
+	lon2 = to_radians((double)fm_stations->all_stations[fm_stations->nearest_station].lon);
+
+	y = sin(lon2 - lon1)*cos(lat2);
+	x = cos(lat1)*sin(lat2) - sin(lat1)*cos(lat2)*cos(lon2 - lon1);
+
+	//the absolute bearing to nearest station
+	bearing = to_degrees(atan2(y, x));
+
+	//keep bearing between 0 - 360
+	if (bearing < 0)
+		bearing += 360;
+
+	gps_data->abs_bearing_nearest = (float)bearing;
+
+	/*lcd_init();
+	string_write("bearing = "); string_write_float((float)bearing,1);
+	_delay_ms(3000);*/
+
+	//get the relative bearing to nearest station
+	gps_data->rel_bearing_nearest = gps_data->abs_bearing_nearest - gps_data->course;
+
+	//keep within 0-360
+	if (gps_data->rel_bearing_nearest < 0)
+		gps_data->rel_bearing_nearest += 360;
+
+	//get the absolute bearing strings
+	slice = gps_data->abs_bearing_nearest/360*16;
+
+	if ((slice<=0.5)||(slice>=15.5))
+	{
+		//bearing is NORTH
+		strncpy(gps_data->str_abs_bearing_nearest, str_bearings[0], 3);
+	} else {
+		//bearing fits normal convention
+		strncpy(gps_data->str_abs_bearing_nearest, str_bearings[(int)(slice+0.5)], 3);
+	}
+
+
+	return 1;
+}
+
 //use the haversine fomula to calculate the great-circle distance between two coordinate pairs
 float earth_distance(float lat1, float lon1, float lat2, float lon2)
 {
@@ -259,6 +315,12 @@ double to_radians(double decimal_angle)
     return (M_PI)*decimal_angle/180;
 }
 
+//convert an angle from radians to degrees
+double to_degrees(double radian_angle)
+{
+	return 180*radian_angle/(M_PI);
+}
+
 //make sure there is valid GPS data to work with
 int gps_locked(GPS_DATA *gps_data)
 {
@@ -280,6 +342,9 @@ int gps_locked(GPS_DATA *gps_data)
 
     if (gps_data->checksum[0] != '*')
         return 0;
+
+    /*if ((gps_data->course < 0)||(gps_data->course>=360))
+    	return 0;*/
 
     return 1;
 

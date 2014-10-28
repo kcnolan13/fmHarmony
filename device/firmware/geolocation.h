@@ -33,11 +33,17 @@ int get_nearest_station(STATION *all_stations, int num_stations, float lon, floa
 //find the closest station to the user
 float my_distance_to_station(GPS_DATA *gps_data, STATION *all_stations, int station_index);
 
+//calculate the absolute and relative bearings to the nearest station 
+int calculate_bearings(GPS_DATA *gps_data, DATABASE *fm_stations);
+
 //use the haversine fomula to calculate the great-circle distance between two coordinate pairs
 float earth_distance(float lat1, float lon1, float lat2, float lon2);
 
 //convert an angle from degrees to radians (needed for the haversine formula)
 double to_radians(double decimal_angle);
+
+//convert an angle from radians to degrees (needed for forward azimuth formula)
+double to_degrees(double radian_angle);
 
 //has the GPS_DATA struct been populated with enough GPS data?
 int gps_locked(GPS_DATA *gps_data);

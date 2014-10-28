@@ -127,10 +127,10 @@ int main (int argc, char *argv[])
                     string_write("No GPS Fix...\n");
                     string_write("Be Patient...");
                     _delay_ms(2000);
+                    print_raw_gps_data(device);
                 }
-
                 //go through the complete list of known stations
-                print_all_known_stations(device, fm_stations);
+                //print_all_known_stations(device, fm_stations);
             break;
 
             case MD_UPDATE_REQUIRED:

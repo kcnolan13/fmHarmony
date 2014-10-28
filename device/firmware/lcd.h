@@ -19,6 +19,8 @@
 #define DB6 	PA5
 #define DB7 	PA6
 
+#define DEG_SYMBOL 215
+
 //Display On, Cursor On, Blink On.
 int lcd_init();
 
