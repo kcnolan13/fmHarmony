@@ -37,8 +37,8 @@ class MainWindow:
       line = p.stdout.readline()
 
       #intercept "serial port not opened"
-      if (line.find("serial port not opened") > -1):
-        self.buffer_insert(self.window_upload.buffer_messages,"\n\nFAILED to open serial port\n\n")
+      if (line.find("serial port not opened") > -1) or (line.find("error") > -1) or (line.find("cannot open") > -1):
+        self.buffer_insert(self.window_upload.buffer_messages,"\n\nSERIAL PORT UNRESPONSIVE\n\n")
         p.terminate()
         self.upload_failed = True
         return
@@ -84,6 +84,8 @@ class MainWindow:
       print "already uploading ... please wait ..."
       return
 
+    self.button_upload.set_sensitive(False)
+
     self.parse_log()
 
     if (self.log_valid):
@@ -102,6 +104,7 @@ class MainWindow:
       except ValueError:
         print "FAILED to save log file for serial transmission"
         self.upload_failed = True
+        self.button_upload.set_sensitive(True)
         return
 
       self.upload_failed = False
@@ -110,6 +113,7 @@ class MainWindow:
       self.execute_command("make -C ./lib_serial/")
       self.buffer_insert(self.window_upload.buffer_messages,"\n=============================\nTransmitting Serial Data\n=============================\n")
       self.uploading = True
+
       self.execute_command("./lib_serial/log_send")
       self.buffer_insert(self.window_upload.buffer_messages,"cleaning up...\n")
       self.execute_command("make -C ./lib_serial/ clean")
@@ -126,6 +130,8 @@ class MainWindow:
       self.window_complete.window.show()
       self.window_complete.myHandler.window_upload = self.window_upload
       self.window_complete.myHandler.window = self.window_complete.window
+
+    self.button_upload.set_sensitive(True)
 
 
   #mark a log file line as invalid ---> prevents serial upload
@@ -249,6 +255,8 @@ class MainWindow:
     self.buffer_input = self.textview_input.get_buffer()
     self.buffer_messages = self.textview_messages.get_buffer()
 
+    self.button_upload = self.builder.get_object("button1")
+
     #define possible text colors
     self.tag_green_messages = self.buffer_messages.create_tag("green", foreground="green")
     self.tag_red_messages = self.buffer_messages.create_tag("red", foreground="red")
@@ -268,6 +276,8 @@ class UploadWindow:
     self.builder.connect_signals(self.myHandler)
 
     self.window = self.builder.get_object("UploadWindow")
+    self.window.connect('delete-event',lambda widget, event: True)
+    self.window.set_deletable(False)
 
     self.textview_messages = self.builder.get_object("textview_stdout")
     self.textview_messages.set_cursor_visible(False)
@@ -289,6 +299,8 @@ class CompleteWindow:
     self.builder.connect_signals(self.myHandler)
 
     self.window = self.builder.get_object("CompleteWindow")
+    self.window.connect('delete-event',lambda widget, event: True)
+    self.window.set_deletable(False)
     self.window.set_keep_above(True)
     self.label_upload_complete = self.builder.get_object("label_upload_complete")
 

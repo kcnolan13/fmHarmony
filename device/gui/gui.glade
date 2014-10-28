@@ -4,7 +4,6 @@
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkWindow" id="CompleteWindow">
     <property name="can_focus">False</property>
-    <property name="type">popup</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
     <property name="default_width">300</property>
@@ -63,7 +62,6 @@
     <property name="can_focus">False</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
-    <property name="type_hint">menu</property>
     <signal name="destroy" handler="on_main_window_destroy" swapped="no"/>
     <child>
       <object class="GtkGrid" id="grid1">
@@ -268,7 +266,6 @@
   <object class="GtkWindow" id="UploadWindow">
     <property name="can_focus">False</property>
     <property name="valign">end</property>
-    <property name="type">popup</property>
     <property name="window_position">center</property>
     <property name="default_width">600</property>
     <property name="default_height">225</property>
