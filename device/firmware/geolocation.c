@@ -152,6 +152,11 @@ float lon2dec(char lon[10], char E_indicator)
 void update_user_gps_data(char * volatile *raw_gps_data, GPS_DATA *gps_data)
 {
 	float temp;
+	double slice;
+	
+	//16-point compass 
+	char *str_bearings[] = {"N  ", "NNE", "NE ", "ENE", "E  ", "ESE", "SE ", "SSE", "S  ", "SSW", "SW ", "WSW", "W  ", "WNW", "NW ", "NNW"};
+
 	wipe_chars(gps_data->msg_type,8);
 	strcpy(gps_data->msg_type,raw_gps_data[0]);
 
@@ -206,6 +211,19 @@ void update_user_gps_data(char * volatile *raw_gps_data, GPS_DATA *gps_data)
 	gps_data->checksum[0] = raw_gps_data[12][1];
 	gps_data->checksum[1] = raw_gps_data[12][2];
 	gps_data->checksum[2] = raw_gps_data[12][3];
+
+	//get the course strings
+	slice = gps_data->course/360*16;
+
+	if ((slice<=0.5)||(slice>=15.5))
+	{
+		//course is NORTH
+		strncpy(gps_data->str_course, str_bearings[0], 3);
+	} else {
+		//course fits normal convention
+		strncpy(gps_data->str_course, str_bearings[(int)(slice+0.5)], 3);
+	}
+
 }
 
 //---- GEO-POSITIONAL ALGORITHMS ----//
@@ -285,7 +303,6 @@ int calculate_bearings(GPS_DATA *gps_data, DATABASE *fm_stations)
 		//bearing fits normal convention
 		strncpy(gps_data->str_abs_bearing_nearest, str_bearings[(int)(slice+0.5)], 3);
 	}
-
 
 	return 1;
 }

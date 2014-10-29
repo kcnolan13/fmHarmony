@@ -7,8 +7,12 @@
 //modes of operation
 #define NUM_MODES 5
 #define MD_NORMAL 0
-#define MD_UPDATE_REQUIRED 6
-#define MD_UPDATE 7
+#define MD_GPS 1
+#define MD_DATABASE 2
+#define MD_GPS_LONG 3
+#define MD_DEBUG 4
+#define MD_UPDATE_REQUIRED 5
+#define MD_UPDATE 6
 
 
 //FM station offsets in memory
@@ -32,6 +36,7 @@ typedef struct device_state {
     int updating;
     int eeprom_index;
     int op_mode;
+    int op_mode_prior;
     char serialStartChar;
     char serialEndChar;
     char rxBuffer[RX_BUFFER_SIZE];
@@ -79,6 +84,7 @@ typedef struct gps_data {
     float abs_bearing_nearest;
     float rel_bearing_nearest;
     char str_abs_bearing_nearest[3];
+    char str_course[3];
 } GPS_DATA;
 
 #endif

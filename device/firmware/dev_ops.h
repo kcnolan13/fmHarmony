@@ -6,6 +6,8 @@
 
 #include "types.h"
 
+//synchronize op mode LEDs
+void sync_leds(volatile DEV_STATE *device);
 
 //device config
 void InitUSART(void);
@@ -31,6 +33,7 @@ void print_all_known_stations(volatile DEV_STATE *device, DATABASE *fm_stations)
 void print_all_callsigns(volatile DEV_STATE *device, DATABASE *fm_stations);
 void print_callsign(DATABASE *fm_stations, int station_index);
 void print_station(volatile DEV_STATE *device, DATABASE *fm_stations, int index);
+void print_gps_data_concise(volatile DEV_STATE *device, GPS_DATA *gps_data);
 void print_gps_data(volatile DEV_STATE *device, GPS_DATA *gps_data);
 void print_raw_gps_data(volatile DEV_STATE *device);
 void test_earth_distance(void);
