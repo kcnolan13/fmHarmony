@@ -46,14 +46,59 @@ void InitUSART(void)
 
 }
 
+void InitPCI(void)
+{
+    //SET UP EXTERNAL INTERRUPT 2
+
+    //trigger external interrupt 2 on falling edge
+    EICRA |= (1 << ISC21);
+    EICRA &= ~(1<<ISC20);
+
+    //enable external interrupt 2 
+    EIMSK |= (1 << INT2);
+
+    //set Port B Pin 2 as Input
+    DDRB &= ~(1<<PB2);
+    //enable pull-up resistor
+    PORTB |= (1<<PB2);
+
+    //enable PB0, PB1, PB3 as Outputs
+    DDRB |= ((1<<PB0)|(1<<PB1)|(1<<PB3));
+
+    //turn on the first LED
+    PORTB |= (1<<PB0);
+
+
+    //SET UP TIMER FOR DEBOUNCING
+
+    //set normal output compare modes
+    //TCCR0A &= ~((1<<COM0A1)|(1<<COM0A0))
+    
+    //prescale the default clock by /1024
+    TCCR0B |= ((1<<CS02)|(1<<CS00));
+    TCCR0B &= ~(1<<CS01);
+
+    //set the max internal counter value
+    uint8_t debounce_delay = 244/2; //roughly 1/8th of a second
+    OCR0A = debounce_delay;
+
+    //enable the timer interrupt
+    TIMSK0 |= (1<<OCIE0A);
+}
+
 //set up GPIO, initialize interrupts, serial comm, and LCD
 int prepare_device(volatile DEV_STATE *device)
 {
     int i, j;
     DDRB = 0xFF;
     cli();
+
     //Init usart
     InitUSART();
+
+    //Enable Pin Change Interrupts (for the pushbutton)
+    InitPCI();
+
     //Enable Global Interrupts. Sets SREG Interrupt bit.
     sei();
     //Intitialize LCD. Set Blinking cursor.
@@ -71,6 +116,7 @@ int prepare_device(volatile DEV_STATE *device)
     device->rxReadPos = 0;
     device->rxWritePos = 0;
     device->gps_update_trigger = 0;
+    device->button_pressable = 1;
 
     for (i=0; i<3; i++)
     {

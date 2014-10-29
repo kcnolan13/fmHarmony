@@ -9,6 +9,7 @@
 
 //device config
 void InitUSART(void);
+void InitPCI(void);
 int prepare_device(volatile DEV_STATE *device);
 void disable_gps(void);
 void enable_gps(void);

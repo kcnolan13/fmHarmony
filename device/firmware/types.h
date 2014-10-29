@@ -5,9 +5,11 @@
 #define TYPES_H
 
 //modes of operation
+#define NUM_MODES 5
 #define MD_NORMAL 0
-#define MD_UPDATE 1
-#define MD_UPDATE_REQUIRED 2
+#define MD_UPDATE_REQUIRED 6
+#define MD_UPDATE 7
+
 
 //FM station offsets in memory
 #define STATION_BLOCKSIZE 28
@@ -40,6 +42,7 @@ typedef struct device_state {
     char gps_rxBuffer[GPS_RX_BUFFER_SIZE];
     char *raw_gps_data[NUM_GPS_FIELDS];
     int gps_update_trigger;
+    int button_pressable;
 } DEV_STATE;
 
 //FM Station Structure

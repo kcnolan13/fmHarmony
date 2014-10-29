@@ -1,3 +1,93 @@
+commit 1303d4c6ec1961c67f8a56ec8ce45b35b30d9a46
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Mon Oct 27 20:11:47 2014 -0400
+
+    More Robust GUI Error Handling. Improved Glade Interface
+
+commit 057812a01c0e4316407f6a68b1726757c8214bcb
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Mon Oct 27 19:17:57 2014 -0400
+
+    OVERHAULED FIRMWARE. Globals reduced, Functional Interface Improved, Main Code Streamlined, Libraries Augmented.
+
+commit 49a46a7a0cabc620357ec98bba212cdc88cd7c6e
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Fri Oct 24 17:15:52 2014 -0400
+
+    improved malloc error checking
+
+commit 326b968cc9e86e1687f5d406faa2da3d18211c89
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Wed Oct 22 15:11:44 2014 -0400
+
+    cleaned up directory structure. improved gps data validation.
+
+commit 2fd266e04b82559abeb23fac9ada935277a249b1
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Wed Oct 22 13:11:49 2014 -0400
+
+    functional interface improved. bad gps fix detection improved. several op_mode tweaks
+
+commit 04b5b28d27d05e8add4ae82126aa1a293f9df46c
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Tue Oct 14 17:32:58 2014 -0400
+
+    basic C-grade specs met. could use better error handling and functional interface improvements. code runs correctly on breadboard-prototyped device.
+
+commit fdb5115e403e7f51b2d41f5b1f826e23efad8486
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Tue Oct 14 16:30:14 2014 -0400
+
+    the haversine formula is used to calculate the great-circl earth distance between two lat/lon coordinate pairs in decimal degrees.
+
+commit 48a4a8c5ba9d65ac03e451a1b68267405cb1c99c
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Tue Oct 14 15:47:18 2014 -0400
+
+    GPS lat/lon dec-deg conversion works. Better GPS data parsing/formatting.
+
+commit 9c24eb64558d39513b0ee4b74bb6f407039661a8
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Tue Oct 14 13:52:39 2014 -0400
+
+    grid cells no longer used to compute closest station. iteration will be better for U.S.-wide data. GPS data integration improved on physical device.
+
+commit 089d5a39cbcae5e2042625dd0c85ed3b9419e146
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Sat Oct 11 15:19:09 2014 -0400
+
+    GUI serial updater application developed with Glade and GTK+ for Python. Firmware update reliability improved.
+
+commit 4376b53f1920ef4042c80a63b0ca3ed12497373a
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Thu Oct 9 16:00:55 2014 -0400
+
+    corruption detection and handling are now performed. device functionality separated into distinct modes of operation.
+
+commit f428e7302abae4512e1f3c4d5672209cc774e242
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Thu Oct 9 11:00:25 2014 -0400
+
+    device firmware cleaned up, and functional interface improved. more comments
+
+commit abedeb663ca6389239fe3dc5fdfadb4692564ad8
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Thu Oct 9 02:15:45 2014 -0400
+
+    improved serial update reliability. corruption checking prototyped.
+
+commit f9fd01231f1938df4f5af08cebb92c0c2f386ef4
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Thu Oct 9 01:22:12 2014 -0400
+
+    basic python wrapper for future GUI-based database uploading created. stdout prettied up for log_send
+
+commit 76043995208b02f556e5e93d2f09cf77c34b6d57
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Tue Oct 7 17:20:35 2014 -0400
+
+    device database can now be updated without a reboot. modes of operation are more atomic. standard output is cleaned up. many program modules have been functoinalized
+
 commit a1815bc220eae5fd569d07a4c01872da1495b402
 Author: Kyle Nolan <kcnolan13@gmail.com>
 Date:   Tue Oct 7 05:45:39 2014 -0400

@@ -212,6 +212,58 @@ int main (int argc, char *argv[])
 }
 
 
+//---- PIN CHANGE INTERRUPT (PUSHBUTTON PRESSED) ----//
+ISR(INT2_vect) {
+    if (device->button_pressable)
+    {
+        //increment the op_mode
+        device->op_mode++;
+
+        //loop the op_mode
+        if (device->op_mode >= NUM_MODES)
+            device->op_mode = 0;
+
+        //light up the mode LEDs
+        switch (device->op_mode)
+        {
+            case 0:
+                PORTB |= 1<<PB0;
+                PORTB &= ~((1<<PB3)|(1<<PB1));
+            break;
+            case 1:
+                PORTB |= 1<<PB1;
+                PORTB &= ~((1<<PB3)|(1<<PB0));
+            break;
+            case 2:
+                PORTB |= 1<<PB3;
+                PORTB &= ~((1<<PB1)|(1<<PB0));
+            break;
+            case 3:
+                PORTB |= ((1<<PB1)|(1<<PB0));
+                PORTB &= ~(1<<PB3);
+            break;
+            case 4:
+                PORTB |= ((1<<PB3)|(1<<PB1));
+                PORTB &= ~(1<<PB0);
+            break;
+            default:
+                PORTB |= ((1<<PB3)|(1<<PB1)|(1<<PB0));
+            break;
+        }
+
+        //debounce the button
+        device->button_pressable = 0;
+        //reset the debounce timer
+        TCNT0 = 0x00;
+    }
+}
+
+//---- TIMER INTERRUPT (PUSHBUTTON DEBOUNCE) ----//
+ISR(TIMER0_COMPA_vect) {
+    //start accepting new button presses
+    device->button_pressable = 1;
+}
+
 //---- SERIAL DATABASE UPDATE INTERRUPT ----//
 ISR(USART1_RX_vect){
     
