@@ -267,7 +267,7 @@ int main (int argc, char *argv[])
 
 //---- PIN CHANGE INTERRUPT (PUSHBUTTON PRESSED) ----//
 ISR(INT2_vect) {
-    if ((device->button_pressable)&&(device->updating==0))
+    if ((device->button_pressable)&&(device->op_mode!=MD_UPDATE_REQUIRED)&&(device->op_mode!=MD_UPDATE))
     {
         //increment the op_mode
         device->op_mode++;
