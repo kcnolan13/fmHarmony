@@ -139,6 +139,12 @@ int prepare_device(volatile DEV_STATE *device)
     //Enable Global Interrupts. Sets SREG Interrupt bit.
     sei();
 
+    //blink PB0 during the startup sequence
+    device->blinking = 1;
+    device->blinker1 = 0;
+    device->blinker2 = -2;
+    device->blinker3 = -2;
+
     //Intitialize LCD. Set Blinking cursor.
     lcd_init();
     _delay_ms(1000);
@@ -275,6 +281,9 @@ int terminate_serial(volatile DEV_STATE *device, DATABASE *fm_stations, int flag
     device->updating = 0;
     device->serial_timer = 0;
 
+    //turn off the blinking update LEDs
+    device->blinking = 0;
+    sync_leds(device);
 
     lcd_init();
 
@@ -314,7 +323,7 @@ void show_nearest_station(volatile DEV_STATE *device, DATABASE *fm_stations, GPS
     if (device->op_mode != device->op_mode_prior) return;
     lcd_init();
     string_write("Finding Nearest\nStation...");
-    _delay_ms(2000);
+    _delay_ms(500);
 
     lcd_init();
 
@@ -334,7 +343,7 @@ void show_nearest_station(volatile DEV_STATE *device, DATABASE *fm_stations, GPS
 
     if (device->op_mode != device->op_mode_prior) return;
 
-    _delay_ms(5000);
+    _delay_ms(3000);
 
     if (device->op_mode != device->op_mode_prior) return;
 
@@ -346,7 +355,7 @@ void show_nearest_station(volatile DEV_STATE *device, DATABASE *fm_stations, GPS
 
     if (device->op_mode != device->op_mode_prior) return;
 
-    _delay_ms(5000);
+    _delay_ms(3000);
 }
 
 //hold device state and wait for database update
@@ -555,7 +564,7 @@ void print_gps_data(volatile DEV_STATE *device, GPS_DATA *gps_data)
             break;
         }
 
-        _delay_ms(1000);
+        _delay_ms(500);
         if (device->op_mode != device->op_mode_prior) return;
     }
 }
@@ -571,7 +580,7 @@ void print_gps_data_concise(volatile DEV_STATE *device, GPS_DATA *gps_data)
     string_write_numchars(gps_data->date,8); char_write('\n');
     string_write("UTC: ");
     string_write_numchars(gps_data->utc_time,8);
-    _delay_ms(3000);
+    _delay_ms(2000);
 
     if (device->op_mode != device->op_mode_prior) return;
 
@@ -580,7 +589,7 @@ void print_gps_data_concise(volatile DEV_STATE *device, GPS_DATA *gps_data)
     string_write_float(gps_data->lat,4);  char_write(DEG_SYMBOL); char_write('\n');
     string_write("Lon: ");
     string_write_float(gps_data->lon,4);  char_write(DEG_SYMBOL);
-    _delay_ms(3000);
+    _delay_ms(2000);
 
     if (device->op_mode != device->op_mode_prior) return;
 
@@ -594,7 +603,7 @@ void print_gps_data_concise(volatile DEV_STATE *device, GPS_DATA *gps_data)
 
     string_write("\nSpeed: ");
     string_write_float(gps_data->speed,1);  string_write(" kts");
-    _delay_ms(3000);
+    _delay_ms(2000);
 }
 
 //print the raw gps data in the gps_data string array to the screen

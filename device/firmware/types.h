@@ -47,6 +47,10 @@ typedef struct device_state {
     char *raw_gps_data[NUM_GPS_FIELDS];
     int gps_update_trigger;
     int button_pressable;
+    int blinker1;
+    int blinker2;
+    int blinker3;
+    int blinking;
 } DEV_STATE;
 
 //FM Station Structure

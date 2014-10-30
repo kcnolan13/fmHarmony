@@ -82,13 +82,20 @@ int main (int argc, char *argv[])
     string_write("reading\ndatabase...");
     database_load(fm_stations);
     _delay_ms(1000);
+
+    //stop the blinking boot-up LED
+    device->blinking = 0;
     
     //primary program loop
     while(1){
         //remember the current mode of operation
         device->op_mode_prior = device->op_mode;
-        //synchronize op_mode led state
-        sync_leds(device);
+
+        if (device->blinking == 0)
+        {
+            //synchronize op_mode led state
+            sync_leds(device);
+        }
         //behave according to the mode of operation
         switch (device->op_mode)
         {
@@ -104,9 +111,12 @@ int main (int argc, char *argv[])
                 lcd_init();
                 string_write("fmHarmony\n");
                 _delay_ms(250);
-                string_write("UTC: ");
-                string_write_numchars(gps_data->utc_time,8);
-                _delay_ms(750);
+                if (gps_locked(gps_data))
+                {
+                    string_write("UTC: ");
+                    string_write_numchars(gps_data->utc_time,8);
+                    _delay_ms(750);
+                }
                 if (device->op_mode != device->op_mode_prior) break;
                 //parse available data and pull formatted params into the GPS_DATA struct
                 sync_gps_data(device, gps_data);
@@ -135,7 +145,7 @@ int main (int argc, char *argv[])
                     string_write_float(gps_data->lat,3);
                     string_write(", ");
                     string_write_float(gps_data->lon,3);
-                    _delay_ms(3000);
+                    _delay_ms(2000);
                     //print the most recent gps data
                     print_gps_data_concise(device, gps_data);
                 } else {
@@ -149,7 +159,7 @@ int main (int argc, char *argv[])
             case MD_DATABASE:
                 lcd_init();
                 string_write("FM Stations\nDatabase");
-                _delay_ms(3000);
+                _delay_ms(2000);
                 //go through the complete list of known stations
                 print_all_known_stations(device, fm_stations);
             break;
@@ -161,7 +171,7 @@ int main (int argc, char *argv[])
                 //parse available data and pull formatted params into the GPS_DATA struct
                 sync_gps_data(device, gps_data);
                 string_write("DEBUG 1");
-                _delay_ms(1000);
+                _delay_ms(500);
                 print_gps_data(device, gps_data);
                 print_raw_gps_data(device);
             break;
@@ -173,7 +183,7 @@ int main (int argc, char *argv[])
                 //parse available data and pull formatted params into the GPS_DATA struct
                 sync_gps_data(device, gps_data);
                 string_write("DEBUG 2");
-                _delay_ms(1000);
+                _delay_ms(250);
                 lcd_init();
                 string_write("CMG: ");
                 string_write_float(gps_data->course,1); char_write(DEG_SYMBOL); string_write(" ");
@@ -182,7 +192,7 @@ int main (int argc, char *argv[])
                     char_write(gps_data->str_course[i]);
                 string_write("\nSpeed: ");
                 string_write_float(gps_data->speed,1);
-                _delay_ms(3000);
+                _delay_ms(1000);
             break;                
 
             case MD_UPDATE_REQUIRED:
@@ -193,6 +203,12 @@ int main (int argc, char *argv[])
             case MD_UPDATE:
                 //make sure gps interrupts do not disrupt the update process
                 disable_gps();
+                //sweep the update LEDs
+                device->blinking = 1;
+                device->blinker1 = 0;
+                device->blinker2 = 1;
+                device->blinker3 = 3;
+
                 //handle the update trigger
                 if (device->updating == 0)
                 {
@@ -269,7 +285,19 @@ ISR(INT2_vect) {
 
 //---- TIMER INTERRUPT (PUSHBUTTON DEBOUNCE) ----//
 ISR(TIMER1_COMPA_vect) {
-    //PORTB ^= (1<<PB4);
+    //blink the LEDs when desired
+    if (device->blinking)
+    {
+        if (device->blinker1 > -1)
+            PORTB ^= 1<<device->blinker1;
+
+        if (device->blinker2 > -1)
+            PORTB ^= 1<<device->blinker2;
+
+        if (device->blinker3 > -1)
+            PORTB ^= 1<<device->blinker3;
+    }
+
     //reset the debounce timer
     TCNT1 &= ~(0xFFFF);
     if (device->button_pressable == 0)
