@@ -17,9 +17,9 @@
 #include "lcd.h"
 
 //Parse the NMEA nmea_string and populate the raw_gps_data fields
-int parse_nmea(volatile char *in_sent, char * volatile *raw_gps_data){
+int parse_nmea(volatile DEV_STATE *device, volatile char *in_sent, char * volatile *raw_gps_data){
 
-	int l = 0, m =0;
+	int l = 0, m =0, k=0;
 	char* token;
 
 	//null out the raw_gps_data field
@@ -50,21 +50,24 @@ int parse_nmea(volatile char *in_sent, char * volatile *raw_gps_data){
 		strcpy(raw_gps_data[l], token);
 	}
 
+	//clear the rxBuffer
+    for (k=0; k<GPS_RX_BUFFER_SIZE; k++)
+        device->gps_rxBuffer[k]='\0';
+    device->gps_rxCount = 0;
+
 	return 0;
 }
 
 //Make sure the NMEA sentence leads with $GPRMC
-int tag_check(volatile char *in_sent){
-	char token[6] = "$12345";
-	int x = 0;
-
-	for (x = 0; x <6; x ++){
-	        token[x] = in_sent[x];
+int tag_check(volatile DEV_STATE *device){
+	char token[6] = "$GPRMC";
+	int i;
+	for (i=0; i<6; i++)
+	{
+		if (device->gps_rxBuffer[i] != token[i])
+			return 0;
 	}
-	if (strcmp(token,"$GPRMC") ==0) 
-		return 1;
-	
-	return 0;
+	return 1;
 }
 
 
@@ -153,7 +156,7 @@ void update_user_gps_data(char * volatile *raw_gps_data, GPS_DATA *gps_data)
 {
 	float temp;
 	double slice;
-	
+
 	//16-point compass 
 	char *str_bearings[] = {"N  ", "NNE", "NE ", "ENE", "E  ", "ESE", "SE ", "SSE", "S  ", "SSW", "SW ", "WSW", "W  ", "WNW", "NW ", "NNW"};
 

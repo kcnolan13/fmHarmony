@@ -29,6 +29,8 @@
 #include "database.h"
 #include "dev_ops.h"
 
+#define F_CPU 1000000UL
+
 //Global Device State Structure
 volatile DEV_STATE *device;
 
@@ -51,7 +53,7 @@ int main (int argc, char *argv[])
 
     //set up GPIO, initialize interrupts, prepare for serial comm, init lcd, choose DEV_STATE params
     result = prepare_device(device);
-    
+
     //catch device prep errors
     if (result==0)
         return 0;
@@ -98,15 +100,14 @@ int main (int argc, char *argv[])
                 enable_gps();
                 //title screen
                 lcd_init();
-                string_write("fmHarmony");
-                _delay_ms(3000);
-                //pull formatted data into the GPS_DATA struct
-                if (device->gps_update_trigger)
-                {
-                    //use the raw raw_gps_data fields to populate the GPS_DATA struct
-                    update_user_gps_data(device->raw_gps_data, gps_data);
-                    device->gps_update_trigger = 0;
-                }
+                string_write("fmHarmony\n");
+                _delay_ms(250);
+                string_write("UTC: ");
+                string_write_numchars(gps_data->utc_time,8);
+                _delay_ms(750);
+                if (device->op_mode != device->op_mode_prior) break;
+                //parse available data and pull formatted params into the GPS_DATA struct
+                sync_gps_data(device, gps_data);
                 if (gps_locked(gps_data))
                 {
                     //compute and show the nearest station
@@ -124,13 +125,8 @@ int main (int argc, char *argv[])
                 lcd_init();
                 //allow gps interrupts
                 enable_gps();
-                //pull formatted data into the GPS_DATA struct
-                if (device->gps_update_trigger)
-                {
-                    //use the raw raw_gps_data fields to populate the GPS_DATA struct
-                    update_user_gps_data(device->raw_gps_data, gps_data);
-                    device->gps_update_trigger = 0;
-                }
+                //parse available data and pull formatted params into the GPS_DATA struct
+                sync_gps_data(device, gps_data);
                 if (gps_locked(gps_data))
                 {
                     string_write("GPS Fix:\n");
@@ -138,7 +134,6 @@ int main (int argc, char *argv[])
                     string_write(", ");
                     string_write_float(gps_data->lon,3);
                     _delay_ms(3000);
-
                     //print the most recent gps data
                     print_gps_data_concise(device, gps_data);
                 } else {
@@ -159,6 +154,10 @@ int main (int argc, char *argv[])
 
             case MD_GPS_LONG:
                 lcd_init();
+                //allow gps interrupts
+                enable_gps();
+                //parse available data and pull formatted params into the GPS_DATA struct
+                sync_gps_data(device, gps_data);
                 string_write("DEBUG 1");
                 _delay_ms(1000);
                 print_gps_data(device, gps_data);
@@ -167,6 +166,10 @@ int main (int argc, char *argv[])
 
             case MD_DEBUG:
                 lcd_init();
+                //allow gps interrupts
+                enable_gps();
+                //parse available data and pull formatted params into the GPS_DATA struct
+                sync_gps_data(device, gps_data);
                 string_write("DEBUG 2");
                 _delay_ms(1000);
                 lcd_init();
@@ -246,7 +249,7 @@ int main (int argc, char *argv[])
 
 //---- PIN CHANGE INTERRUPT (PUSHBUTTON PRESSED) ----//
 ISR(INT2_vect) {
-    if (device->button_pressable)
+    if ((device->button_pressable)&&(device->updating==0))
     {
         //increment the op_mode
         device->op_mode++;
@@ -258,18 +261,24 @@ ISR(INT2_vect) {
         //debounce the button
         device->button_pressable = 0;
         //reset the debounce timer
-        TCNT0 = 0x00;
+        TCNT1 &= ~(0xFFFF);
     }
 }
 
 //---- TIMER INTERRUPT (PUSHBUTTON DEBOUNCE) ----//
-ISR(TIMER0_COMPA_vect) {
-    //start accepting new button presses
-    device->button_pressable = 1;
+ISR(TIMER1_COMPA_vect) {
+    //PORTB ^= (1<<PB4);
+    //reset the debounce timer
+    TCNT1 &= ~(0xFFFF);
+    if (device->button_pressable == 0)
+    {
+        //start accepting new button presses
+        device->button_pressable = 1;
+    }
 }
 
 //---- SERIAL DATABASE UPDATE INTERRUPT ----//
-ISR(USART1_RX_vect){
+ISR(USART1_RX_vect) {
     //remember the last 3 bytes received (to handle start + end sequences)
     device->serial_history[2] = device->serial_history[1];
     device->serial_history[1] = device->serial_history[0];
@@ -280,7 +289,7 @@ ISR(USART1_RX_vect){
     {
         device->rxBuffer[device->rxWritePos] = device->serial_history[0];
         device->rxWritePos++;
-    }   
+    }
     //trigger a serial database update if the start sequence has occurred
     if(detectSerialStart(device)){
         device->op_mode = MD_UPDATE;
@@ -293,44 +302,36 @@ ISR(USART1_RX_vect){
 }
 
 //---- SERIAL GPS INTERRUPT ----//
-ISR(USART0_RX_vect) {
-    int k;
-    //prevent buffer overflow
-    if (device->gps_rxCount > GPS_RX_BUFFER_SIZE)
-    {
-        for (k=0; k<GPS_RX_BUFFER_SIZE; k++)
-            device->gps_rxBuffer[k]='\0';
-
-        device->gps_rxCount = 0; 
-    }
-    //Read value out of the UART buffer
-    device->gps_rxBuffer[device->gps_rxCount] = UDR0;
-    device->gps_rxCount ++;
-    //start new buffer if receive $
-    if (device->gps_rxBuffer[device->gps_rxCount-1]=='$')
-    {
-        for (k=1; k<GPS_RX_BUFFER_SIZE; k++)
-            device->gps_rxBuffer[k]='\0'; 
-
-        device->gps_rxBuffer[0] = '$';
-        device->gps_rxCount = 1; 
-    }
-    //carriage return ----> parse the raw sentence data and set the gps struct update trigger
-    if ((device->gps_rxBuffer[device->gps_rxCount-1]=='\r')) {
-        if (tag_check(device->gps_rxBuffer))
+ISR(USART0_RX_vect) { 
+        int k;
+        //prevent buffer overflow
+        if (device->gps_rxCount >= GPS_RX_BUFFER_SIZE)
         {
-            //no more gps interrupts are needed (or desired) for now
-            disable_gps();
-            //strip off the rxBuffer carriage return and replace with ,
-            device->gps_rxBuffer[device->gps_rxCount-1] = ',';
-            //parse the sentence and populate the raw_gps_data fields
-            parse_nmea(device->gps_rxBuffer, device->raw_gps_data);
-            //trigger a gps_data struct update
-            device->gps_update_trigger = 1;
-            //clear the rxBuffer
             for (k=0; k<GPS_RX_BUFFER_SIZE; k++)
                 device->gps_rxBuffer[k]='\0';
-            device->gps_rxCount = 0;
+
+            device->gps_rxCount = 0; 
         }
-    }
+        //Read value out of the UART buffer
+        device->gps_rxBuffer[device->gps_rxCount] = UDR0;
+        device->gps_rxCount ++;
+        //start new buffer if receive $
+        if (device->gps_rxBuffer[device->gps_rxCount-1]=='$')
+        {
+            for (k=1; k<GPS_RX_BUFFER_SIZE; k++)
+                device->gps_rxBuffer[k]='\0'; 
+
+            device->gps_rxBuffer[0] = '$';
+            device->gps_rxCount = 1; 
+        }
+        //carriage return ----> parse the raw sentence data and set the gps struct update trigger
+        if ((device->gps_rxBuffer[device->gps_rxCount-1]=='\r')) {
+            if (tag_check(device))
+            {
+                //no more gps interrupts are needed (or desired) for now
+                disable_gps();
+                //trigger a gps_data struct update
+                device->gps_update_trigger = 1;
+            }
+        }
 }

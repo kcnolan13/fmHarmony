@@ -78,7 +78,7 @@ void InitUSART(void)
 
 }
 
-void InitPCI(void)
+void InitINT(void)
 {
     //SET UP EXTERNAL INTERRUPT 2
 
@@ -104,18 +104,20 @@ void InitPCI(void)
     //SET UP TIMER FOR DEBOUNCING
 
     //set normal output compare modes
-    //TCCR0A &= ~((1<<COM0A1)|(1<<COM0A0))
+    TCCR1A &= ~((1<<COM1A1)|(1<<COM1A0));
     
     //prescale the default clock by /1024
-    TCCR0B |= ((1<<CS02)|(1<<CS00));
-    TCCR0B &= ~(1<<CS01);
+    TCCR1B |= ((1<<CS12)|(1<<CS10));
+    TCCR1B &= ~((1<<CS11));
 
     //set the max internal counter value
-    uint8_t debounce_delay = 244/2; //roughly 1/8th of a second
-    OCR0A = debounce_delay;
+    uint8_t debounce_delay = 122; //roughly 1/8th of a second
+    OCR1AH &= ~(0xFF);
+    OCR1AL |= 0xFF;
+    OCR1AL &= debounce_delay;
 
     //enable the timer interrupt
-    TIMSK0 |= (1<<OCIE0A);
+    TIMSK1 |= (1<<OCIE1A);
 }
 
 //set up GPIO, initialize interrupts, serial comm, and LCD
@@ -123,13 +125,17 @@ int prepare_device(volatile DEV_STATE *device)
 {
     int i, j;
     DDRB = 0xFF;
+
     cli();
 
     //Init usart
     InitUSART();
 
     //Enable Pin Change Interrupts (for the pushbutton)
-    InitPCI();
+    InitINT();
+
+    //Enable GPS Interrupts
+    enable_gps();
 
     //Enable Global Interrupts. Sets SREG Interrupt bit.
     sei();
@@ -167,7 +173,7 @@ int prepare_device(volatile DEV_STATE *device)
     //allocate memory for each of the raw_gps_data fields
     for (i=0; i<NUM_GPS_FIELDS; i++)
     {
-        device->raw_gps_data[i] = (char *)malloc(16*sizeof(char));
+        device->raw_gps_data[i] = (char *)malloc(GPS_FIELD_LEN*sizeof(char));
         if (device->raw_gps_data[i] == NULL)
         {
             lcd_init();
@@ -187,12 +193,26 @@ int prepare_device(volatile DEV_STATE *device)
 
 void disable_gps(void)
 {
-    UCSR0B &= ~((1 << RXCIE0) | (1 << TXCIE0) | (1 << RXEN0) | (1 << TXEN0));
+    UCSR0B &= ~((1 << RXCIE0) | (1 << TXCIE0) | (1 << RXEN0) | (1 << TXEN0)); // 
 }
 
 void enable_gps(void)
 {
-    UCSR0B |= (1 << RXCIE0) | (1 << TXCIE0) | (1 << RXEN0) | (1 << TXEN0);
+    UCSR0B |= (1 << RXCIE0) | (1 << TXCIE0) | (1 << RXEN0) | (1 << TXEN0); //
+}
+
+void sync_gps_data(volatile DEV_STATE *device, GPS_DATA *gps_data)
+{
+    if (device->gps_update_trigger)
+    {
+        //strip off the rxBuffer carriage return and replace with ,
+        device->gps_rxBuffer[device->gps_rxCount-1] = ',';
+        //parse the sentence and populate the raw_gps_data fields
+        parse_nmea(device, device->gps_rxBuffer, device->raw_gps_data);
+        //use the raw raw_gps_data fields to populate the GPS_DATA struct
+        update_user_gps_data(device->raw_gps_data, gps_data);
+        device->gps_update_trigger = 0;
+    }
 }
 
 //---- UPDATE UTILITIES ----//

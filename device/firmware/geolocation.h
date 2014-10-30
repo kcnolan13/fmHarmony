@@ -7,10 +7,10 @@
 #include "types.h"
 
 //Parse the NMEA nmea_string and populate the gps_data fields
-int parse_nmea(volatile char *in_sent,  char * volatile *raw_gps_data);
+int parse_nmea(volatile DEV_STATE *device, volatile char *in_sent,  char * volatile *raw_gps_data);
 
 //Make sure the NMEA sentence leads with $GPRMC
-int tag_check(volatile char *in_sent);
+int tag_check(volatile DEV_STATE *device);
 
 //Tokenize the String (one token per function call)
 char *strtok_single (char * in_str, char const * delims);

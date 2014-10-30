@@ -11,10 +11,11 @@ void sync_leds(volatile DEV_STATE *device);
 
 //device config
 void InitUSART(void);
-void InitPCI(void);
+void InitINT(void);
 int prepare_device(volatile DEV_STATE *device);
 void disable_gps(void);
 void enable_gps(void);
+void sync_gps_data(volatile DEV_STATE *device, GPS_DATA *gps_data);
 
 //update utilities
 int detectSerialStart(volatile DEV_STATE *device);
