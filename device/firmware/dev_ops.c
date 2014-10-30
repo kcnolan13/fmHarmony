@@ -47,7 +47,7 @@ void sync_leds(volatile DEV_STATE *device)
     }
 }
 
-// Initialize USART
+//Initialize USART
 void InitUSART(void)
 {
     // Set the serial Baud Rate to 9600 for 1 MHz system clock
@@ -78,10 +78,9 @@ void InitUSART(void)
 
 }
 
+//Set Up External Interrupt 2
 void InitINT(void)
 {
-    //SET UP EXTERNAL INTERRUPT 2
-
     //trigger external interrupt 2 on falling edge
     EICRA |= (1 << ISC21);
     EICRA &= ~(1<<ISC20);
@@ -139,6 +138,7 @@ int prepare_device(volatile DEV_STATE *device)
 
     //Enable Global Interrupts. Sets SREG Interrupt bit.
     sei();
+
     //Intitialize LCD. Set Blinking cursor.
     lcd_init();
     _delay_ms(1000);
@@ -191,16 +191,19 @@ int prepare_device(volatile DEV_STATE *device)
     return 1;
 }
 
+//turn off GPS intterupts, receiver, and transmitter
 void disable_gps(void)
 {
     UCSR0B &= ~((1 << RXCIE0) | (1 << TXCIE0) | (1 << RXEN0) | (1 << TXEN0)); // 
 }
 
+//turn on GPS interrupts, receiver, and transmitter
 void enable_gps(void)
 {
     UCSR0B |= (1 << RXCIE0) | (1 << TXCIE0) | (1 << RXEN0) | (1 << TXEN0); //
 }
 
+//parse available GPS data and pull formatted params into the GPS_DATA struct
 void sync_gps_data(volatile DEV_STATE *device, GPS_DATA *gps_data)
 {
     if (device->gps_update_trigger)
@@ -272,7 +275,7 @@ int terminate_serial(volatile DEV_STATE *device, DATABASE *fm_stations, int flag
     device->updating = 0;
     device->serial_timer = 0;
 
-    //import the new database
+
     lcd_init();
 
     if (flag==FL_SUCCESS)
@@ -280,6 +283,7 @@ int terminate_serial(volatile DEV_STATE *device, DATABASE *fm_stations, int flag
     else
         string_write("ERROR:\ntimeout ...");
 
+    //import the new database
     database_load(fm_stations);
     _delay_ms(1000);
 
@@ -290,7 +294,89 @@ int terminate_serial(volatile DEV_STATE *device, DATABASE *fm_stations, int flag
     return 1;
 }
 
+//wipe 100-stations-worth of EEPROM data
+void wipe_eeprom(volatile DEV_STATE *device)
+{
+    int i;
+    lcd_init();
+    string_write("wiping \nmemory...");
+    for (i=0; i<FIRST_STATION_OFFSET+100*STATION_BLOCKSIZE; i++)
+    {
+        if (device->op_mode != device->op_mode_prior) return;
+        eeprom_write_byte((uint8_t *)i,255);
+    }
+}
 
+//compute the nearest station and display pertinent, formatted info
+void show_nearest_station(volatile DEV_STATE *device, DATABASE *fm_stations, GPS_DATA *gps_data)
+{
+    int i;
+    if (device->op_mode != device->op_mode_prior) return;
+    lcd_init();
+    string_write("Finding Nearest\nStation...");
+    _delay_ms(2000);
+
+    lcd_init();
+
+    //calculate the nearest station
+    fm_stations->nearest_station = get_nearest_station(fm_stations->all_stations, fm_stations->num_stations, gps_data->lat, gps_data->lon);
+
+    //calculate bearings to nearest station
+    calculate_bearings(gps_data, fm_stations);
+
+    //print formatted info to the display
+    print_callsign(fm_stations, fm_stations->nearest_station); string_write(" "); string_write_float(fm_stations->all_stations[fm_stations->nearest_station].freq,1); string_write("\n");
+    string_write_float(my_distance_to_station(gps_data, fm_stations->all_stations, fm_stations->nearest_station),1); string_write(" km, ");
+
+    //write out the absolute bearing chars
+    for (i=0; i<3; i++)
+        char_write(gps_data->str_abs_bearing_nearest[i]);
+
+    if (device->op_mode != device->op_mode_prior) return;
+
+    _delay_ms(5000);
+
+    if (device->op_mode != device->op_mode_prior) return;
+
+    lcd_init();
+
+    //print bearings to the screen
+    string_write("A.Bear: "); string_write_float(gps_data->abs_bearing_nearest,1); char_write(DEG_SYMBOL); char_write('\n');
+    string_write("R.Bear: "); string_write_float(gps_data->rel_bearing_nearest,1); char_write(DEG_SYMBOL);
+
+    if (device->op_mode != device->op_mode_prior) return;
+
+    _delay_ms(5000);
+}
+
+//hold device state and wait for database update
+void wait_for_update(volatile DEV_STATE *device)
+{
+    lcd_init();
+    string_write("update required\n...feed me...");
+    while (1)
+    {
+        if (device->op_mode != device->op_mode_prior) return;
+    }
+}
+
+//print the EEPROM contents for all stations
+void print_eeprom_station_contents(volatile DEV_STATE *device, DATABASE *fm_stations)
+{
+    int start = FIRST_STATION_OFFSET;
+    int i=0;
+    char one_byte;
+
+    for (i=0; i<STATION_BLOCKSIZE*fm_stations->num_stations; i++)
+    {
+        if (device->op_mode != device->op_mode_prior) return;
+        one_byte = my_eeprom_read_char(start+i);
+        if (one_byte == '\0')
+            one_byte = '?';
+        char_write(one_byte);
+        _delay_ms(100);
+    }
+}
 
 //print the EEPROM contents for an address range
 void print_eeprom_contents(volatile DEV_STATE *device, DATABASE *fm_stations, int start_addr, int end_addr)
@@ -307,24 +393,6 @@ void print_eeprom_contents(volatile DEV_STATE *device, DATABASE *fm_stations, in
     {
         if (device->op_mode != device->op_mode_prior) return;
         one_byte = my_eeprom_read_char(i);
-        if (one_byte == '\0')
-            one_byte = '?';
-        char_write(one_byte);
-        _delay_ms(100);
-    }
-}
-
-//print the EEPROM contents for all stations
-void print_eeprom_station_contents(volatile DEV_STATE *device, DATABASE *fm_stations)
-{
-    int start = FIRST_STATION_OFFSET;
-    int i=0;
-    char one_byte;
-
-    for (i=0; i<STATION_BLOCKSIZE*fm_stations->num_stations; i++)
-    {
-        if (device->op_mode != device->op_mode_prior) return;
-        one_byte = my_eeprom_read_char(start+i);
         if (one_byte == '\0')
             one_byte = '?';
         char_write(one_byte);
@@ -379,58 +447,39 @@ void print_all_callsigns(volatile DEV_STATE *device, DATABASE *fm_stations)
 
         _delay_ms(250);   
     }
-
 }
 
-void wait_for_update(volatile DEV_STATE *device)
+//print the callsign for a given station index to the LCD
+void print_callsign(DATABASE *fm_stations, int station_index)
 {
-    lcd_init();
-    string_write("update required\n...feed me...");
-    while (1)
+    int i;
+    for (i=0; i<8; i++) 
     {
-        if (device->op_mode != device->op_mode_prior) return;
+        char_write(fm_stations->all_stations[station_index].callsign[i]);
     }
 }
 
-void show_nearest_station(volatile DEV_STATE *device, DATABASE *fm_stations, GPS_DATA *gps_data)
+//print the informatoin held for a single station to the LCD
+void print_station(volatile DEV_STATE *device, DATABASE *fm_stations, int index)
 {
-    int i;
-    if (device->op_mode != device->op_mode_prior) return;
-    lcd_init();
-    string_write("Finding Nearest\nStation...");
-    _delay_ms(2000);
-
-    lcd_init();
-
-    fm_stations->nearest_station = get_nearest_station(fm_stations->all_stations, fm_stations->num_stations, gps_data->lat, gps_data->lon);
-
-    calculate_bearings(gps_data, fm_stations);
-
-    print_callsign(fm_stations, fm_stations->nearest_station); string_write(" "); string_write_float(fm_stations->all_stations[fm_stations->nearest_station].freq,1); string_write("\n");
-    string_write_float(my_distance_to_station(gps_data, fm_stations->all_stations, fm_stations->nearest_station),1); string_write(" km, ");
-
-    //write out the abs bearing chars
-    for (i=0; i<3; i++)
-        char_write(gps_data->str_abs_bearing_nearest[i]);
-
-    if (device->op_mode != device->op_mode_prior) return;
-
-    _delay_ms(5000);
-
-    if (device->op_mode != device->op_mode_prior) return;
-
-    lcd_init();
-    string_write("A.Bear: "); string_write_float(gps_data->abs_bearing_nearest,1); char_write(DEG_SYMBOL); char_write('\n');
-    //string_write("Course: "); string_write_float(gps_data->course,1); char_write(DEG_SYMBOL); char_write('\n');
-    string_write("R.Bear: "); string_write_float(gps_data->rel_bearing_nearest,1); char_write(DEG_SYMBOL);
-
-    if (device->op_mode != device->op_mode_prior) return;
-
-    _delay_ms(5000);
-
-    //lcd_init();    
-    //print_station(device, fm_stations, fm_stations->nearest_station);
-    //_delay_ms(2000);
+    string_write_int(index+1,3); string_write(": "); print_callsign(fm_stations, index); _delay_ms(250); string_write("\n"); 
+    if (device->op_mode==MD_UPDATE)
+        return;
+    string_write("freq: "); string_write_float(fm_stations->all_stations[index].freq,1); _delay_ms(250); string_write("\n");
+    if (device->op_mode==MD_UPDATE)
+        return;
+    string_write("lat: "); string_write_float(fm_stations->all_stations[index].lat,4); _delay_ms(250); string_write("\n");
+    if (device->op_mode==MD_UPDATE)
+        return;
+    string_write("lon: "); string_write_float(fm_stations->all_stations[index].lon,4); _delay_ms(250); string_write("\n");
+    if (device->op_mode==MD_UPDATE)
+        return;
+    string_write("erp: "); string_write_float(fm_stations->all_stations[index].erp,1); _delay_ms(250); string_write("\n");
+    if (device->op_mode==MD_UPDATE)
+        return;
+    string_write("haat: "); string_write_float(fm_stations->all_stations[index].haat,0); _delay_ms(250); string_write("\n");
+    if (device->op_mode==MD_UPDATE)
+        return;
 }
 
 //print the formatted data stored in the GPS_DATA struct to the screen
@@ -511,6 +560,7 @@ void print_gps_data(volatile DEV_STATE *device, GPS_DATA *gps_data)
     }
 }
 
+//print a concise version of the formatted GPS data to the screen
 void print_gps_data_concise(volatile DEV_STATE *device, GPS_DATA *gps_data)
 {
     int i;
@@ -538,7 +588,7 @@ void print_gps_data_concise(volatile DEV_STATE *device, GPS_DATA *gps_data)
     string_write("CMG: ");
     string_write_float(gps_data->course,1); char_write(DEG_SYMBOL); string_write(" ");
 
-    //write out the abs bearing chars
+    //write out the absolute bearing chars
     for (i=0; i<3; i++)
         char_write(gps_data->str_course[i]);
 
@@ -626,52 +676,7 @@ void print_raw_gps_data(volatile DEV_STATE *device)
     }
 }
 
-//print the informatoin held for a single station to the LCD
-void print_station(volatile DEV_STATE *device, DATABASE *fm_stations, int index)
-{
-    string_write_int(index+1,3); string_write(": "); print_callsign(fm_stations, index); _delay_ms(250); string_write("\n"); 
-    if (device->op_mode==MD_UPDATE)
-        return;
-    string_write("freq: "); string_write_float(fm_stations->all_stations[index].freq,1); _delay_ms(250); string_write("\n");
-    if (device->op_mode==MD_UPDATE)
-        return;
-    string_write("lat: "); string_write_float(fm_stations->all_stations[index].lat,4); _delay_ms(250); string_write("\n");
-    if (device->op_mode==MD_UPDATE)
-        return;
-    string_write("lon: "); string_write_float(fm_stations->all_stations[index].lon,4); _delay_ms(250); string_write("\n");
-    if (device->op_mode==MD_UPDATE)
-        return;
-    string_write("erp: "); string_write_float(fm_stations->all_stations[index].erp,1); _delay_ms(250); string_write("\n");
-    if (device->op_mode==MD_UPDATE)
-        return;
-    string_write("haat: "); string_write_float(fm_stations->all_stations[index].haat,0); _delay_ms(250); string_write("\n");
-    if (device->op_mode==MD_UPDATE)
-        return;
-}
-
-//wipe 100-stations-worth of EEPROM data
-void wipe_eeprom(volatile DEV_STATE *device)
-{
-    int i;
-    lcd_init();
-    string_write("wiping \nmemory...");
-    for (i=0; i<FIRST_STATION_OFFSET+100*STATION_BLOCKSIZE; i++)
-    {
-        if (device->op_mode != device->op_mode_prior) return;
-        eeprom_write_byte((uint8_t *)i,255);
-    }
-}
-
-//print the callsign for a given station index to the LCD
-void print_callsign(DATABASE *fm_stations, int station_index)
-{
-    int i;
-    for (i=0; i<8; i++) 
-    {
-        char_write(fm_stations->all_stations[station_index].callsign[i]);
-    }
-}
-
+//crosscheck the earth-distance formula with a few known distances
 void test_earth_distance(void)
 {
     lcd_init();
@@ -701,22 +706,6 @@ void test_earth_distance(void)
     _delay_ms(2500);
 
     //just for reference, UMaine coords are: 44.900 -68.667
-}
-
-void wait_for_gps_lock(volatile DEV_STATE *device, GPS_DATA *gps_data)
-{
-    lcd_init();
-    string_write("Waiting For\nGPS Lock...");
-    _delay_ms(1000);
-    while (!(gps_locked(gps_data)))
-    {
-        lcd_init();
-        print_gps_data(device, gps_data);
-        if (device->op_mode != device->op_mode_prior) return;
-        _delay_ms(250);
-    }
-    lcd_init();
-    print_gps_data(device, gps_data);
 }
 
 //check for database corruption

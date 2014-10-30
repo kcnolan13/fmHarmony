@@ -1,5 +1,5 @@
 //Marcel Marki and Kyle Nolan
-//Header File for Constants and Structs Used By Multiple Libraries
+//Header File for Constants and Structs Used By Multiple fmHarmony Libraries
 
 #ifndef TYPES_H
 #define TYPES_H
@@ -13,7 +13,6 @@
 #define MD_DEBUG 4
 #define MD_UPDATE_REQUIRED 5
 #define MD_UPDATE 6
-
 
 //FM station offsets in memory
 #define STATION_BLOCKSIZE 28

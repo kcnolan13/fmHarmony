@@ -304,7 +304,7 @@ void string_write_int(int num, int num_digits)
     free(temp);
 }
 
-//write a floating point number to the LCD as a string
+//write a multi-char float to the LCD as a string with a certain decimal precision
 void string_write_float(float num, int dec_digits)
 {
     double intpart, fractpart;
@@ -331,6 +331,7 @@ void string_write_float(float num, int dec_digits)
     string_write_int(temp,4);
 }
 
+//write a substring to the LCD
 void string_write_numchars(char *mystring, int num_chars)
 {
     int i;

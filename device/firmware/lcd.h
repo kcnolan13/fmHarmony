@@ -51,8 +51,13 @@ void set_ddram_address(int address);
 //Write Data to Pins DB4 to DB7
 void write_db74(int DB7_val, int DB6_val, int DB5_val, int DB4_val);
 
+//write a multi-char integer to the LCD as a string
 void string_write_int(int num, int num_digits);
+
+//write a multi-char float to the LCD as a string with a certain decimal precision
 void string_write_float(float num, int dec_digits);
+
+//write a substring to the LCD
 void string_write_numchars(char *mystring, int num_chars);
 
 #endif

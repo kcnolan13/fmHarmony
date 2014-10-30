@@ -1,5 +1,5 @@
 // Marcel Marki & Kyle Nolan
-// GPS Module Library File
+// Geolocation Module Library File
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -22,16 +22,16 @@ int parse_nmea(volatile DEV_STATE *device, volatile char *in_sent, char * volati
 	int l = 0, m =0, k=0;
 	char* token;
 
-	//null out the raw_gps_data field
+	//null out the first raw_gps_data field
 	for (m=0; m<GPS_FIELD_LEN; m++)
 	{
 		raw_gps_data[0][m] = '\0';
 	}
 
-	//copy over the first token
+	//ditch the first token
 	token = strtok_single((char *)in_sent, ",");
-	//strcpy(raw_gps_data[0], token);
 
+	//auto-insert $GPRMC (it passed the tag check already)
 	char token2[6] = "$GPRMC";
 	strncpy(raw_gps_data[0],token2,6);
 
@@ -40,7 +40,7 @@ int parse_nmea(volatile DEV_STATE *device, volatile char *in_sent, char * volati
 	{
 		l++;
 
-		//null out the raw_gps_data field
+		//null out the next raw_gps_data field
 		for (m=0; m<GPS_FIELD_LEN; m++)
 		{
 			raw_gps_data[l][m] = '\0';
@@ -93,6 +93,7 @@ char *strtok_single (char * in_str, char const * delims)
   return ret;
 }
 
+//null out part of a string
 void wipe_chars(char *str, int num)
 {
 	int i;
@@ -163,6 +164,7 @@ void update_user_gps_data(char * volatile *raw_gps_data, GPS_DATA *gps_data)
 	wipe_chars(gps_data->msg_type,8);
 	strcpy(gps_data->msg_type,raw_gps_data[0]);
 
+	//format time
 	wipe_chars(gps_data->utc_time,8);
 	gps_data->utc_time[0] = raw_gps_data[1][0];
 	gps_data->utc_time[1] = raw_gps_data[1][1];
@@ -175,6 +177,7 @@ void update_user_gps_data(char * volatile *raw_gps_data, GPS_DATA *gps_data)
 
 	gps_data->nrw = raw_gps_data[2][0];
 
+	//format latitude
 	gps_data->lat = 0;
 	temp = lat2dec(raw_gps_data[3], raw_gps_data[4][0]);
 
@@ -182,6 +185,7 @@ void update_user_gps_data(char * volatile *raw_gps_data, GPS_DATA *gps_data)
 	if ((temp >= -90)&&(temp <= 90))
 		gps_data->lat = temp;
 
+	//format longitude
 	gps_data->lon = 0;
 	temp = lon2dec(raw_gps_data[5], raw_gps_data[6][0]);
 
@@ -195,6 +199,7 @@ void update_user_gps_data(char * volatile *raw_gps_data, GPS_DATA *gps_data)
 	gps_data->course = 0;
 	gps_data->course = (float)strtod(raw_gps_data[8],NULL);
 
+	//format date
 	wipe_chars(gps_data->date,8);
 	gps_data->date[0] = raw_gps_data[9][2];
 	gps_data->date[1] = raw_gps_data[9][3];
@@ -215,7 +220,7 @@ void update_user_gps_data(char * volatile *raw_gps_data, GPS_DATA *gps_data)
 	gps_data->checksum[1] = raw_gps_data[12][2];
 	gps_data->checksum[2] = raw_gps_data[12][3];
 
-	//get the course strings
+	//compute the course string (16-point compass)
 	slice = gps_data->course/360*16;
 
 	if ((slice<=0.5)||(slice>=15.5))
@@ -223,32 +228,30 @@ void update_user_gps_data(char * volatile *raw_gps_data, GPS_DATA *gps_data)
 		//course is NORTH
 		strncpy(gps_data->str_course, str_bearings[0], 3);
 	} else {
-		//course fits normal convention
+		//course index complies with (int)(slice+0.5) convention
 		strncpy(gps_data->str_course, str_bearings[(int)(slice+0.5)], 3);
 	}
 
 }
 
-//---- GEO-POSITIONAL ALGORITHMS ----//
-
-//find the closest station to a lat/lon coordinate pair
+//find the closest station (index) to a lat/lon coordinate pair
 int get_nearest_station(STATION *all_stations, int num_stations, float lat, float lon)
 {
     float min_dist = -1;
     int station_index = -1, i;
 
-    //compute earth distance to all stations --> track min distance
+    //compute earth distance to all stations --> remember min distance
     for (i=0; i<num_stations; i++)
     {
         float temp = earth_distance(lat, lon, all_stations[i].lat, all_stations[i].lon);
         if ((temp < min_dist)||(min_dist==-1))
         {
-            //this is the closest station at the moment
+            //new closest station
             station_index = i;
             min_dist = temp;
         }
     }
-
+    //return closest station index
     return station_index;
 }
 
@@ -267,35 +270,34 @@ int calculate_bearings(GPS_DATA *gps_data, DATABASE *fm_stations)
 	//16-point compass 
 	char *str_bearings[] = {"N  ", "NNE", "NE ", "ENE", "E  ", "ESE", "SE ", "SSE", "S  ", "SSW", "SW ", "WSW", "W  ", "WNW", "NW ", "NNW"};
 
+	//all angles must be in radians
 	lat1 = to_radians((double)gps_data->lat);
 	lon1 = to_radians((double)gps_data->lon);
 	lat2 = to_radians((double)fm_stations->all_stations[fm_stations->nearest_station].lat);
 	lon2 = to_radians((double)fm_stations->all_stations[fm_stations->nearest_station].lon);
 
+	//use the Forward Azimuth Formula
 	y = sin(lon2 - lon1)*cos(lat2);
 	x = cos(lat1)*sin(lat2) - sin(lat1)*cos(lat2)*cos(lon2 - lon1);
 
-	//the absolute bearing to nearest station
+	//finish computing the absolute bearing to the nearest station
 	bearing = to_degrees(atan2(y, x));
 
-	//keep bearing between 0 - 360
+	//keep absolute bearing between 0-360
 	if (bearing < 0)
 		bearing += 360;
 
+	//save bearing into the DEV_STATE struct
 	gps_data->abs_bearing_nearest = (float)bearing;
 
-	/*lcd_init();
-	string_write("bearing = "); string_write_float((float)bearing,1);
-	_delay_ms(3000);*/
-
-	//get the relative bearing to nearest station
+	//compute the relative bearing to nearest station
 	gps_data->rel_bearing_nearest = gps_data->abs_bearing_nearest - gps_data->course;
 
-	//keep within 0-360
+	//keep relative bearing within 0-360
 	if (gps_data->rel_bearing_nearest < 0)
 		gps_data->rel_bearing_nearest += 360;
 
-	//get the absolute bearing strings
+	//compute the absolute bearing string (16-point compass)
 	slice = gps_data->abs_bearing_nearest/360*16;
 
 	if ((slice<=0.5)||(slice>=15.5))
@@ -303,7 +305,7 @@ int calculate_bearings(GPS_DATA *gps_data, DATABASE *fm_stations)
 		//bearing is NORTH
 		strncpy(gps_data->str_abs_bearing_nearest, str_bearings[0], 3);
 	} else {
-		//bearing fits normal convention
+		//bearing index complies with (int)(slice+0.5) convention
 		strncpy(gps_data->str_abs_bearing_nearest, str_bearings[(int)(slice+0.5)], 3);
 	}
 
@@ -322,6 +324,7 @@ float earth_distance(float lat1, float lon1, float lat2, float lon2)
     double dtheta = to_radians((double)lat2 - (double)lat1);
     double dlambda = to_radians((double)lon2 - (double)lon1);
 
+    //apply haversine formula
     double a = sin(dtheta/2)*sin(dtheta/2) + cos(theta1)*cos(theta2)*sin(dlambda/2)*sin(dlambda/2);
     double c = 2*atan2(sqrt(a), sqrt(1-a));
     double distance = R*c;
@@ -345,26 +348,32 @@ double to_degrees(double radian_angle)
 int gps_locked(GPS_DATA *gps_data)
 {
     int i;
+
+    //message param should not contain nulls
     for (i=0; i<4; i++)
     {
         if (gps_data->msg_type[i]=='\0')
             return 0;
     }
 
+    //time param should not contain nulls
     for (i=0; i<4; i++)
     {
         if (gps_data->utc_time[i]=='\0')
             return 0;
     }
 
+    //lat and lon should not be 0,0
     if ((gps_data->lat==0)||(gps_data->lon==0))
         return 0;
 
+    //checksum should exist
     if (gps_data->checksum[0] != '*')
         return 0;
 
-    /*if ((gps_data->course < 0)||(gps_data->course>=360))
-    	return 0;*/
+    //course should be between 0 and 360
+    if ((gps_data->course < 0)||(gps_data->course>=360))
+    	return 0;
 
     return 1;
 

@@ -8,10 +8,11 @@
 #
 # DATE: 2013.10.09
 #  
+# UMaine's Coords (Approx): 44.900, -68.667
+#
 #================================================================
 */
 
-//required libraries
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/sfr_defs.h>
@@ -29,6 +30,7 @@
 #include "database.h"
 #include "dev_ops.h"
 
+//1 MHz System Clock
 #define F_CPU 1000000UL
 
 //Global Device State Structure

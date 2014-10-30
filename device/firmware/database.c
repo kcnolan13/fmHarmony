@@ -15,8 +15,6 @@
 #include "database.h"
 #include "lcd.h"
 
-//---- Database Operations ----//
-
 //read a single-byte integer from an EEPROM address
 int my_eeprom_read_int(int address)
 {

@@ -1,5 +1,5 @@
 // Marcel Marki & Kyle Nolan
-// GPS Module Library File
+// Geolocation Module Library File
 
 #ifndef GPS_H
 #define GPS_H
