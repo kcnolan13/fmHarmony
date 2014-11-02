@@ -26,7 +26,7 @@ use LWP::UserAgent;
 use POSIX qw(ceil floor);
 use File::Find::Rule;
 
-$logFile = "/home/kyle/fmHarmony/server/KML/kmlBuildLog.txt";
+$logFile = "/home/kyle/fmHarmony/server/KML/kmlBuildLog.log";
 $logSize = -s $logFile;
 
 #remove files older than 5 mins
@@ -46,3 +46,8 @@ if ($logSize > 1000000)
 
 #remove the old KML files
 unlink @oldKmlFiles;
+
+@extraTxtFiles = File::Find::Rule->file()->name('*.txt')->in('/home/kyle/fmHarmony/server/KML/');
+
+#remove the old txt files
+unlink @oldTxtFiles;

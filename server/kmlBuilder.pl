@@ -57,7 +57,7 @@ sub earthDistance {
 }
 
 #open build log for appending and temp KML file for writing (this will be used later to overwrite any preexisting KML files for this client)
-unless(open (OUT, ">>", "./KML/kmlBuildLog.txt"))
+unless(open (OUT, ">>", "./KML/kmlBuildLog.log"))
 {
     open(OUT, ">>", "./KML/kmlBuildLog".int(rand(1000000)).".txt");
 }
@@ -152,6 +152,9 @@ $userLon = $ARGV[2];
                         #attach the right icon for this signal strength
                         	#copute a discrete strength (1-5) to assign to the station
                         	$strength = nearest(1,5-$stationRadius/$distFromUser);
+                            if ($strength < 1) {
+                                $strength = 1;
+                            }
 
                         $styleUrl = '#'."station".$strength;
 

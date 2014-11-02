@@ -235,24 +235,44 @@ void update_user_gps_data(char * volatile *raw_gps_data, GPS_DATA *gps_data)
 }
 
 //find the closest station (index) to a lat/lon coordinate pair
-int get_nearest_station(STATION *all_stations, int num_stations, float lat, float lon)
+int get_nearest_stations(DATABASE *fm_stations, float lat, float lon)
 {
-    float min_dist = -1;
-    int station_index = -1, i;
+    int i;
 
-    //compute earth distance to all stations --> remember min distance
-    for (i=0; i<num_stations; i++)
+    //clear out nearest stations and distances
+    for (i=0; i<NUM_NEAREST; i++)
     {
-        float temp = earth_distance(lat, lon, all_stations[i].lat, all_stations[i].lon);
-        if ((temp < min_dist)||(min_dist==-1))
+        fm_stations->nearest_stations[i][0] = -1;
+        fm_stations->nearest_stations[i][1] = -1;
+    }
+
+    //compute earth distance to all stations --> remember top 3 min distances
+    for (i=0; i<fm_stations->num_stations; i++)
+    {
+        float temp = earth_distance(lat, lon, fm_stations->all_stations[i].lat, fm_stations->all_stations[i].lon);
+
+        if ((temp < fm_stations->nearest_stations[0][1])||(fm_stations->nearest_stations[0][0]==-1))
         {
-            //new closest station
-            station_index = i;
-            min_dist = temp;
+        	fm_stations->nearest_stations[2][1] = fm_stations->nearest_stations[1][1];
+        	fm_stations->nearest_stations[2][0] = fm_stations->nearest_stations[1][0];
+        	fm_stations->nearest_stations[1][1] = fm_stations->nearest_stations[0][1];
+        	fm_stations->nearest_stations[1][0] = fm_stations->nearest_stations[0][0];
+        	fm_stations->nearest_stations[0][1] = temp;
+        	fm_stations->nearest_stations[0][0] = i;
+        } else if ((temp < fm_stations->nearest_stations[1][1])||(fm_stations->nearest_stations[1][0]==-1))
+        {
+        	fm_stations->nearest_stations[2][1] = fm_stations->nearest_stations[1][1];
+        	fm_stations->nearest_stations[2][0] = fm_stations->nearest_stations[1][0];
+        	fm_stations->nearest_stations[1][1] = temp;
+        	fm_stations->nearest_stations[1][0] = i;
+        } else if ((temp < fm_stations->nearest_stations[2][1])||(fm_stations->nearest_stations[2][0]==-1))
+        {
+        	fm_stations->nearest_stations[2][1] = temp;
+        	fm_stations->nearest_stations[2][0] = i;
         }
     }
     //return closest station index
-    return station_index;
+    return fm_stations->nearest_stations[0][0];
 }
 
 //find the distance from the user to a particular station

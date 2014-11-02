@@ -41,6 +41,10 @@ void sync_leds(volatile DEV_STATE *device)
             PORTB |= ((1<<PB3)|(1<<PB1));
             PORTB &= ~(1<<PB0);
         break;
+        case 5:
+            PORTB |= ((1<<PB3)|(1<<PB0));
+            PORTB &= ~(1<<PB1);
+        break;
         default:
             PORTB |= ((1<<PB3)|(1<<PB1)|(1<<PB0));
         break;
@@ -278,6 +282,7 @@ char peekChar(volatile DEV_STATE *device)
 int terminate_serial(volatile DEV_STATE *device, DATABASE *fm_stations, int flag)
 {
     device->op_mode = MD_NORMAL;
+    device->op_mode_prior = MD_NORMAL;
     device->updating = 0;
     device->serial_timer = 0;
 
@@ -327,8 +332,8 @@ void show_nearest_station(volatile DEV_STATE *device, DATABASE *fm_stations, GPS
 
     lcd_init();
 
-    //calculate the nearest station
-    fm_stations->nearest_station = get_nearest_station(fm_stations->all_stations, fm_stations->num_stations, gps_data->lat, gps_data->lon);
+    //calculate the nearest stations
+    fm_stations->nearest_station = get_nearest_stations(fm_stations, gps_data->lat, gps_data->lon);
 
     //calculate bearings to nearest station
     calculate_bearings(gps_data, fm_stations);
@@ -356,6 +361,32 @@ void show_nearest_station(volatile DEV_STATE *device, DATABASE *fm_stations, GPS
     if (device->op_mode != device->op_mode_prior) return;
 
     _delay_ms(3000);
+}
+
+void list_nearest_stations(volatile DEV_STATE *device, DATABASE *fm_stations, GPS_DATA *gps_data)
+{
+    int i;
+    lcd_init();
+    string_write("Listing Nearest\nStations:");
+    _delay_ms(1000);
+
+    //calculate the nearest stations
+    fm_stations->nearest_station = get_nearest_stations(fm_stations, gps_data->lat, gps_data->lon);
+
+    for (i=0; i<NUM_NEAREST; i++)
+    {
+        if (i >= fm_stations->num_stations)
+            break;
+
+        if (device->op_mode != device->op_mode_prior) return;
+
+        lcd_init();
+        //print station callsign and distance
+        print_callsign(fm_stations, fm_stations->nearest_stations[i][0]); string_write(" "); string_write_float(fm_stations->all_stations[fm_stations->nearest_stations[i][0]].freq,1); string_write("\n");
+        string_write_float(fm_stations->nearest_stations[i][1],1); string_write(" km, ");
+        _delay_ms(1000);
+    }
+
 }
 
 //hold device state and wait for database update

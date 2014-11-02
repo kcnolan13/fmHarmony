@@ -44,7 +44,7 @@ sub searchTerm
 }
 
 # ----- GLOBAL VARS ----- #
-$URL = "http://transition.fcc.gov/fcc-bin/fmq?state=&call=&city=&arn=&serv=&vac=&freq=0.0&fre2=107.9&facid=&asrn=&class=&dkt=&list=2&dist=&dlat2=&mlat2=&slat2=&NS=N&dlon2=&mlon2=&slon2=&EW=W&size=9";
+$URL = "http://transition.fcc.gov/fcc-bin/fmq?state=&call=&city=&arn=&serv=FM&vac=&freq=0.0&fre2=107.9&facid=&asrn=&class=&dkt=&list=2&dist=&dlat2=&mlat2=&slat2=&NS=N&dlon2=&mlon2=&slon2=&EW=W&size=9";
 #$URL = "http://transition.fcc.gov/fcc-bin/fmq?state=ME&call=&city=&arn=&serv=&vac=&freq=0.0&fre2=107.9&facid=&asrn=&class=&dkt=&list=1&dist=&dlat2=&mlat2=&slat2=&NS=N&dlon2=&mlon2=&slon2=&EW=W&size=9";
 $saveFile = "fccData";
 
@@ -176,23 +176,25 @@ while (my $line = <IN>) {
 
 		#convert latitude from degMinSec to decimal degrees
 		if ($latDir eq "S") {
-			$lat = -1*$latDeg;
+			$sign = -1;
 		} else {
-			$lat = $latDeg;
+			$sign = 1;
 		}
 
-		$lat += $latMin/60; 
-		$lat += $latSec/3600;
+		$lat = $sign*$latDeg;
+		$lat += $sign*$latMin/60; 
+		$lat += $sign*$latSec/3600;
 
 		#convert longitude from degMinSec to decimal degrees
 		if ($lonDir eq "W") {
-			$lon = -1*$lonDeg;
+			$sign = -1;
 		} else {
-			$lon = $lonDeg;
+			$sign = 1;
 		}
 
-		$lon += $lonMin/60;
-		$lon += $lonSec/3600;
+		$lon = $sign*$lonDeg;
+		$lon += $sign*$lonMin/60;
+		$lon += $sign*$lonSec/3600;
 
 		#eliminate any apostraphes and spaces in cities
 		$city =~ s/\'//;

@@ -28,7 +28,7 @@ float lat2dec(char lat[9], char N_indicator);
 float lon2dec(char lon[10], char E_indicator);
 
 //find the closest station to a given lat/lon pair
-int get_nearest_station(STATION *all_stations, int num_stations, float lon, float lat);
+int get_nearest_stations(DATABASE *fm_stations, float lon, float lat);
 
 //find the closest station to the user
 float my_distance_to_station(GPS_DATA *gps_data, STATION *all_stations, int station_index);

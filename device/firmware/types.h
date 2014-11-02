@@ -5,14 +5,15 @@
 #define TYPES_H
 
 //modes of operation
-#define NUM_MODES 5
+#define NUM_MODES 6
 #define MD_NORMAL 0
 #define MD_GPS 1
 #define MD_DATABASE 2
 #define MD_GPS_LONG 3
 #define MD_DEBUG 4
-#define MD_UPDATE_REQUIRED 5
-#define MD_UPDATE 6
+#define MD_DEBUG2 5
+#define MD_UPDATE_REQUIRED 6
+#define MD_UPDATE 7
 
 //FM station offsets in memory
 #define STATION_BLOCKSIZE 28
@@ -28,6 +29,7 @@
 #define NUM_GPS_FIELDS 13
 #define GPS_FIELD_LEN 16
 #define GPS_RX_BUFFER_SIZE 80
+#define NUM_NEAREST 3
 
 //Device State
 typedef struct device_state {
@@ -67,7 +69,8 @@ typedef struct station {
 typedef struct station_database {
 	STATION *all_stations;
 	int num_stations;
-	int nearest_station;
+    int nearest_station;
+	int nearest_stations[NUM_NEAREST][2]; //1st dim = station index, 2nd dim = distance (km)
 	int corrupted;
 } DATABASE;
 

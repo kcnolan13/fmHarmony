@@ -9,6 +9,7 @@
 # DATE: 2013.10.09
 #  
 # UMaine's Coords (Approx): 44.900, -68.667
+# Our House (Approx): 44.924, -68.642
 #
 #================================================================
 */
@@ -31,7 +32,7 @@
 #include "dev_ops.h"
 
 //1 MHz System Clock
-#define F_CPU 1000000UL
+//#define F_CPU 1000000UL
 
 //Global Device State Structure
 volatile DEV_STATE *device;
@@ -193,7 +194,16 @@ int main (int argc, char *argv[])
                 string_write("\nSpeed: ");
                 string_write_float(gps_data->speed,1);
                 _delay_ms(1000);
-            break;                
+            break;   
+
+            case MD_DEBUG2: 
+                lcd_init();
+                //allow gps interrupts
+                enable_gps();
+                //parse available data and pull formatted params into the GPS_DATA struct
+                sync_gps_data(device, gps_data);
+                list_nearest_stations(device, fm_stations, gps_data);
+            break;
 
             case MD_UPDATE_REQUIRED:
                 //do nothing until an update is triggered
@@ -231,7 +241,7 @@ int main (int argc, char *argv[])
                         terminate_serial(device, fm_stations, FL_SUCCESS);
                         //check for database corruption
                         check_database_integrity(fm_stations);
-                        if (fm_stations->corrupted)
+                        if (fm_stations->corrupted==1)
                         {
                             //wipe 100 stations worth of EEPROM and require a fresh update
                             wipe_eeprom(device);

@@ -51,6 +51,15 @@ int database_load(DATABASE *fm_stations)
     if (fm_stations->num_stations==255)
         fm_stations->num_stations = 0;
 
+    fm_stations->nearest_station = -1;
+
+    //initialize nearest stations and distances
+    for (i=0; i<NUM_NEAREST; i++)
+    {
+        fm_stations->nearest_stations[i][0] = -1;
+        fm_stations->nearest_stations[i][1] = -1;
+    }
+
     _delay_ms(500);
     lcd_init();
     string_write("importing ");

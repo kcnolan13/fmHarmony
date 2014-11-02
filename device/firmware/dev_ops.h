@@ -48,6 +48,9 @@ void wipe_eeprom(volatile DEV_STATE *device);
 //compute the nearest station and display pertinent, formatted info
 void show_nearest_station(volatile DEV_STATE *device, DATABASE *fm_stations, GPS_DATA *gps_data);
 
+//list the top 3 closest radio stations to the device's lat/lon and show distances
+void list_nearest_stations(volatile DEV_STATE *device, DATABASE *fm_stations, GPS_DATA *gps_data);
+
 //hold device state and wait for database update
 void wait_for_update(volatile DEV_STATE *device);
 

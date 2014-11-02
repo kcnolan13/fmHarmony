@@ -184,6 +184,9 @@ var mapScale = new OpenLayers.Control.ScaleLine({
                 maxWidth: 350
             });
 
+var mouseControl = new OpenLayers.Control.MousePosition(); 
+mouseControl.displayProjection = fromProjection;
+
 
 // ------ CREATE THE MAP ------ //
 var map = new OpenLayers.Map({
@@ -202,6 +205,7 @@ var map = new OpenLayers.Map({
             }
         }),
         findMe,
+        mouseControl,
         //new OpenLayers.Control.PanZoomBar(),
         mapScale,
         new OpenLayers.Control.LayerSwitcher(),
@@ -387,7 +391,7 @@ function loadKml()
                     //format this layer as KML//
                     format: new OpenLayers.Format.KML({
                         //maxDepth is how deep it will follow network links
-                        maxDepth: 2,
+                        maxDepth: 4,
                         extractStyles: true,
                         extractAttributes: true
                     })
