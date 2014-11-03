@@ -238,12 +238,16 @@ void update_user_gps_data(char * volatile *raw_gps_data, GPS_DATA *gps_data)
 int get_nearest_stations(DATABASE *fm_stations, float lat, float lon)
 {
     int i;
+    float minDistances[3];
+    int minIndices[3];
 
     //clear out nearest stations and distances
     for (i=0; i<NUM_NEAREST; i++)
     {
         fm_stations->nearest_stations[i][0] = -1;
         fm_stations->nearest_stations[i][1] = -1;
+        minDistances[i] = -1;
+        minIndices[i] = -1;
     }
 
     //compute earth distance to all stations --> remember top 3 min distances
@@ -251,26 +255,33 @@ int get_nearest_stations(DATABASE *fm_stations, float lat, float lon)
     {
         float temp = earth_distance(lat, lon, fm_stations->all_stations[i].lat, fm_stations->all_stations[i].lon);
 
-        if ((temp < fm_stations->nearest_stations[0][1])||(fm_stations->nearest_stations[0][0]==-1))
+        if ((temp < minDistances[0])||(minDistances[0]==-1))
         {
-        	fm_stations->nearest_stations[2][1] = fm_stations->nearest_stations[1][1];
-        	fm_stations->nearest_stations[2][0] = fm_stations->nearest_stations[1][0];
-        	fm_stations->nearest_stations[1][1] = fm_stations->nearest_stations[0][1];
-        	fm_stations->nearest_stations[1][0] = fm_stations->nearest_stations[0][0];
-        	fm_stations->nearest_stations[0][1] = temp;
-        	fm_stations->nearest_stations[0][0] = i;
-        } else if ((temp < fm_stations->nearest_stations[1][1])||(fm_stations->nearest_stations[1][0]==-1))
+        	minDistances[2] = minDistances[1];
+        	minIndices[2] = minIndices[1];
+        	minDistances[1] = minDistances[0];
+        	minIndices[1] = minIndices[0];
+        	minDistances[0] = temp;
+        	minIndices[0] = i;
+        } else if ((temp < minDistances[1])||(minDistances[1]==-1))
         {
-        	fm_stations->nearest_stations[2][1] = fm_stations->nearest_stations[1][1];
-        	fm_stations->nearest_stations[2][0] = fm_stations->nearest_stations[1][0];
-        	fm_stations->nearest_stations[1][1] = temp;
-        	fm_stations->nearest_stations[1][0] = i;
-        } else if ((temp < fm_stations->nearest_stations[2][1])||(fm_stations->nearest_stations[2][0]==-1))
+        	minDistances[2] = minDistances[1];
+        	minIndices[2] = minIndices[1];
+        	minDistances[1] = temp;
+        	minIndices[1] = i;
+        } else if ((temp < minDistances[2])||(minDistances[2]==-1))
         {
-        	fm_stations->nearest_stations[2][1] = temp;
-        	fm_stations->nearest_stations[2][0] = i;
+        	minDistances[2] = temp;
+        	minIndices[2] = i;
         }
     }
+
+    for (i=0; i<NUM_NEAREST; i++)
+    {
+    	fm_stations->nearest_stations[i][0] = minIndices[i];
+        fm_stations->nearest_stations[i][1] = (int)minDistances[i];
+    }
+
     //return closest station index
     return fm_stations->nearest_stations[0][0];
 }
