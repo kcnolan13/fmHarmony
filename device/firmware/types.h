@@ -87,9 +87,9 @@ typedef struct gps_data {
     char mag_var[8];
     char mode;
     char checksum[3];
-    float abs_bearing_nearest;
-    float rel_bearing_nearest;
-    char str_abs_bearing_nearest[3];
+    float abs_bearing_nearest[NUM_NEAREST];
+    float rel_bearing_nearest[NUM_NEAREST];
+    char str_abs_bearing_nearest[NUM_NEAREST][3]; //1st dim matches station index, 2nd dim = chars
     char str_course[3];
 } GPS_DATA;
 

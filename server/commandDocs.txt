@@ -45,7 +45,7 @@ sudo apt-get install postgresql-contrib-9.3
 Creating the fmStations database and stationsUs table
 	$sudo -u postgres createdb --encoding=UTF8 --owner=postgres fmStations
 	$psql --username=postgres --db=fmStations
-	fmStations=#CREATE TABLE stations(call TEXT, freq REAL, genre TEXT, channel REAL, class TEXT, service TEXT freqUnits, TEXT, status TEXT, city TEXT, state TEXT, country TEXT, erp REAL, erpUnits TEXT, haat REAL, haatUnits TEXT, lat REAL, lon REAL, uniqueID TEXT);
+	fmStations=#CREATE TABLE stations(call TEXT, freq REAL, genre TEXT, channel REAL, class TEXT, service TEXT, freqUnits TEXT, status TEXT, city TEXT, state TEXT, country TEXT, erp REAL, erpUnits TEXT, haat REAL, haatUnits TEXT, lat REAL, lon REAL, uniqueID TEXT);
 
 General postgresql Settings Modifications
 	- Local connections from the server should be trusted

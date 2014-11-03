@@ -70,6 +70,18 @@ int main (int argc, char *argv[])
             return 0;
     }
 
+    //initialize GPS_DATA arrays
+    for (i=0; i<NUM_NEAREST; i++)
+    {
+        gps_data->abs_bearing_nearest[i] = -1;
+        gps_data->rel_bearing_nearest[i] = -1;
+        int j;
+        for (j=0; j<3; j++)
+        {
+            gps_data->str_abs_bearing_nearest[i][j] = 255;
+        }
+    }
+
     //createthe DATABASE struct
     DATABASE *fm_stations = (DATABASE *)malloc(sizeof(DATABASE));
     if (fm_stations == NULL)
@@ -202,7 +214,15 @@ int main (int argc, char *argv[])
                 enable_gps();
                 //parse available data and pull formatted params into the GPS_DATA struct
                 sync_gps_data(device, gps_data);
-                list_nearest_stations(device, fm_stations, gps_data);
+                if (gps_locked(gps_data))
+                {
+                    list_nearest_stations(device, fm_stations, gps_data);
+                } else {
+                    lcd_init();
+                    string_write("No GPS Fix...\n");
+                    string_write("Be Patient...");
+                    _delay_ms(2000);
+                }
             break;
 
             case MD_UPDATE_REQUIRED:

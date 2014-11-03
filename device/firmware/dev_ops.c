@@ -340,11 +340,11 @@ void show_nearest_station(volatile DEV_STATE *device, DATABASE *fm_stations, GPS
 
     //print formatted info to the display
     print_callsign(fm_stations, fm_stations->nearest_station); string_write(" "); string_write_float(fm_stations->all_stations[fm_stations->nearest_station].freq,1); string_write("\n");
-    string_write_float(my_distance_to_station(gps_data, fm_stations->all_stations, fm_stations->nearest_station),1); string_write(" km, ");
+    string_write_float(my_distance_to_station(gps_data, fm_stations->all_stations, fm_stations->nearest_station),2); string_write(" km, ");
 
     //write out the absolute bearing chars
     for (i=0; i<3; i++)
-        char_write(gps_data->str_abs_bearing_nearest[i]);
+        char_write(gps_data->str_abs_bearing_nearest[0][i]);
 
     if (device->op_mode != device->op_mode_prior) return;
 
@@ -355,8 +355,8 @@ void show_nearest_station(volatile DEV_STATE *device, DATABASE *fm_stations, GPS
     lcd_init();
 
     //print bearings to the screen
-    string_write("A.Bear: "); string_write_float(gps_data->abs_bearing_nearest,1); char_write(DEG_SYMBOL); char_write('\n');
-    string_write("R.Bear: "); string_write_float(gps_data->rel_bearing_nearest,1); char_write(DEG_SYMBOL);
+    string_write("A.Bear: "); string_write_float(gps_data->abs_bearing_nearest[0],1); char_write(DEG_SYMBOL); char_write('\n');
+    string_write("R.Bear: "); string_write_float(gps_data->rel_bearing_nearest[0],1); char_write(DEG_SYMBOL);
 
     if (device->op_mode != device->op_mode_prior) return;
 
@@ -365,13 +365,16 @@ void show_nearest_station(volatile DEV_STATE *device, DATABASE *fm_stations, GPS
 
 void list_nearest_stations(volatile DEV_STATE *device, DATABASE *fm_stations, GPS_DATA *gps_data)
 {
-    int i;
+    int i, j;
     lcd_init();
     string_write("Listing Nearest\nStations:");
     _delay_ms(1000);
 
     //calculate the nearest stations
     fm_stations->nearest_station = get_nearest_stations(fm_stations, gps_data->lat, gps_data->lon);
+
+    //calculate bearings to nearest stations
+    calculate_bearings(gps_data, fm_stations);
 
     for (i=0; i<NUM_NEAREST; i++)
     {
@@ -383,8 +386,23 @@ void list_nearest_stations(volatile DEV_STATE *device, DATABASE *fm_stations, GP
         lcd_init();
         //print station callsign and distance
         print_callsign(fm_stations, fm_stations->nearest_stations[i][0]); string_write(" "); string_write_float(fm_stations->all_stations[fm_stations->nearest_stations[i][0]].freq,1); string_write("\n");
-        string_write_float(fm_stations->nearest_stations[i][1],1); string_write(" km, ");
-        _delay_ms(1000);
+        string_write_float(my_distance_to_station(gps_data, fm_stations->all_stations, fm_stations->nearest_stations[i][0]),2); string_write(" km, ");
+
+        //write out the absolute bearing chars
+        for (j=0; j<3; j++)
+            char_write(gps_data->str_abs_bearing_nearest[i][j]);
+
+        _delay_ms(2000);
+
+        if (device->op_mode != device->op_mode_prior) return;
+
+        lcd_init();
+
+        //print bearings to the screen
+        string_write("A.Bear: "); string_write_float(gps_data->abs_bearing_nearest[i],1); char_write(DEG_SYMBOL); char_write('\n');
+        string_write("R.Bear: "); string_write_float(gps_data->rel_bearing_nearest[i],1); char_write(DEG_SYMBOL);
+
+        _delay_ms(2000);
     }
 
 }

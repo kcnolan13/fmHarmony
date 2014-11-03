@@ -16,7 +16,7 @@ License, application, and construction permit (CP) coordinates shown in the FM
 Query are NAD 27 coordinates.
 Antenna Structure Registration (ASR) coordinates are NAD 83.
 
-                     Sun Nov 2 15:14:12 2014 Eastern time
+                     Sun Nov 2 21:12:27 2014 Eastern time
 
 
    Search Parameters   

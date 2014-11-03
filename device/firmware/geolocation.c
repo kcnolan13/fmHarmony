@@ -293,40 +293,50 @@ int calculate_bearings(GPS_DATA *gps_data, DATABASE *fm_stations)
 	//all angles must be in radians
 	lat1 = to_radians((double)gps_data->lat);
 	lon1 = to_radians((double)gps_data->lon);
-	lat2 = to_radians((double)fm_stations->all_stations[fm_stations->nearest_station].lat);
-	lon2 = to_radians((double)fm_stations->all_stations[fm_stations->nearest_station].lon);
 
-	//use the Forward Azimuth Formula
-	y = sin(lon2 - lon1)*cos(lat2);
-	x = cos(lat1)*sin(lat2) - sin(lat1)*cos(lat2)*cos(lon2 - lon1);
-
-	//finish computing the absolute bearing to the nearest station
-	bearing = to_degrees(atan2(y, x));
-
-	//keep absolute bearing between 0-360
-	if (bearing < 0)
-		bearing += 360;
-
-	//save bearing into the DEV_STATE struct
-	gps_data->abs_bearing_nearest = (float)bearing;
-
-	//compute the relative bearing to nearest station
-	gps_data->rel_bearing_nearest = gps_data->abs_bearing_nearest - gps_data->course;
-
-	//keep relative bearing within 0-360
-	if (gps_data->rel_bearing_nearest < 0)
-		gps_data->rel_bearing_nearest += 360;
-
-	//compute the absolute bearing string (16-point compass)
-	slice = gps_data->abs_bearing_nearest/360*16;
-
-	if ((slice<=0.5)||(slice>=15.5))
+	int i;
+	//calculate bearing parameters for the top NUM_NEAREST nearest stations
+	for (i=0; i<NUM_NEAREST; i++)
 	{
-		//bearing is NORTH
-		strncpy(gps_data->str_abs_bearing_nearest, str_bearings[0], 3);
-	} else {
-		//bearing index complies with (int)(slice+0.5) convention
-		strncpy(gps_data->str_abs_bearing_nearest, str_bearings[(int)(slice+0.5)], 3);
+
+		if (i >= fm_stations->num_stations)
+			return 0;
+
+		lat2 = to_radians((double)fm_stations->all_stations[fm_stations->nearest_stations[i][0]].lat);
+		lon2 = to_radians((double)fm_stations->all_stations[fm_stations->nearest_stations[i][0]].lon);
+
+		//use the Forward Azimuth Formula
+		y = sin(lon2 - lon1)*cos(lat2);
+		x = cos(lat1)*sin(lat2) - sin(lat1)*cos(lat2)*cos(lon2 - lon1);
+
+		//finish computing the absolute bearing to the nearest station
+		bearing = to_degrees(atan2(y, x));
+
+		//keep absolute bearing between 0-360
+		if (bearing < 0)
+			bearing += 360;
+
+		//save bearing into the DEV_STATE struct
+		gps_data->abs_bearing_nearest[i] = (float)bearing;
+
+		//compute the relative bearing to nearest station
+		gps_data->rel_bearing_nearest[i] = gps_data->abs_bearing_nearest[i] - gps_data->course;
+
+		//keep relative bearing within 0-360
+		if (gps_data->rel_bearing_nearest[i] < 0)
+			gps_data->rel_bearing_nearest[i] += 360;
+
+		//compute the absolute bearing string (16-point compass)
+		slice = gps_data->abs_bearing_nearest[i]/360*16;
+
+		if ((slice<=0.5)||(slice>=15.5))
+		{
+			//bearing is NORTH
+			strncpy(gps_data->str_abs_bearing_nearest[i], str_bearings[0], 3);
+		} else {
+			//bearing index complies with (int)(slice+0.5) convention
+			strncpy(gps_data->str_abs_bearing_nearest[i], str_bearings[(int)(slice+0.5)], 3);
+		}
 	}
 
 	return 1;

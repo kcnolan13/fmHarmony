@@ -1,0 +1,740 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+	<Document>
+		<name>Radio Stations Within 50 Miles</name>
+							<Style id="station1">
+								<IconStyle>
+									<scale>1</scale>
+									<Icon>
+										<href>./icons/station1.png</href>
+									</Icon>
+								</IconStyle>
+							</Style>
+
+							<Style id="station2">
+								<IconStyle>
+									<scale>1</scale>
+									<Icon>
+										<href>./icons/station2.png</href>
+									</Icon>
+								</IconStyle>
+							</Style>
+
+							<Style id="station3">
+								<IconStyle>
+									<scale>1</scale>
+									<Icon>
+										<href>./icons/station3.png</href>
+									</Icon>
+								</IconStyle>
+							</Style>
+
+							<Style id="station4">
+								<IconStyle>
+									<scale>1</scale>
+									<Icon>
+										<href>./icons/station4.png</href>
+									</Icon>
+								</IconStyle>
+							</Style>
+
+							<Style id="station5">
+								<IconStyle>
+									<scale>1</scale>
+									<Icon>
+										<href>./icons/station5.png</href>
+									</Icon>
+								</IconStyle>
+							</Style>
+
+		<Folder id="stationPlacemarks">
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WABK - 104.3</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 50 (kW)&lt;br&gt;
+				HAAT: 113 (m)&lt;br&gt;
+				</description>
+				<index>0</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.8308, 44.31, 113</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WBAK - 104.7</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 10 (kW)&lt;br&gt;
+				HAAT: 335 (m)&lt;br&gt;
+				</description>
+				<index>1</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.8975, 44.5808, 335</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WBFB - 97.1</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 6.5 (kW)&lt;br&gt;
+				HAAT: 375 (m)&lt;br&gt;
+				</description>
+				<index>2</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-69.0797, 44.7033, 375</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WBFE - 99.1</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 45 (kW)&lt;br&gt;
+				HAAT: 121 (m)&lt;br&gt;
+				</description>
+				<index>3</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.0228, 44.4447, 121</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WBKA - 107.7</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 11.5 (kW)&lt;br&gt;
+				HAAT: 149 (m)&lt;br&gt;
+				</description>
+				<index>4</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.0944, 44.5536, 149</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WBQX - 106.9</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 29.5 (kW)&lt;br&gt;
+				HAAT: 193 (m)&lt;br&gt;
+				</description>
+				<index>5</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.1578, 44.1083, 193</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WBQX - 106.9</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 30 (kW)&lt;br&gt;
+				HAAT: 193 (m)&lt;br&gt;
+				</description>
+				<index>6</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.1408, 44.1269, 193</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WBYA - 105.5</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 25 (kW)&lt;br&gt;
+				HAAT: 93 (m)&lt;br&gt;
+				</description>
+				<index>7</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.97, 44.3161, 93</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WBZN - 107.3</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 50 (kW)&lt;br&gt;
+				HAAT: 133 (m)&lt;br&gt;
+				</description>
+				<index>8</index>
+				<styleUrl>#station1</styleUrl>
+				<Point>
+					<coordinates>-68.7481, 45.0097, 133</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WCTB - 93.5</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 10.5 (kW)&lt;br&gt;
+				HAAT: 152 (m)&lt;br&gt;
+				</description>
+				<index>9</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.6922, 44.745, 152</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WEBB - 98.5</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 61 (kW)&lt;br&gt;
+				HAAT: 93 (m)&lt;br&gt;
+				</description>
+				<index>10</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.6108, 44.5644, 93</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WERU-FM - 89.9</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 11.5 (kW)&lt;br&gt;
+				HAAT: 261 (m)&lt;br&gt;
+				</description>
+				<index>11</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.5903, 44.4344, 261</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WEZQ - 92.9</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				alternative&lt;br&gt;&lt;br&gt;
+				ERP: 20 (kW)&lt;br&gt;
+				HAAT: 240 (m)&lt;br&gt;
+				</description>
+				<index>12</index>
+				<styleUrl>#station1</styleUrl>
+				<Point>
+					<coordinates>-68.5653, 44.7597, 240</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WFMX - 107.9</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 32 (kW)&lt;br&gt;
+				HAAT: 129 (m)&lt;br&gt;
+				</description>
+				<index>13</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.7414, 44.5544, 129</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WFMX - 107.9</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 22 (kW)&lt;br&gt;
+				HAAT: 118 (m)&lt;br&gt;
+				</description>
+				<index>14</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.6253, 44.6169, 118</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WHCF - 88.5</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				christian&lt;br&gt;&lt;br&gt;
+				ERP: 35 (kW)&lt;br&gt;
+				HAAT: 494 (m)&lt;br&gt;
+				</description>
+				<index>15</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.3578, 45.1294, 494</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WHMX - 105.7</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 48 (kW)&lt;br&gt;
+				HAAT: 142 (m)&lt;br&gt;
+				</description>
+				<index>16</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.5067, 45.3439, 142</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WHSN - 89.3</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				rock&lt;br&gt;&lt;br&gt;
+				ERP: 3 (kW)&lt;br&gt;
+				HAAT: 25.8 (m)&lt;br&gt;
+				</description>
+				<index>17</index>
+				<styleUrl>#station1</styleUrl>
+				<Point>
+					<coordinates>-68.7942, 44.8294, 25.8</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WJCX - 99.5</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 6 (kW)&lt;br&gt;
+				HAAT: 100 (m)&lt;br&gt;
+				</description>
+				<index>18</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-69.1683, 44.8031, 100</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WKIT-FM - 100.3</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				rock&lt;br&gt;&lt;br&gt;
+				ERP: 16 (kW)&lt;br&gt;
+				HAAT: 269 (m)&lt;br&gt;
+				</description>
+				<index>19</index>
+				<styleUrl>#station2</styleUrl>
+				<Point>
+					<coordinates>-68.7542, 44.6775, 269</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WKSQ - 94.5</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 11.5 (kW)&lt;br&gt;
+				HAAT: 313 (m)&lt;br&gt;
+				</description>
+				<index>20</index>
+				<styleUrl>#station2</styleUrl>
+				<Point>
+					<coordinates>-68.6047, 44.6586, 313</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WKVV - 101.7</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 2.7 (kW)&lt;br&gt;
+				HAAT: 306 (m)&lt;br&gt;
+				</description>
+				<index>21</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.8964, 44.5808, 306</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WKVV - 101.7</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 2.4 (kW)&lt;br&gt;
+				HAAT: 324 (m)&lt;br&gt;
+				</description>
+				<index>22</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.8975, 44.5808, 324</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WKVZ - 102.1</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 27 (kW)&lt;br&gt;
+				HAAT: 205 (m)&lt;br&gt;
+				</description>
+				<index>23</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-69.2503, 45.0444, 205</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WMCM - 103.3</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				country&lt;br&gt;&lt;br&gt;
+				ERP: 16 (kW)&lt;br&gt;
+				HAAT: 235 (m)&lt;br&gt;
+				</description>
+				<index>24</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.1383, 44.1264, 235</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WMEB-FM - 91.9</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 10 (kW)&lt;br&gt;
+				HAAT: 52 (m)&lt;br&gt;
+				</description>
+				<index>25</index>
+				<styleUrl>#station1</styleUrl>
+				<Point>
+					<coordinates>-68.6667, 44.9189, 52</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WMEH - 90.9</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 13.5 (kW)&lt;br&gt;
+				HAAT: 246 (m)&lt;br&gt;
+				</description>
+				<index>26</index>
+				<styleUrl>#station1</styleUrl>
+				<Point>
+					<coordinates>-68.5661, 44.7625, 246</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WMEP - 90.5</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 2 (kW)&lt;br&gt;
+				HAAT: 371 (m)&lt;br&gt;
+				</description>
+				<index>27</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.1517, 44.2111, 371</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WMEW - 91.3</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 3 (kW)&lt;br&gt;
+				HAAT: 91 (m)&lt;br&gt;
+				</description>
+				<index>28</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.6514, 44.4897, 91</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WMHB - 89.7</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0.1 (kW)&lt;br&gt;
+				HAAT: 32 (m)&lt;br&gt;
+				</description>
+				<index>29</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.6636, 44.5658, 32</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WMME-FM - 92.3</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				pop&lt;br&gt;&lt;br&gt;
+				ERP: 50 (kW)&lt;br&gt;
+				HAAT: 152 (m)&lt;br&gt;
+				</description>
+				<index>30</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.6836, 44.3353, 152</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WNSX - 97.7</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 50 (kW)&lt;br&gt;
+				HAAT: 149 (m)&lt;br&gt;
+				</description>
+				<index>31</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.0944, 44.5536, 149</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WQCB - 106.5</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 100 (kW)&lt;br&gt;
+				HAAT: 329 (m)&lt;br&gt;
+				</description>
+				<index>32</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-69.1908, 45.0572, 329</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WQSS - 102.5</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 7.9 (kW)&lt;br&gt;
+				HAAT: 366 (m)&lt;br&gt;
+				</description>
+				<index>33</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.1517, 44.2111, 366</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WRMO - 93.7</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 27 (kW)&lt;br&gt;
+				HAAT: 204 (m)&lt;br&gt;
+				</description>
+				<index>34</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.1717, 44.6425, 204</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WRNM - 91.7</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 0.7 (kW)&lt;br&gt;
+				HAAT: 56 (m)&lt;br&gt;
+				</description>
+				<index>35</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.4025, 44.5178, 56</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WRPB - 89.3</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 2 (kW)&lt;br&gt;
+				HAAT: 61 (m)&lt;br&gt;
+				</description>
+				<index>36</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.4122, 45.7864, 61</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WSYY-FM - 94.9</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 22 (kW)&lt;br&gt;
+				HAAT: 198.4 (m)&lt;br&gt;
+				</description>
+				<index>37</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.5128, 45.6219, 198.4</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WSYY-FM - 94.9</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 12 (kW)&lt;br&gt;
+				HAAT: 68 (m)&lt;br&gt;
+				</description>
+				<index>38</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.72, 45.6739, 68</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WSYY-FM - 94.9</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 25 (kW)&lt;br&gt;
+				HAAT: 211 (m)&lt;br&gt;
+				</description>
+				<index>39</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.7983, 45.7161, 211</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WTUX - 101.1</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 17 (kW)&lt;br&gt;
+				HAAT: 121.1 (m)&lt;br&gt;
+				</description>
+				<index>40</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-68.0228, 44.4447, 121.1</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WVOM-FM - 103.9</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 90 (kW)&lt;br&gt;
+				HAAT: 460 (m)&lt;br&gt;
+				</description>
+				<index>41</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.3578, 45.1294, 460</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WVQM - 101.3</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				talk&lt;br&gt;&lt;br&gt;
+				ERP: 41 (kW)&lt;br&gt;
+				HAAT: 113 (m)&lt;br&gt;
+				</description>
+				<index>42</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.8308, 44.31, 113</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WWLN - 90.5</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 2.4 (kW)&lt;br&gt;
+				HAAT: 147 (m)&lt;br&gt;
+				</description>
+				<index>43</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-68.5083, 45.3447, 147</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WWMJ - 95.7</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				rock&lt;br&gt;&lt;br&gt;
+				ERP: 11.5 (kW)&lt;br&gt;
+				HAAT: 314 (m)&lt;br&gt;
+				</description>
+				<index>44</index>
+				<styleUrl>#station2</styleUrl>
+				<Point>
+					<coordinates>-68.6056, 44.6586, 314</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WWTP - 89.5</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				christian&lt;br&gt;&lt;br&gt;
+				ERP: 0.5 (kW)&lt;br&gt;
+				HAAT: 108.7 (m)&lt;br&gt;
+				</description>
+				<index>45</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.6584, 44.3518, 108.7</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WWWA - 95.3</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 27.5 (kW)&lt;br&gt;
+				HAAT: 205 (m)&lt;br&gt;
+				</description>
+				<index>46</index>
+				<styleUrl>#station4</styleUrl>
+				<Point>
+					<coordinates>-69.7275, 44.7133, 205</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WXBP - 90.3</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 2 (kW)&lt;br&gt;
+				HAAT: 275 (m)&lt;br&gt;
+				</description>
+				<index>47</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-69.1908, 45.0572, 275</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark>
+				<name>&lt;font face=Arial size=2 &gt; WZLO - 103.1</name>
+				<description>&lt;font face=Arial size=2&gt; 
+				&lt;br&gt;&lt;br&gt;
+				ERP: 1.5 (kW)&lt;br&gt;
+				HAAT: 204 (m)&lt;br&gt;
+				</description>
+				<index>48</index>
+				<styleUrl>#station3</styleUrl>
+				<Point>
+					<coordinates>-69.0833, 45.0937, 204</coordinates>
+				</Point>
+			</Placemark>
+
+		</Folder>
+
+	</Document>
+</kml>
