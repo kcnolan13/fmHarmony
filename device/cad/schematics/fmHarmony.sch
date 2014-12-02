@@ -37,7 +37,7 @@ $Descr USLetter 11000 8500
 encoding utf-8
 Sheet 1 1
 Title ""
-Date "3 nov 2014"
+Date "1 dec 2014"
 Rev ""
 Comp ""
 Comment1 ""
@@ -195,7 +195,7 @@ L ZENER D1
 U 1 1 5424A46E
 P 2550 1700
 F 0 "D1" H 2550 1800 50  0000 C CNN
-F 1 "ZENER" H 2550 1600 40  0000 C CNN
+F 1 "TVS" H 2550 1600 40  0000 C CNN
 F 2 "~" H 2550 1700 60  0000 C CNN
 F 3 "~" H 2550 1700 60  0000 C CNN
 	1    2550 1700

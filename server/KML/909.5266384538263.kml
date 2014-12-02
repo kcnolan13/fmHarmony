@@ -51,7 +51,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WABK - 104.3</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				oldies&lt;br&gt;&lt;br&gt;
 				ERP: 50 (kW)&lt;br&gt;
 				HAAT: 113 (m)&lt;br&gt;
 				</description>
@@ -65,7 +65,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WBAK - 104.7</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				oldies&lt;br&gt;&lt;br&gt;
 				ERP: 10 (kW)&lt;br&gt;
 				HAAT: 335 (m)&lt;br&gt;
 				</description>
@@ -79,7 +79,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WBFB - 97.1</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				country&lt;br&gt;&lt;br&gt;
 				ERP: 6.5 (kW)&lt;br&gt;
 				HAAT: 375 (m)&lt;br&gt;
 				</description>
@@ -93,7 +93,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WBFE - 99.1</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				country&lt;br&gt;&lt;br&gt;
 				ERP: 45 (kW)&lt;br&gt;
 				HAAT: 121 (m)&lt;br&gt;
 				</description>
@@ -107,7 +107,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WBKA - 107.7</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				oldies&lt;br&gt;&lt;br&gt;
 				ERP: 11.5 (kW)&lt;br&gt;
 				HAAT: 149 (m)&lt;br&gt;
 				</description>
@@ -121,7 +121,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WBQX - 106.9</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				classical&lt;br&gt;&lt;br&gt;
 				ERP: 29.5 (kW)&lt;br&gt;
 				HAAT: 193 (m)&lt;br&gt;
 				</description>
@@ -135,7 +135,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WBQX - 106.9</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				classical&lt;br&gt;&lt;br&gt;
 				ERP: 30 (kW)&lt;br&gt;
 				HAAT: 193 (m)&lt;br&gt;
 				</description>
@@ -149,7 +149,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WBYA - 105.5</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				oldies&lt;br&gt;&lt;br&gt;
 				ERP: 25 (kW)&lt;br&gt;
 				HAAT: 93 (m)&lt;br&gt;
 				</description>
@@ -163,7 +163,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WBZN - 107.3</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				pop&lt;br&gt;&lt;br&gt;
 				ERP: 50 (kW)&lt;br&gt;
 				HAAT: 133 (m)&lt;br&gt;
 				</description>
@@ -177,7 +177,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WCTB - 93.5</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				oldies&lt;br&gt;&lt;br&gt;
 				ERP: 10.5 (kW)&lt;br&gt;
 				HAAT: 152 (m)&lt;br&gt;
 				</description>
@@ -191,7 +191,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WEBB - 98.5</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				country&lt;br&gt;&lt;br&gt;
 				ERP: 61 (kW)&lt;br&gt;
 				HAAT: 93 (m)&lt;br&gt;
 				</description>
@@ -205,7 +205,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WERU-FM - 89.9</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				pop&lt;br&gt;&lt;br&gt;
 				ERP: 11.5 (kW)&lt;br&gt;
 				HAAT: 261 (m)&lt;br&gt;
 				</description>
@@ -219,7 +219,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WEZQ - 92.9</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				alternative&lt;br&gt;&lt;br&gt;
+				talk&lt;br&gt;&lt;br&gt;
 				ERP: 20 (kW)&lt;br&gt;
 				HAAT: 240 (m)&lt;br&gt;
 				</description>
@@ -233,7 +233,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WFMX - 107.9</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				alternative&lt;br&gt;&lt;br&gt;
 				ERP: 32 (kW)&lt;br&gt;
 				HAAT: 129 (m)&lt;br&gt;
 				</description>
@@ -247,7 +247,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WFMX - 107.9</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				alternative&lt;br&gt;&lt;br&gt;
 				ERP: 22 (kW)&lt;br&gt;
 				HAAT: 118 (m)&lt;br&gt;
 				</description>
@@ -275,7 +275,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WHMX - 105.7</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				christian&lt;br&gt;&lt;br&gt;
 				ERP: 48 (kW)&lt;br&gt;
 				HAAT: 142 (m)&lt;br&gt;
 				</description>
@@ -289,7 +289,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WHSN - 89.3</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				rock&lt;br&gt;&lt;br&gt;
+				alternative&lt;br&gt;&lt;br&gt;
 				ERP: 3 (kW)&lt;br&gt;
 				HAAT: 25.8 (m)&lt;br&gt;
 				</description>
@@ -303,7 +303,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WJCX - 99.5</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				christian&lt;br&gt;&lt;br&gt;
 				ERP: 6 (kW)&lt;br&gt;
 				HAAT: 100 (m)&lt;br&gt;
 				</description>
@@ -331,7 +331,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WKSQ - 94.5</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				alternative&lt;br&gt;&lt;br&gt;
 				ERP: 11.5 (kW)&lt;br&gt;
 				HAAT: 313 (m)&lt;br&gt;
 				</description>
@@ -345,7 +345,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WKVV - 101.7</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				christian&lt;br&gt;&lt;br&gt;
 				ERP: 2.7 (kW)&lt;br&gt;
 				HAAT: 306 (m)&lt;br&gt;
 				</description>
@@ -359,7 +359,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WKVV - 101.7</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				christian&lt;br&gt;&lt;br&gt;
 				ERP: 2.4 (kW)&lt;br&gt;
 				HAAT: 324 (m)&lt;br&gt;
 				</description>
@@ -373,7 +373,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WKVZ - 102.1</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				christian&lt;br&gt;&lt;br&gt;
 				ERP: 27 (kW)&lt;br&gt;
 				HAAT: 205 (m)&lt;br&gt;
 				</description>
@@ -401,7 +401,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WMEB-FM - 91.9</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				talk&lt;br&gt;&lt;br&gt;
 				ERP: 10 (kW)&lt;br&gt;
 				HAAT: 52 (m)&lt;br&gt;
 				</description>
@@ -415,7 +415,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WMEH - 90.9</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				talk&lt;br&gt;&lt;br&gt;
 				ERP: 13.5 (kW)&lt;br&gt;
 				HAAT: 246 (m)&lt;br&gt;
 				</description>
@@ -429,7 +429,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WMEP - 90.5</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				talk&lt;br&gt;&lt;br&gt;
 				ERP: 2 (kW)&lt;br&gt;
 				HAAT: 371 (m)&lt;br&gt;
 				</description>
@@ -443,7 +443,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WMEW - 91.3</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				talk&lt;br&gt;&lt;br&gt;
 				ERP: 3 (kW)&lt;br&gt;
 				HAAT: 91 (m)&lt;br&gt;
 				</description>
@@ -457,7 +457,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WMHB - 89.7</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				pop&lt;br&gt;&lt;br&gt;
 				ERP: 0.1 (kW)&lt;br&gt;
 				HAAT: 32 (m)&lt;br&gt;
 				</description>
@@ -485,7 +485,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WNSX - 97.7</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				oldies&lt;br&gt;&lt;br&gt;
 				ERP: 50 (kW)&lt;br&gt;
 				HAAT: 149 (m)&lt;br&gt;
 				</description>
@@ -499,7 +499,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WQCB - 106.5</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				country&lt;br&gt;&lt;br&gt;
 				ERP: 100 (kW)&lt;br&gt;
 				HAAT: 329 (m)&lt;br&gt;
 				</description>
@@ -513,7 +513,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WQSS - 102.5</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				alternative&lt;br&gt;&lt;br&gt;
 				ERP: 7.9 (kW)&lt;br&gt;
 				HAAT: 366 (m)&lt;br&gt;
 				</description>
@@ -527,7 +527,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WRMO - 93.7</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				alternative&lt;br&gt;&lt;br&gt;
 				ERP: 27 (kW)&lt;br&gt;
 				HAAT: 204 (m)&lt;br&gt;
 				</description>
@@ -541,7 +541,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WRNM - 91.7</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				christian&lt;br&gt;&lt;br&gt;
 				ERP: 0.7 (kW)&lt;br&gt;
 				HAAT: 56 (m)&lt;br&gt;
 				</description>
@@ -555,7 +555,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WRPB - 89.3</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				christian&lt;br&gt;&lt;br&gt;
 				ERP: 2 (kW)&lt;br&gt;
 				HAAT: 61 (m)&lt;br&gt;
 				</description>
@@ -569,7 +569,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WSYY-FM - 94.9</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				pop&lt;br&gt;&lt;br&gt;
 				ERP: 22 (kW)&lt;br&gt;
 				HAAT: 198.4 (m)&lt;br&gt;
 				</description>
@@ -583,7 +583,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WSYY-FM - 94.9</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				pop&lt;br&gt;&lt;br&gt;
 				ERP: 12 (kW)&lt;br&gt;
 				HAAT: 68 (m)&lt;br&gt;
 				</description>
@@ -597,7 +597,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WSYY-FM - 94.9</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				pop&lt;br&gt;&lt;br&gt;
 				ERP: 25 (kW)&lt;br&gt;
 				HAAT: 211 (m)&lt;br&gt;
 				</description>
@@ -611,7 +611,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WTUX - 101.1</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				rock&lt;br&gt;&lt;br&gt;
 				ERP: 17 (kW)&lt;br&gt;
 				HAAT: 121.1 (m)&lt;br&gt;
 				</description>
@@ -625,7 +625,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WVOM-FM - 103.9</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				talk&lt;br&gt;&lt;br&gt;
 				ERP: 90 (kW)&lt;br&gt;
 				HAAT: 460 (m)&lt;br&gt;
 				</description>
@@ -653,7 +653,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WWLN - 90.5</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				christian&lt;br&gt;&lt;br&gt;
 				ERP: 2.4 (kW)&lt;br&gt;
 				HAAT: 147 (m)&lt;br&gt;
 				</description>
@@ -667,7 +667,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WWMJ - 95.7</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				rock&lt;br&gt;&lt;br&gt;
+				oldies&lt;br&gt;&lt;br&gt;
 				ERP: 11.5 (kW)&lt;br&gt;
 				HAAT: 314 (m)&lt;br&gt;
 				</description>
@@ -695,7 +695,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WWWA - 95.3</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				christian&lt;br&gt;&lt;br&gt;
 				ERP: 27.5 (kW)&lt;br&gt;
 				HAAT: 205 (m)&lt;br&gt;
 				</description>
@@ -709,7 +709,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WXBP - 90.3</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				christian&lt;br&gt;&lt;br&gt;
 				ERP: 2 (kW)&lt;br&gt;
 				HAAT: 275 (m)&lt;br&gt;
 				</description>
@@ -723,7 +723,7 @@
 			<Placemark>
 				<name>&lt;font face=Arial size=2 &gt; WZLO - 103.1</name>
 				<description>&lt;font face=Arial size=2&gt; 
-				&lt;br&gt;&lt;br&gt;
+				AAA&lt;br&gt;&lt;br&gt;
 				ERP: 1.5 (kW)&lt;br&gt;
 				HAAT: 204 (m)&lt;br&gt;
 				</description>

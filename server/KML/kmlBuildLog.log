@@ -1,3 +1,484 @@
 ------------
 older builds removed to minimize file size
 ------------
+
+________________________________________________________________________________________________________________________________________________
+
+
+new KML build: ./KML/909.5266384538263.kml
+
+
+client: 909.5266384538263
+Lat: 44.923377800000004
+LON: -68.642264
+
+Established a connection to the fmStations database
+
+===========================
+Generating Styles
+===========================
+
+	beign.....end
+
+===========================
+Generating Placemarks
+===========================
+
+	preparing query . . .
+	SELECT call, freq, genre, city, state, erp, erpunits, haat, haatunits, lat, lon FROM stations WHERE earth_box(ll_to_earth(44.923377800000004, -68.642264), 50*1.60934*1000) @> ll_to_earth(lat,lon) ORDER BY uniqueId
+
+	begin.................................................end
+
+===========================
+Finishing Up
+===========================
+
+Good Copy!
+
+Build Complete.
+
+________________________________________________________________________________________________________________________________________________
+
+________________________________________________________________________________________________________________________________________________
+
+
+new KML build: ./KML/909.5266384538263.kml
+
+
+client: 909.5266384538263
+Lat: 44.92335249999999
+LON: -68.6422269
+
+Established a connection to the fmStations database
+
+===========================
+Generating Styles
+===========================
+
+	beign.....end
+
+===========================
+Generating Placemarks
+===========================
+
+	preparing query . . .
+	SELECT call, freq, genre, city, state, erp, erpunits, haat, haatunits, lat, lon FROM stations WHERE earth_box(ll_to_earth(44.92335249999999, -68.6422269), 50*1.60934*1000) @> ll_to_earth(lat,lon) ORDER BY uniqueId
+
+	begin.................................................end
+
+===========================
+Finishing Up
+===========================
+
+Good Copy!
+
+Build Complete.
+
+________________________________________________________________________________________________________________________________________________
+
+________________________________________________________________________________________________________________________________________________
+
+
+new KML build: ./KML/909.5266384538263.kml
+
+
+client: 909.5266384538263
+Lat: 44.92335760000001
+LON: -68.642248
+
+Established a connection to the fmStations database
+
+===========================
+Generating Styles
+===========================
+
+	beign.....end
+
+===========================
+Generating Placemarks
+===========================
+
+	preparing query . . .
+	SELECT call, freq, genre, city, state, erp, erpunits, haat, haatunits, lat, lon FROM stations WHERE earth_box(ll_to_earth(44.92335760000001, -68.642248), 50*1.60934*1000) @> ll_to_earth(lat,lon) ORDER BY uniqueId
+
+	begin.................................................end
+
+===========================
+Finishing Up
+===========================
+
+Good Copy!
+
+Build Complete.
+
+________________________________________________________________________________________________________________________________________________
+
+________________________________________________________________________________________________________________________________________________
+
+
+new KML build: ./KML/909.5266384538263.kml
+
+
+client: 909.5266384538263
+Lat: 44.9232479
+LON: -68.6422251
+
+Established a connection to the fmStations database
+
+===========================
+Generating Styles
+===========================
+
+	beign.....end
+
+===========================
+Generating Placemarks
+===========================
+
+	preparing query . . .
+	SELECT call, freq, genre, city, state, erp, erpunits, haat, haatunits, lat, lon FROM stations WHERE earth_box(ll_to_earth(44.9232479, -68.6422251), 50*1.60934*1000) @> ll_to_earth(lat,lon) ORDER BY uniqueId
+
+	begin.................................................end
+
+===========================
+Finishing Up
+===========================
+
+Good Copy!
+
+Build Complete.
+
+________________________________________________________________________________________________________________________________________________
+
+________________________________________________________________________________________________________________________________________________
+
+
+new KML build: ./KML/909.5266384538263.kml
+
+
+client: 909.5266384538263
+Lat: 44.92326290000001
+LON: -68.6422203
+
+Established a connection to the fmStations database
+
+===========================
+Generating Styles
+===========================
+
+	beign.....end
+
+===========================
+Generating Placemarks
+===========================
+
+	preparing query . . .
+	SELECT call, freq, genre, city, state, erp, erpunits, haat, haatunits, lat, lon FROM stations WHERE earth_box(ll_to_earth(44.92326290000001, -68.6422203), 50*1.60934*1000) @> ll_to_earth(lat,lon) ORDER BY uniqueId
+
+	begin.................................................end
+
+===========================
+Finishing Up
+===========================
+
+Good Copy!
+
+Build Complete.
+
+________________________________________________________________________________________________________________________________________________
+
+________________________________________________________________________________________________________________________________________________
+
+
+new KML build: ./KML/551.1650247499347.kml
+
+
+client: 551.1650247499347
+Lat: 44.92320119999999
+LON: -68.6421989
+
+Established a connection to the fmStations database
+
+===========================
+Generating Styles
+===========================
+
+	beign.....end
+
+===========================
+Generating Placemarks
+===========================
+
+	preparing query . . .
+	SELECT call, freq, genre, city, state, erp, erpunits, haat, haatunits, lat, lon FROM stations WHERE earth_box(ll_to_earth(44.92320119999999, -68.6421989), 50*1.60934*1000) @> ll_to_earth(lat,lon) ORDER BY uniqueId
+
+	begin.................................................end
+
+===========================
+Finishing Up
+===========================
+
+Good Copy!
+
+Build Complete.
+
+________________________________________________________________________________________________________________________________________________
+
+________________________________________________________________________________________________________________________________________________
+
+
+new KML build: ./KML/909.5266384538263.kml
+
+
+client: 909.5266384538263
+Lat: 44.9232938
+LON: -68.6422216
+
+Established a connection to the fmStations database
+
+===========================
+Generating Styles
+===========================
+
+	beign.....end
+
+===========================
+Generating Placemarks
+===========================
+
+	preparing query . . .
+	SELECT call, freq, genre, city, state, erp, erpunits, haat, haatunits, lat, lon FROM stations WHERE earth_box(ll_to_earth(44.9232938, -68.6422216), 50*1.60934*1000) @> ll_to_earth(lat,lon) ORDER BY uniqueId
+
+	begin.................................................end
+
+===========================
+Finishing Up
+===========================
+
+Good Copy!
+
+Build Complete.
+
+________________________________________________________________________________________________________________________________________________
+
+________________________________________________________________________________________________________________________________________________
+
+
+new KML build: ./KML/551.1650247499347.kml
+
+
+client: 551.1650247499347
+Lat: 44.92320119999999
+LON: -68.6421989
+
+Established a connection to the fmStations database
+
+===========================
+Generating Styles
+===========================
+
+	beign.....end
+
+===========================
+Generating Placemarks
+===========================
+
+	preparing query . . .
+	SELECT call, freq, genre, city, state, erp, erpunits, haat, haatunits, lat, lon FROM stations WHERE earth_box(ll_to_earth(44.92320119999999, -68.6421989), 50*1.60934*1000) @> ll_to_earth(lat,lon) ORDER BY uniqueId
+
+	begin.................................................end
+
+===========================
+Finishing Up
+===========================
+
+Good Copy!
+
+Build Complete.
+
+________________________________________________________________________________________________________________________________________________
+
+________________________________________________________________________________________________________________________________________________
+
+
+new KML build: ./KML/909.5266384538263.kml
+
+
+client: 909.5266384538263
+Lat: 44.9232916
+LON: -68.6422202
+
+Established a connection to the fmStations database
+
+===========================
+Generating Styles
+===========================
+
+	beign.....end
+
+===========================
+Generating Placemarks
+===========================
+
+	preparing query . . .
+	SELECT call, freq, genre, city, state, erp, erpunits, haat, haatunits, lat, lon FROM stations WHERE earth_box(ll_to_earth(44.9232916, -68.6422202), 50*1.60934*1000) @> ll_to_earth(lat,lon) ORDER BY uniqueId
+
+	begin.................................................end
+
+===========================
+Finishing Up
+===========================
+
+Good Copy!
+
+Build Complete.
+
+________________________________________________________________________________________________________________________________________________
+
+________________________________________________________________________________________________________________________________________________
+
+
+new KML build: ./KML/551.1650247499347.kml
+
+
+client: 551.1650247499347
+Lat: 44.92320119999999
+LON: -68.6421989
+
+Established a connection to the fmStations database
+
+===========================
+Generating Styles
+===========================
+
+	beign.....end
+
+===========================
+Generating Placemarks
+===========================
+
+	preparing query . . .
+	SELECT call, freq, genre, city, state, erp, erpunits, haat, haatunits, lat, lon FROM stations WHERE earth_box(ll_to_earth(44.92320119999999, -68.6421989), 50*1.60934*1000) @> ll_to_earth(lat,lon) ORDER BY uniqueId
+
+	begin.................................................end
+
+===========================
+Finishing Up
+===========================
+
+Good Copy!
+
+Build Complete.
+
+________________________________________________________________________________________________________________________________________________
+
+________________________________________________________________________________________________________________________________________________
+
+
+new KML build: ./KML/909.5266384538263.kml
+
+
+client: 909.5266384538263
+Lat: 44.923297499999975
+LON: -68.6422158
+
+Established a connection to the fmStations database
+
+===========================
+Generating Styles
+===========================
+
+	beign.....end
+
+===========================
+Generating Placemarks
+===========================
+
+	preparing query . . .
+	SELECT call, freq, genre, city, state, erp, erpunits, haat, haatunits, lat, lon FROM stations WHERE earth_box(ll_to_earth(44.923297499999975, -68.6422158), 50*1.60934*1000) @> ll_to_earth(lat,lon) ORDER BY uniqueId
+
+	begin.................................................end
+
+===========================
+Finishing Up
+===========================
+
+Good Copy!
+
+Build Complete.
+
+________________________________________________________________________________________________________________________________________________
+
+________________________________________________________________________________________________________________________________________________
+
+
+new KML build: ./KML/551.1650247499347.kml
+
+
+client: 551.1650247499347
+Lat: 44.92320119999999
+LON: -68.6421989
+
+Established a connection to the fmStations database
+
+===========================
+Generating Styles
+===========================
+
+	beign.....end
+
+===========================
+Generating Placemarks
+===========================
+
+	preparing query . . .
+	SELECT call, freq, genre, city, state, erp, erpunits, haat, haatunits, lat, lon FROM stations WHERE earth_box(ll_to_earth(44.92320119999999, -68.6421989), 50*1.60934*1000) @> ll_to_earth(lat,lon) ORDER BY uniqueId
+
+	begin.................................................end
+
+===========================
+Finishing Up
+===========================
+
+Good Copy!
+
+Build Complete.
+
+________________________________________________________________________________________________________________________________________________
+
+________________________________________________________________________________________________________________________________________________
+
+
+new KML build: ./KML/909.5266384538263.kml
+
+
+client: 909.5266384538263
+Lat: 44.923307100000024
+LON: -68.6422142
+
+Established a connection to the fmStations database
+
+===========================
+Generating Styles
+===========================
+
+	beign.....end
+
+===========================
+Generating Placemarks
+===========================
+
+	preparing query . . .
+	SELECT call, freq, genre, city, state, erp, erpunits, haat, haatunits, lat, lon FROM stations WHERE earth_box(ll_to_earth(44.923307100000024, -68.6422142), 50*1.60934*1000) @> ll_to_earth(lat,lon) ORDER BY uniqueId
+
+	begin.................................................end
+
+===========================
+Finishing Up
+===========================
+
+Good Copy!
+
+Build Complete.
+
+________________________________________________________________________________________________________________________________________________

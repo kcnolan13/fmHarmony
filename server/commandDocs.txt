@@ -61,4 +61,7 @@ Server Resource Management
 
 schedule the following cron job (removes the kml build log file when it gets too big, and deletes old .kml files that are no longer needed)
 
-	0 * * * * /usr/local/bin/perl /home/kyle/fmHarmony/server/manageResources.pl 
+
+sudo crontab -e
+
+	0 * * * * /usr/bin/perl /home/kyle/fmHarmony/server/manageResources.pl 
