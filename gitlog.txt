@@ -1,3 +1,81 @@
+commit d916c9b10e040d883d37758f2cd1b80b7fc0b8a0
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Mon Dec 1 23:15:49 2014 -0500
+
+    The Big Genre Filtering Update! Python used to crawl Wikipedias official national FM stations listing. Genres are parsed out, associatively matched with our genre keywords, and the FM Stations PostgreSQL database is updated accordingly.
+
+commit f00f6935f2f0afbab5d75af2fb8888bf2555ed1f
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Mon Dec 1 09:46:44 2014 -0500
+
+    server stability improvements.
+
+commit 1e30c1529689652b1206f60d406e668dc2cd57ff
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Mon Nov 3 12:28:50 2014 -0500
+
+    nearest station more reliably identified.
+
+commit 46cbf3ec35fecac949fe50eacb15b44d4eb0c063
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Mon Nov 3 12:14:51 2014 -0500
+
+    Server Configured on Asus Laptop for backup. Firmware improved -- more accurate distances for top 3 nearest stations.
+
+commit 823da3ec3b6b86958c76591237f23a4c9cba5343
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Sun Nov 2 20:00:25 2014 -0500
+
+    updated project schematic
+
+commit fbd6f262a0b3341ccfd6b9d5f902fddb2eb46e4a
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Sun Nov 2 15:56:40 2014 -0500
+
+    Firmware Lists 3 Closest Stations. Server Handles negative lat/lon better. KML Builder computes station strength URL more accurately.
+
+commit c5e0d61ae9f9170da92f4d5a529ff85fe0781b61
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Thu Oct 30 16:19:56 2014 -0400
+
+    UPDATE_REQUIRED Mode Disables Pushbutton op_mode Increment
+
+commit 5f7be506c825d812be6a450de457e9da786a94dc
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Thu Oct 30 11:54:54 2014 -0400
+
+    State LEDs Used More Extensively.
+
+commit d943162ce3baecce90167cba29e27b673ee5fb78
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Thu Oct 30 11:01:49 2014 -0400
+
+    Commenting and Coding Style Polished. More Thorough Array-Bounds and Return Value Checking.
+
+commit fb421a72dd48e01c163a3a497fa22fb34bc0f024
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Thu Oct 30 02:09:32 2014 -0400
+
+    GPS Fix Reliability Improved.
+
+commit ab2b023113e4c1c6e7e19dda8ee81fe05fcdf09c
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Wed Oct 29 00:16:42 2014 -0400
+
+    Pushbutton Op-Mode Control Complete. GPS-Fix Reliability Could Be Improved
+
+commit 01b43563f2efcd1a7a5df38b220f7dc473727918
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Tue Oct 28 22:28:29 2014 -0400
+
+    Pushbutton Support Added. Now need to establish and transition between op_modes.
+
+commit f16b60cef80ffbe45e23af7d59824ccec60f08d6
+Author: Kyle Nolan <kcnolan13@gmail.com>
+Date:   Tue Oct 28 13:15:56 2014 -0400
+
+    Absolute and Relative Bearing (to nearest station) Calculated and Displayed
+
 commit 1303d4c6ec1961c67f8a56ec8ce45b35b30d9a46
 Author: Kyle Nolan <kcnolan13@gmail.com>
 Date:   Mon Oct 27 20:11:47 2014 -0400

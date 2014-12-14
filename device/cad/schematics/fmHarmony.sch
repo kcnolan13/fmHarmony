@@ -37,7 +37,7 @@ $Descr USLetter 11000 8500
 encoding utf-8
 Sheet 1 1
 Title ""
-Date "1 dec 2014"
+Date "13 dec 2014"
 Rev ""
 Comp ""
 Comment1 ""
@@ -206,7 +206,7 @@ L DIODE D2
 U 1 1 5424A48B
 P 2200 1350
 F 0 "D2" H 2200 1450 40  0000 C CNN
-F 1 "DIODE" H 2200 1250 40  0000 C CNN
+F 1 "1N4004" H 2200 1250 40  0000 C CNN
 F 2 "~" H 2200 1350 60  0000 C CNN
 F 3 "~" H 2200 1350 60  0000 C CNN
 	1    2200 1350
@@ -217,7 +217,7 @@ L FUSE F1
 U 1 1 5424A4A5
 P 1600 1350
 F 0 "F1" H 1700 1400 40  0000 C CNN
-F 1 "FUSE" H 1500 1300 40  0000 C CNN
+F 1 "2A" H 1500 1300 40  0000 C CNN
 F 2 "~" H 1600 1350 60  0000 C CNN
 F 3 "~" H 1600 1350 60  0000 C CNN
 	1    1600 1350
@@ -228,7 +228,7 @@ L FUSE F2
 U 1 1 5424A4B4
 P 4850 1350
 F 0 "F2" H 4950 1400 40  0000 C CNN
-F 1 "FUSE" H 4750 1300 40  0000 C CNN
+F 1 "250 mA" H 4750 1300 40  0000 C CNN
 F 2 "~" H 4850 1350 60  0000 C CNN
 F 3 "~" H 4850 1350 60  0000 C CNN
 	1    4850 1350
@@ -314,7 +314,7 @@ F 3 "" H 5600 2000 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Text Notes 1050 1050 0    60   ~ 0
-Protective Input Circuitry: Cigarette Lighter Socket
+Protective Circuitry: Cigarette Lighter Input
 $Comp
 L C C4
 U 1 1 5424B599

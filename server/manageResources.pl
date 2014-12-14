@@ -4,12 +4,6 @@
 #
 # DESCRIPTION: deletes KML files that are no longer in use, and removes the KML log file when it gets too big
 #
-# ENVIRONMENT PARAMS:
-#
-# INPUT PARAMETERS:
-#
-# OUTPUT PARAMETERS:
-#
 # AUTHORS: Kyle Nolan, Marcel Marki
 #
 # DATE: 29 AUG 2014

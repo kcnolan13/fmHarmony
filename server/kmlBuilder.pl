@@ -5,15 +5,11 @@
 #
 # DESCRIPTION: Builds unique KML files for radio stations within 100 miles of user. Triggered by fmHarmony clients via HTTP request.
 #
-# ENVIRONMENT PARAMS:
-#
-# INPUT PARAMETERS: clientUniqueId, Lat, Lon
-#
-# OUTPUT PARAMETERS:
+# INPUT PARAMETERS: clientUniqueId, Lat, Lon, Radius
 #
 # AUTHORS: Kyle Nolan, Marcel Marki
 #
-# DATE: 29 AUG 2014
+# DATE: 13 DEC 2014
 #  
 #================================================================
 
@@ -66,7 +62,7 @@ open (TEMP, ">", $fNameTemp) or die("ERROR: unable to create $fNameTemp\n");
 #print("output files opened\n");
 
 #let the client know we will work on a KML for them
-print "192.168.0.3 Says:\n\tI see you want a KML file. I'll get right to it!\n\n";
+print "puddlesquid.com Says:\n\tI see you want a KML file. I'll get right to it!\n\n";
 
 #make a new entry in the build log
 print OUT "\n________________________________________________________________________________________________________________________________________________\n\n\nnew KML build: $fName\n\n\nclient: $ARGV[0]\nLat: $ARGV[1]\nLON: $ARGV[2]\n\n";

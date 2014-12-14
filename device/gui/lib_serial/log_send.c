@@ -2,7 +2,7 @@
 // Program for sending log file serially to fmHarmony device
 // arduino-serial library courtesy of Tod E. Kurt
 // The open_port() and send_string() functions of this program were
-// largely inspired by Tod E. Kurt's arduino-serial.c program.
+// partly inspired by Tod E. Kurt's arduino-serial.c program. Everything else is original.
 
 #include <stdio.h>    // Standard input/output definitions
 #include <stdlib.h>

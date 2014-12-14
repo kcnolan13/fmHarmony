@@ -1,13 +1,13 @@
 
 #=============================================================================================================================
-# APPLICATION NAME: updateDb.pl
+# APPLICATION NAME: syncDb.pl
 #
 #
 # DESCRIPTION: Automatically updates the fm radio station database with the latest data available from the FCC
 #
 # AUTHORS: Kyle Nolan, Marcel Marki
 #
-# DATE: 2014.08.14
+# DATE: 2014.12.13
 #
 # CONTRIBUTING AUTHORS:
 #
@@ -225,14 +225,7 @@ while (my $line = <IN>) {
 		push @{ $uniqueIds[$channel-200] }, $uniqueId;
 
 		print "contents for channel $channel:\n";
-		
-		#my $size = @{$uniqueIds[$channel-200]};
-		#print ("size is $size\n");
-		#sleep(1);
-		#for ($k=0; $k<$size; $k++)
-		#{
-		#	print "$uniqueIds[$channel-200][$k], ";
-		#}
+
 
 		#does an entry for this station exist already?
 		$count = $fmStations->selectrow_array("SELECT count(*) FROM stations WHERE uniqueid=\'$uniqueId\';", undef);

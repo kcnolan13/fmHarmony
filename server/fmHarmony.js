@@ -5,22 +5,10 @@
 #
 # DESCRIPTION: The In-Browser Graphical User Interface for the fmHarmony Software Package
 #
-# ENVIRONMENT PARAMS:
-#
-# INPUT PARAMETERS: 
-#
-# OUTPUT PARAMETERS:
-#
 # AUTHORS: Kyle Nolan, Marcel Marki
 #
-# DATE: 2013.08.08
+# DATE: 2013.10.13
 #
-# CONTRIBUTING AUTHORS:
-#
-# REVISIONS: 
-# 
-#
-#  
 #================================================================
 */
 

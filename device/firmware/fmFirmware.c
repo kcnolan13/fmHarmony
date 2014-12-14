@@ -6,7 +6,7 @@
 #
 # AUTHORS: Marcel Marki, Kyle Nolan
 #
-# DATE: 2013.10.09
+# DATE: 2014.12.13
 #  
 # UMaine's Coords (Approx): 44.900, -68.667
 # Our House (Approx): 44.924, -68.642
@@ -30,9 +30,6 @@
 #include "geolocation.h"
 #include "database.h"
 #include "dev_ops.h"
-
-//1 MHz System Clock
-//#define F_CPU 1000000UL
 
 //Global Device State Structure
 volatile DEV_STATE *device;
@@ -82,7 +79,7 @@ int main (int argc, char *argv[])
         }
     }
 
-    //createthe DATABASE struct
+    //create the DATABASE struct
     DATABASE *fm_stations = (DATABASE *)malloc(sizeof(DATABASE));
     if (fm_stations == NULL)
     {
@@ -142,7 +139,6 @@ int main (int argc, char *argv[])
                     string_write("No GPS Fix...\n");
                     string_write("Be Patient...");
                     _delay_ms(2000);
-                    //print_raw_gps_data(device);
                 }
             break;
 
@@ -283,7 +279,6 @@ int main (int argc, char *argv[])
                     {
                         //serial timeout --> close serial connection, wipe memory, and require a fresh update
                         terminate_serial(device, fm_stations, FL_FAIL);
-                        //print_eeprom_contents(device, fm_stations, 0,32);
                         wipe_eeprom(device);
                         device->op_mode = MD_UPDATE_REQUIRED;
                     }
